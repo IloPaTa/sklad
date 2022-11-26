@@ -24,12 +24,18 @@
     <ClCompile Include="Manager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Trucks.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Warehouse.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Manager.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Trucks.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
