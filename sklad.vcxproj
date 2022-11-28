@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
+    <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="sklad.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
+    <ClInclude Include="Interface.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Trucks.h" />
