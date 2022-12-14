@@ -21,7 +21,7 @@ private:
     sf::Text* text_current_time;
     int current_date;
     int current_time;
-    IButton* _last_button;
+    IButton* _current_pressed_button;
     void input();
     void update(float time); //здесь апдейт окна происходит
     void draw();

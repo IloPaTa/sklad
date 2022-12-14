@@ -12,7 +12,10 @@ public:
     void setStatus(int status);
     bool isInPointArea(sf::Vector2i position);
     int getId();
+    void changeLifeStatus();
+    bool getLifeStatus();
 private:
+    bool _isAlive;
     int _id;
     sf::Font _font;
     unsigned int _font_size;

@@ -16,13 +16,14 @@ Interface::Interface()
     _font.loadFromFile("arial.ttf");
     _font_size = 40;
     int coeff_x = resolution.x / 36, coeff_y = resolution.y / 27;
-    _buttons.resize(10);
-    for (int i = 1; i <= count_of_retail_outlets; i++)
+
+    for (int i = 0; i < count_of_retail_outlets; i++)
     {
-        _buttons[i] = (new IButton(_window, i,
+        _buttons.push_back(new IButton(_window, i+1,
             sf::Vector2f(coeff_x * 3, coeff_y * 3),
-            sf::Vector2f(16 * coeff_x + (i - 1) % 3 * coeff_x * 4, 4 * coeff_y + (i - 1) / 3 * coeff_y * 4),
-            "ID " + std::to_string(i), _font, _font_size));
+            sf::Vector2f(16 * coeff_x + i % 3 * coeff_x * 4, 4 * coeff_y + i / 3 * coeff_y * 4),
+            "ID " + std::to_string(i + 1), _font, _font_size));
+        _buttons[i]->changeLifeStatus();
     }
     current_date = 0;
     current_time = 0;
@@ -43,11 +44,11 @@ Interface::Interface()
     setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 11 * coeff_y), "Manager");
     setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 13 * coeff_y), "Natalia Petrovna");
 
-    _buttons[0] = (new IButton(_window, 0,
+    _buttons.push_back(new IButton(_window, 0,
         sf::Vector2f(coeff_x * 7, coeff_y * 5),
         sf::Vector2f(16 * coeff_x, 17 * coeff_y),
         "WAREHOUSE", _font, _font_size));
-
+    _buttons[_buttons.size()-1]->changeLifeStatus();
     setObject(sf::Vector2f(4 * coeff_x, 5 * coeff_y), sf::Vector2f(24 * coeff_x, 17 * coeff_y));
     setObject(sf::Vector2f(4 * coeff_x, 2 * coeff_y), sf::Vector2f(24 * coeff_x, 17 * coeff_y), "Count of");
     setObject(sf::Vector2f(4 * coeff_x, 2 * coeff_y), sf::Vector2f(24 * coeff_x, 18 * coeff_y), "free cars");
@@ -100,14 +101,14 @@ void Interface::input()
 
         for (auto i : _buttons)
         {
-            if (i == nullptr) continue;
+            if (!i->getLifeStatus()) continue;
             if (i->isInPointArea(position)) {
                 i->setStatus(1);
                 if (event.type == sf::Event::MouseButtonReleased &&
                     event.mouseButton.button == sf::Mouse::Left)
                 {
                     i->setStatus(2);
-                    _last_button = i;
+                    _current_pressed_button = i;
                 }
                 i->getId();
             }
@@ -116,7 +117,7 @@ void Interface::input()
                 i->setStatus(0);
             }
         }
-        if (_last_button) _last_button->setStatus(2);
+        if (_current_pressed_button) _current_pressed_button->setStatus(2);
     }
 }
 
@@ -136,17 +137,15 @@ void Interface::draw()
 {
     _window.clear(sf::Color::White);
     for (auto i : _buttons) {
-        if (i == nullptr) continue;
+        if (!i->getLifeStatus()) continue;
         i->draw();
     }
     for (auto i : _lines)
     {
-        if (i == nullptr) continue;
         _window.draw(*i);
     }
     for (auto i : _texts)
     {
-        if (i == nullptr) continue;
         _window.draw(*i);
     }
     _window.display();
