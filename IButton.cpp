@@ -1,12 +1,9 @@
  #include "IButton.h"
 
-IButton::IButton(sf::RenderWindow& window, sf::Vector2f position, sf::Vector2f size, std::string string) :
-    _window(window), _position(position), _size(size)
+IButton::IButton(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position,
+    std::string string, sf::Font font, unsigned int font_size) :
+    _window(window), _size(size), _position(position), _font(font), _font_size(font_size)
 {
-    _font.loadFromFile("arial.ttf");
-    _font_size = 40;
-    _text.setString(string);
-
     _rect.setSize(size);
     _rect.setPosition(position);
     _rect.setOutlineColor(sf::Color::Black);
@@ -18,12 +15,10 @@ IButton::IButton(sf::RenderWindow& window, sf::Vector2f position, sf::Vector2f s
     _text.setFillColor(sf::Color::Black);
 }
 
-IButton::IButton(sf::RenderWindow& window, sf::Vector2f position, sf::Vector2f size, std::string string, sf::Image image):
-    _window(window), _position(position), _size(size), _image(image)
+IButton::IButton(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position,
+    std::string string, sf::Font font, unsigned int font_size, sf::Image image) :
+    _window(window), _size(size), _position(position), _font(font), _font_size(font_size), _image(image)
 {
-    _font.loadFromFile("arial.ttf");
-    _font_size = 40;
-    _text.setString(string);
     _texture.loadFromImage(_image);
     _sprite.setTexture(_texture);
 
@@ -38,4 +33,17 @@ void IButton::draw()
     _window.draw(_rect);
     _window.draw(_sprite);
     _window.draw(_text);
+}
+
+void IButton::inPointArea()
+{
+    if (_position.x <= sf::Mouse::getPosition().x <= _position.x + _size.x &&
+        _position.y <= sf::Mouse::getPosition().y <= _position.y + _size.y)
+        return;
+
+}
+
+void IButton::setStatus()
+{
+
 }

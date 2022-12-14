@@ -4,9 +4,13 @@
 class IButton
 {
 public:
-    IButton(sf::RenderWindow& window, sf::Vector2f position, sf::Vector2f size, std::string string);
-    IButton(sf::RenderWindow& window, sf::Vector2f position, sf::Vector2f size, std::string string, sf::Image image);
+    IButton(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position,
+        std::string string, sf::Font font, unsigned int font_size);
+    IButton(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position,
+        std::string string, sf::Font font, unsigned int font_size, sf::Image image);
     void draw();
+    void setStatus();
+    void inPointArea();
 private:
     sf::Font _font;
     unsigned int _font_size;
@@ -19,4 +23,3 @@ private:
     sf::Image _image;
     sf::RectangleShape _rect;
 };
-
