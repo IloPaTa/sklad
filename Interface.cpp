@@ -19,7 +19,7 @@ Interface::Interface()
     _buttons.resize(10);
     for (int i = 1; i <= count_of_retail_outlets; i++)
     {
-        _buttons[i] = (new IButton(_window,
+        _buttons[i] = (new IButton(_window, i,
             sf::Vector2f(coeff_x * 3, coeff_y * 3),
             sf::Vector2f(16 * coeff_x + (i - 1) % 3 * coeff_x * 4, 4 * coeff_y + (i - 1) / 3 * coeff_y * 4),
             "ID " + std::to_string(i), _font, _font_size));
@@ -43,7 +43,7 @@ Interface::Interface()
     setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 11 * coeff_y), "Manager");
     setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 13 * coeff_y), "Natalia Petrovna");
 
-    _buttons[0] = (new IButton(_window,
+    _buttons[0] = (new IButton(_window, 0,
         sf::Vector2f(coeff_x * 7, coeff_y * 5),
         sf::Vector2f(16 * coeff_x, 17 * coeff_y),
         "WAREHOUSE", _font, _font_size));
@@ -95,8 +95,28 @@ void Interface::input()
     sf::Event event;
     while (_window.pollEvent(event))
     {
+        sf::Vector2i position = sf::Mouse::getPosition(_window);
         if (event.type == sf::Event::Closed) _window.close();
-        //if (event.type == sf::Mouse.)
+
+        for (auto i : _buttons)
+        {
+            if (i == nullptr) continue;
+            if (i->isInPointArea(position)) {
+                i->setStatus(1);
+                if (event.type == sf::Event::MouseButtonReleased &&
+                    event.mouseButton.button == sf::Mouse::Left)
+                {
+                    i->setStatus(2);
+                    _last_button = i;
+                }
+                i->getId();
+            }
+            else
+            {
+                i->setStatus(0);
+            }
+        }
+        if (_last_button) _last_button->setStatus(2);
     }
 }
 
