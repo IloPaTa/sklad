@@ -158,9 +158,12 @@
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="Order.cpp" />
     <ClCompile Include="sklad.cpp" />
+    <ClCompile Include="StoreOrder.cpp" />
     <ClCompile Include="Trucks.cpp" />
     <ClCompile Include="Warehouse.cpp" />
+    <ClCompile Include="WarehouseOrder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -170,8 +173,11 @@
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="Order.h" />
+    <ClInclude Include="StoreOrder.h" />
     <ClInclude Include="Trucks.h" />
     <ClInclude Include="Warehouse.h" />
+    <ClInclude Include="WarehouseOrder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
