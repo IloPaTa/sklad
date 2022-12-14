@@ -12,7 +12,6 @@ public:
     void launch();
 private:
     sf::RenderWindow _window;
-    void draw();
     sf::Font _font;
     unsigned int _font_size;
     std::vector<IButton*> _buttons;
@@ -24,6 +23,7 @@ private:
     int current_time;
     void input();
     void update(float time); //здесь апдейт окна происходит
+    void draw();
     void setObject(sf::Vector2f size, sf::Vector2f position);
     void setObject(sf::Vector2f size, sf::Vector2f position, std::string string);
 };

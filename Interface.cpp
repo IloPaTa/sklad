@@ -16,12 +16,13 @@ Interface::Interface()
     _font.loadFromFile("arial.ttf");
     _font_size = 40;
     int coeff_x = resolution.x / 36, coeff_y = resolution.y / 27;
-    for (int i = 0; i < count_of_retail_outlets; i++)
+    _buttons.resize(10);
+    for (int i = 1; i <= count_of_retail_outlets; i++)
     {
-        _buttons.push_back(new IButton(_window,
-            sf::Vector2f(16 * coeff_x + i % 3 * coeff_x * 4, 4 * coeff_y + i / 3 * coeff_y * 4),
+        _buttons[i] = (new IButton(_window,
             sf::Vector2f(coeff_x * 3, coeff_y * 3),
-            "ID " + std::to_string(i + 1)));
+            sf::Vector2f(16 * coeff_x + (i - 1) % 3 * coeff_x * 4, 4 * coeff_y + (i - 1) / 3 * coeff_y * 4),
+            "ID " + std::to_string(i), _font, _font_size));
     }
     current_date = 0;
     current_time = 0;
@@ -42,10 +43,10 @@ Interface::Interface()
     setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 11 * coeff_y), "Manager");
     setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 13 * coeff_y), "Natalia Petrovna");
 
-    _buttons.push_back(new IButton(_window,
-        sf::Vector2f(16 * coeff_x, 17 * coeff_y),
+    _buttons[0] = (new IButton(_window,
         sf::Vector2f(coeff_x * 7, coeff_y * 5),
-        "WAREHOUSE"));
+        sf::Vector2f(16 * coeff_x, 17 * coeff_y),
+        "WAREHOUSE", _font, _font_size));
 
     setObject(sf::Vector2f(4 * coeff_x, 5 * coeff_y), sf::Vector2f(24 * coeff_x, 17 * coeff_y));
     setObject(sf::Vector2f(4 * coeff_x, 2 * coeff_y), sf::Vector2f(24 * coeff_x, 17 * coeff_y), "Count of");
@@ -95,6 +96,7 @@ void Interface::input()
     while (_window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed) _window.close();
+        //if (event.type == sf::Mouse.)
     }
 }
 
@@ -107,20 +109,24 @@ void Interface::update(float time)
         + std::to_string(current_time / 60 % 60) + ":" +
         ((current_time % 60 < 10) ? "0" : "") +
         std::to_string(current_time % 60));
+
 }
 
 void Interface::draw()
 {
     _window.clear(sf::Color::White);
     for (auto i : _buttons) {
+        if (i == nullptr) continue;
         i->draw();
     }
     for (auto i : _lines)
     {
+        if (i == nullptr) continue;
         _window.draw(*i);
     }
     for (auto i : _texts)
     {
+        if (i == nullptr) continue;
         _window.draw(*i);
     }
     _window.display();
