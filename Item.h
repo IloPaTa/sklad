@@ -5,6 +5,7 @@ struct date {
 };
 class Item {
 public:
+    Item() {}
     Item(int shelf_life, int cost, std::string name, date date_of_creating) :
         _shelf_life(shelf_life),
         _cost(cost),

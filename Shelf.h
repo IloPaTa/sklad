@@ -16,13 +16,13 @@ public:
         return _shelf_size;
     }
     std::vector<std::pair<wholesalePackaging*, int>> getWsPacks() {
-        return _ws_packagings
+        return _ws_packagings;
     }
 
 
 private:
     std::vector<std::pair<wholesalePackaging*, int>> _ws_packagings;
-    size_t _shelf_size
+    size_t _shelf_size;
 
 };
 
