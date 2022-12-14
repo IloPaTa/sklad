@@ -1,8 +1,8 @@
 #include "IButton.h"
 
-IButton::IButton(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position,
+IButton::IButton(sf::RenderWindow& window, int id, sf::Vector2f size, sf::Vector2f position,
     std::string string, sf::Font font, unsigned int font_size) :
-    _window(window), _size(size), _position(position), _font(font), _font_size(font_size)
+    _window(window), _id(id), _size(size), _position(position), _font(font), _font_size(font_size)
 {
     _rect.setSize(size);
     _rect.setPosition(position);
@@ -15,9 +15,9 @@ IButton::IButton(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f posit
     _text.setFillColor(sf::Color::Black);
 }
 
-IButton::IButton(sf::RenderWindow& window, sf::Vector2f size, sf::Vector2f position,
+IButton::IButton(sf::RenderWindow& window, int id, sf::Vector2f size, sf::Vector2f position,
     std::string string, sf::Font font, unsigned int font_size, sf::Image image) :
-    _window(window), _size(size), _position(position), _font(font), _font_size(font_size), _image(image)
+    _window(window), _id(id), _size(size), _position(position), _font(font), _font_size(font_size), _image(image)
 {
     _texture.loadFromImage(_image);
     _sprite.setTexture(_texture);
@@ -35,15 +35,19 @@ void IButton::draw()
     _window.draw(_text);
 }
 
-void IButton::inPointArea()
+int IButton::getId()
 {
-    if (_position.x <= sf::Mouse::getPosition().x <= _position.x + _size.x &&
-        _position.y <= sf::Mouse::getPosition().y <= _position.y + _size.y)
-        return;
-
+    return _id;
 }
 
-void IButton::setStatus()
+bool IButton::isInPointArea(sf::Vector2i position)
 {
+    return _rect.getGlobalBounds().contains(sf::Vector2f(position));
+}
 
+void IButton::setStatus(int status)
+{
+    if (status == 0) _rect.setFillColor(sf::Color::White);
+    else if (status == 1) _rect.setFillColor(sf::Color::Yellow);
+    else _rect.setFillColor(sf::Color::Red);
 }
