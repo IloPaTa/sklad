@@ -1,4 +1,4 @@
-#include "IButton.h"
+ #include "IButton.h"
 
 IButton::IButton(sf::RenderWindow& window, sf::Vector2f position, sf::Vector2f size, std::string string) :
     _window(window), _position(position), _size(size)
