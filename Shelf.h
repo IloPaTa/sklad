@@ -2,6 +2,8 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <iomanip>
+#include <fstream>
 
 #include "wholesalePackaging.h"
 
@@ -48,13 +50,14 @@ public:
         for (auto& i : _ws_packagings) {
             cnt += i.second;
         }
-        freopen("ListOfProducts.txt", "r", stdin);
+        std::ifstream fin("ListOfProducts.txt");
         std::string name;
         int date, cost, col;
-        while (std::cin >> name >> date >> cost >> col) {
+        while (fin >> name >> date >> cost >> col) {
             if (std::wstring(name.begin(), name.end()) == item->getName())
                 break;
         }
+        fin.close();
         _ws_packagings.push_back({new wholesalePackaging(*item, col), std::min(val, int(_shelf_size - cnt)) });
         return std::min(val, int(_shelf_size - cnt));
     }

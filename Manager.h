@@ -27,7 +27,6 @@ public:
     }
 
     void formOrder() {
-        
         for (auto i : order) {
             for (auto j : i->getOrderList()) {
                 if (control.statusOfItem(j.first) < j.second)
@@ -37,6 +36,10 @@ public:
             }
             int time;
         }
+    }
+
+    void setNewOrder(std::vector<StoreOrder*> ord) {
+        order = ord;
     }
 private:
     int _mood;
