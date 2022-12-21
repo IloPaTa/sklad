@@ -3,61 +3,137 @@
 
 //ÏÅÐÅÏÈÑÀÒÜ ÍÀ ÐÓ×ÍÎÉ ÂÂÎÄ ÈÇ ÎÊÍÀ
 int count_of_products = 9;
-int count_of_retail_outlets = 3;
+int count_of_retail_outlets = 9;
 
 
 Interface::Interface()
 {
     sf::Vector2f resolution;
-    resolution.x = sf::VideoMode::getDesktopMode().width / 10 * 9;
-    resolution.y = sf::VideoMode::getDesktopMode().height / 10 * 9;
+    resolution.x = 1600;
+    resolution.y = 900;
 
     _window.create(sf::VideoMode(resolution.x, resolution.y), "Wholesale warehouse management system", sf::Style::Default);
-    _font.loadFromFile("arial.ttf");
+    _font.loadFromFile("Anonymous_Pro.ttf");
     _font_size = 40;
-    int coeff_x = resolution.x / 36, coeff_y = resolution.y / 27;
+    status = "start";
 
+    startSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Select the products you need to sell");
+    startSetObject(sf::Vector2f(800, 50), sf::Vector2f(800, 0), "Enter store names");
+    int j = 130, k = 50;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Milk", "2 days", "200 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Burger", "5 weeks", "20 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Bread", "1 week", "100 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Salt", "2 months", "10 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Paper", "24:12:2022", "2000 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Apple", "25:12:2022", "5200 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Pineapple", "25:12:2022", "7200 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Cucumber", "26:12:2022", "5200 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Tomato", "26:12:2022", "1200 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Potato", "26:12:2022", "2200 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Cheese", "28:12:2022", "10 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Strawberry", "29:12:2022", "2800 RUB", _font, _font_size));
+
+    _buttons.push_back(new IButton(_window, "start",
+        sf::Vector2f(400, 50),
+        sf::Vector2f(1000, 800),
+        "Start simulation", _font, _font_size));
+    _buttons[_buttons.size() - 1]->changeLifeStatus();
+
+
+    
     for (int i = 0; i < count_of_retail_outlets; i++)
     {
-        _buttons.push_back(new IButton(_window, i+1,
-            sf::Vector2f(coeff_x * 3, coeff_y * 3),
-            sf::Vector2f(16 * coeff_x + i % 3 * coeff_x * 4, 4 * coeff_y + i / 3 * coeff_y * 4),
+        _buttons.push_back(new IButton(_window, std::to_string(i + 1),
+            sf::Vector2f(100, 100),
+            sf::Vector2f(25 + 800 + i % 3 * 125, 50 + 150 + i / 3 * 125),
             "ID " + std::to_string(i + 1), _font, _font_size));
-        _buttons[i]->changeLifeStatus();
+        //_buttons[i]->changeLifeStatus();
     }
     current_date = 0;
     current_time = 0;
 
-    setObject(sf::Vector2f(1, 27 * coeff_y), sf::Vector2f(15 * coeff_x, 0));
-    setObject(sf::Vector2f(21 * coeff_x, 1), sf::Vector2f(15 * coeff_x, 16 * coeff_y));
-    setObject(sf::Vector2f(1, 16 * coeff_y), sf::Vector2f(28 * coeff_x, 0));
-    setObject(sf::Vector2f(8 *coeff_x, 1), sf::Vector2f(28 * coeff_x, 4 * coeff_y));
+    setObject(sf::Vector2f(1, 900), sf::Vector2f(800, 0));
+    setObject(sf::Vector2f(800, 1), sf::Vector2f(800, 600));
+    setObject(sf::Vector2f(1, 600), sf::Vector2f(1200, 0));
+    setObject(sf::Vector2f(400, 1), sf::Vector2f(1200, 150));
 
-    setObject(sf::Vector2f(13 * coeff_x, 3 * coeff_y), sf::Vector2f(15 *coeff_x, 0), "SHOPS");
-    setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 0), "00.00.0000");
+    setObject(sf::Vector2f(400, 150), sf::Vector2f(800, 0), "SHOPS");
+    setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 0), "00.00.0000");
     text_current_date = _texts[_texts.size() - 1];
-    setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 2 * coeff_y), "00:00:00");
+    setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 75), "00:00:00");
     text_current_time = _texts[_texts.size() - 1];
 
-    setObject(sf::Vector2f(6 * coeff_x, 6 * coeff_y), sf::Vector2f(29 * coeff_x, 5 * coeff_y));
+    setObject(sf::Vector2f(250, 250), sf::Vector2f(1275, 200));
 
-    setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 11 * coeff_y), "Manager");
-    setObject(sf::Vector2f(8 * coeff_x, 2 * coeff_y), sf::Vector2f(28 * coeff_x, 13 * coeff_y), "Natalia Petrovna");
+    setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 450), "Manager");
+    setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 500), "Natalia Petrovna");
 
-    _buttons.push_back(new IButton(_window, 0,
-        sf::Vector2f(coeff_x * 7, coeff_y * 5),
-        sf::Vector2f(16 * coeff_x, 17 * coeff_y),
+    _buttons.push_back(new IButton(_window, "warehouse",
+        sf::Vector2f(225, 150),
+        sf::Vector2f(825, 675),
         "WAREHOUSE", _font, _font_size));
-    _buttons[_buttons.size()-1]->changeLifeStatus();
-    setObject(sf::Vector2f(4 * coeff_x, 5 * coeff_y), sf::Vector2f(24 * coeff_x, 17 * coeff_y));
-    setObject(sf::Vector2f(4 * coeff_x, 2 * coeff_y), sf::Vector2f(24 * coeff_x, 17 * coeff_y), "Count of");
-    setObject(sf::Vector2f(4 * coeff_x, 2 * coeff_y), sf::Vector2f(24 * coeff_x, 18 * coeff_y), "free cars");
-    setObject(sf::Vector2f(4 * coeff_x, 1 * coeff_y), sf::Vector2f(24 * coeff_x, 20 * coeff_y), "10");
+    //_buttons[_buttons.size() - 1]->changeLifeStatus();
+    
+    setObject(sf::Vector2f(200, 150), sf::Vector2f(1075, 675));
+    setObject(sf::Vector2f(200, 140), sf::Vector2f(1075, 625), "Count of");
+    setObject(sf::Vector2f(200, 130), sf::Vector2f(1075, 675), "free cars");
+    setObject(sf::Vector2f(200, 170), sf::Vector2f(1075, 700), "10");
 
-    setObject(sf::Vector2f(6 * coeff_x, 3 * coeff_y), sf::Vector2f(29 * coeff_x, 23 * coeff_y));
-    setObject(sf::Vector2f(6 * coeff_x, 3 * coeff_y), sf::Vector2f(29 * coeff_x, 23 * coeff_y), "next day");
+    _buttons.push_back(new IButton(_window, "next day",
+        sf::Vector2f(225, 150),
+        sf::Vector2f(1200 + 150, 675),
+        "next day", _font, _font_size));
+    //_buttons[_buttons.size() - 1]->changeLifeStatus();
 
-    setObject(sf::Vector2f(8 * coeff_x, 3 * coeff_y), sf::Vector2f(28 * coeff_x, 18 * coeff_y));
+    
+    //setObject(sf::Vector2f(8 * 30, 3 * 30), sf::Vector2f(28 * 30, 18 * 30));
 }
 
 Interface::~Interface() {
@@ -80,7 +156,7 @@ void Interface::launch()
     {
         sf::Time dt = clock.restart();
         float dt_as_seconds = dt.asSeconds();
-        
+
         input();
         update(dt_as_seconds);
         draw();
@@ -98,7 +174,16 @@ void Interface::input()
     {
         sf::Vector2i position = sf::Mouse::getPosition(_window);
         if (event.type == sf::Event::Closed) _window.close();
-
+        for (auto i : _pin_buttons)
+        {
+            if (status == "start" && i->isInPointArea(position)) {
+                if (event.type == sf::Event::MouseButtonReleased &&
+                    event.mouseButton.button == sf::Mouse::Left)
+                {
+                    i->setStatus();
+                }
+            }
+        }
         for (auto i : _buttons)
         {
             if (!i->getLifeStatus()) continue;
@@ -109,8 +194,14 @@ void Interface::input()
                 {
                     i->setStatus(2);
                     _current_pressed_button = i;
+                    if (i->getId() == "start") {
+                        status = "main";
+                        for (auto i : _buttons) i->changeLifeStatus();
+                    }
+                    else if (i->getId() == "warehouse") {
+                        status = "warehouse";
+                    }
                 }
-                i->getId();
             }
             else
             {
@@ -135,16 +226,25 @@ void Interface::update(float time)
 
 void Interface::draw()
 {
-    _window.clear(sf::Color::White);
-    for (auto i : _buttons) {
+    _window.clear(sf::Color(255, 235, 228));
+    for (auto i : _buttons)
+    {
         if (!i->getLifeStatus()) continue;
         i->draw();
     }
-    for (auto i : _lines)
+    if (status == "start") for (auto i : _pin_buttons)
+    {
+        i->draw(_window);
+    }
+    if (status != "start") for (auto i : _lines)
     {
         _window.draw(*i);
     }
-    for (auto i : _texts)
+    if (status != "start") for (auto i : _texts)
+    {
+        _window.draw(*i);
+    }
+    if (status == "start") for (auto i : _start_texts)
     {
         _window.draw(*i);
     }
@@ -165,4 +265,12 @@ void Interface::setObject(sf::Vector2f size, sf::Vector2f position, std::string 
     _texts[_texts.size() - 1]->setPosition({ position.x + size.x / 2 - _texts[_texts.size() - 1]->getGlobalBounds().width / 2,
         position.y + size.y / 2 - _texts[_texts.size() - 1]->getGlobalBounds().height / 2});
     _texts[_texts.size() - 1]->setFillColor(sf::Color::Black);
+}
+
+void Interface::startSetObject(sf::Vector2f size, sf::Vector2f position, std::string string)
+{
+    _start_texts.push_back(new sf::Text(string, _font, _font_size));
+    _start_texts[_start_texts.size() - 1]->setPosition({ position.x + size.x / 2 - _start_texts[_start_texts.size() - 1]->getGlobalBounds().width / 2,
+        position.y + size.y / 2 - _start_texts[_start_texts.size() - 1]->getGlobalBounds().height / 2 });
+    _start_texts[_start_texts.size() - 1]->setFillColor(sf::Color::Black);
 }

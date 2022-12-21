@@ -4,19 +4,20 @@
 class IButton
 {
 public:
-    IButton(sf::RenderWindow& window, int id, sf::Vector2f size, sf::Vector2f position,
+    IButton(sf::RenderWindow& window, sf::Font font, unsigned int font_size) : _window(window), _font(font), _font_size(font_size) {}
+    IButton(sf::RenderWindow& window, std::string id, sf::Vector2f size, sf::Vector2f position,
         std::string string, sf::Font font, unsigned int font_size);
-    IButton(sf::RenderWindow& window, int id, sf::Vector2f size, sf::Vector2f position,
+    IButton(sf::RenderWindow& window, std::string id, sf::Vector2f size, sf::Vector2f position,
         std::string string, sf::Font font, unsigned int font_size, sf::Image image);
     void draw();
     void setStatus(int status);
     bool isInPointArea(sf::Vector2i position);
-    int getId();
+    std::string getId();
     void changeLifeStatus();
     bool getLifeStatus();
-private:
+protected:
     bool _isAlive;
-    int _id;
+    std::string _id;
     sf::Font _font;
     unsigned int _font_size;
     sf::RenderWindow& _window;
@@ -26,5 +27,5 @@ private:
     sf::Texture _texture;
     sf::Sprite _sprite;
     sf::Image _image;
-    sf::RectangleShape _rect;
+    sf::RectangleShape _rect_pin;
 };

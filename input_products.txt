@@ -1,0 +1,3 @@
+milk 7 100 20
+burger 35 200 20
+bread 8 300 5
