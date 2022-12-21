@@ -1,9 +1,9 @@
 #include <iostream>
 #include "Order.h"
 
-class StoreOrder: protected Order {
+class StoreOrder: public Order {
 public:
-    StoreOrder(std::vector<Item*> store_order, int store_id, int urgency = 1) {
+    StoreOrder(std::vector<std::pair<Item*, int> > store_order, int store_id, int urgency = 1) {
         _order_list = store_order;
         _store_id = store_id;
         _urgency = urgency;
@@ -14,6 +14,7 @@ public:
     int getUrgency() {
         return _urgency;
     }
+
 protected:
     int _store_id;
     int _urgency;

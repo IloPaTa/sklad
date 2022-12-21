@@ -14,7 +14,7 @@ public:
 
     int getShelfLife();
     int getCost();
-    std::string getName();
+    std::wstring getName();
     date getDateOfCreating();
     void setShelfLife(int shelf_life);
     void setCost(int cost);
@@ -22,7 +22,7 @@ public:
     void setDateofCreating(date date_of_create);
 private:
     int _shelf_life, _cost;
-    std::string _name;
+    std::wstring _name;
     date _date_of_creating;
 };
 

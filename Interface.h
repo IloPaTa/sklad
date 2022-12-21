@@ -10,6 +10,9 @@ public:
     Interface();
     ~Interface();
     void launch();
+    int getCurrentTime() {
+        return current_time;
+    }
 private:
     sf::RenderWindow _window;
     sf::Font _font;
