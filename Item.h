@@ -6,7 +6,7 @@ struct date {
 class Item {
 public:
     Item() {}
-    Item(int shelf_life, int cost, std::string name, date date_of_creating = { 0,0,0 }) :
+    Item(int shelf_life, int cost, std::wstring name, date date_of_creating = { 0,0,0 }) :
         _shelf_life(shelf_life),
         _cost(cost),
         _name(name),
@@ -18,7 +18,7 @@ public:
     date getDateOfCreating();
     void setShelfLife(int shelf_life);
     void setCost(int cost);
-    void setName(std::string name);
+    void setName(std::wstring name);
     void setDateofCreating(date date_of_create);
 private:
     int _shelf_life, _cost;

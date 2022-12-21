@@ -29,7 +29,7 @@ private:
         std::string name;
         int date, cost, col;
         while (fin >> name >> date >> cost >> col) {
-            Item* item = new Item(date, cost, name);
+            Item* item = new Item(date, cost, std::wstring(name.begin(), name.end()));
             if (rnd() % 100 > 50) {
                 order->addItem(item, rnd()%100);
             }

@@ -6,7 +6,7 @@ int Item::getShelfLife() {
 int Item::getCost() {
     return _cost;
 }
-std::string Item::getName() {
+std::wstring Item::getName() {
     return _name;
 }
 date Item::getDateOfCreating() {
@@ -18,7 +18,7 @@ void Item::setShelfLife(int shelf_life) {
 void Item::setCost(int cost) {
     _cost = cost;
 }
-void Item::setName(std::string name) {
+void Item::setName(std::wstring name) {
     _name = name;
 }
 void Item::setDateofCreating(date date_of_create) {
