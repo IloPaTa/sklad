@@ -160,6 +160,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Order.cpp" />
+    <ClCompile Include="PinButton.cpp" />
     <ClCompile Include="Shelf.cpp" />
     <ClCompile Include="sklad.cpp" />
     <ClCompile Include="StoreOrder.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Order.h" />
+    <ClInclude Include="PinButton.h" />
     <ClInclude Include="Shelf.h" />
     <ClInclude Include="StoreOrder.h" />
     <ClInclude Include="Trucks.h" />
