@@ -5,23 +5,13 @@
 #include "Shelf.h"
 class Warehouse {
 public:
+    Warehouse(int shelf_size) {
+        _shelfs.resize(shelf_size);
+    }
     void addItem(Item* item, int val) {
-        bool cover = false;
-        for (auto i : _list_of_items) {
-            if (item->getName() == i) {
-                cover = true;
-            }
-        }
-        if (!cover) {
-            for (auto i : _shelfs) {
-                if (val > 0) {
-                    val -= i->addNewItem(item, val);
-                }
-            }           
-        }
-        for(auto i: _shelfs){
+        for (auto i : _shelfs) {
             if (val > 0) {
-                val -= i->addItem(item, val);
+                val -= i->addNewItem(item, val);
             }
         }
     }
@@ -58,6 +48,7 @@ public:
     }
 
 private:
+
     std::vector<std::wstring> _list_of_items;
     std::vector<Shelf*> _shelfs;
 };

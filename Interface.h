@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include "IButton.h"
 #include "PinButton.h"
+#include "Manager.h"
+#include "Trucks.h"
+#include "Warehouse.h"
 #include <vector>
 #include <string>
 #include "Manager.h"
@@ -16,7 +19,9 @@ public:
         return current_time;
     }
 private:
-    Manager _manager;
+    Warehouse* _whouse;
+    std::vector<Trucks*> trucks;
+    Manager manager;
     sf::RenderWindow _window;
     sf::Font _font;
     unsigned int _font_size;

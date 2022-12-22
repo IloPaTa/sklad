@@ -153,7 +153,6 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
-    <ClCompile Include="Control.cpp" />
     <ClCompile Include="IButton.cpp" />
     <ClCompile Include="Interactor.cpp" />
     <ClCompile Include="Interface.cpp" />
@@ -164,6 +163,7 @@
     <ClCompile Include="Shelf.cpp" />
     <ClCompile Include="sklad.cpp" />
     <ClCompile Include="StoreOrder.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Trucks.cpp" />
     <ClCompile Include="Warehouse.cpp" />
     <ClCompile Include="WarehouseOrder.cpp" />
@@ -172,7 +172,6 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
-    <ClInclude Include="Control.h" />
     <ClInclude Include="IButton.h" />
     <ClInclude Include="Interactor.h" />
     <ClInclude Include="Interface.h" />
@@ -182,10 +181,14 @@
     <ClInclude Include="PinButton.h" />
     <ClInclude Include="Shelf.h" />
     <ClInclude Include="StoreOrder.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Trucks.h" />
     <ClInclude Include="Warehouse.h" />
     <ClInclude Include="WarehouseOrder.h" />
     <ClInclude Include="wholesalePackaging.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
