@@ -164,6 +164,7 @@
     <ClCompile Include="Shelf.cpp" />
     <ClCompile Include="sklad.cpp" />
     <ClCompile Include="StoreOrder.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Trucks.cpp" />
     <ClCompile Include="Warehouse.cpp" />
     <ClCompile Include="WarehouseOrder.cpp" />
@@ -182,10 +183,14 @@
     <ClInclude Include="PinButton.h" />
     <ClInclude Include="Shelf.h" />
     <ClInclude Include="StoreOrder.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Trucks.h" />
     <ClInclude Include="Warehouse.h" />
     <ClInclude Include="WarehouseOrder.h" />
     <ClInclude Include="wholesalePackaging.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Interactor">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAggAIAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Interactor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interface" Collapsed="true">
+    <Position X="2" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAQAACAgAAAAAAAAJBAAKQAwCBCBAIABEAAAAEAIE=</HashCode>
+      <FileName>Interface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IButton" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAgBAAAC4gAAAAAAAJAAAAAAACAQEAIAAEAggIAAAE=</HashCode>
+      <FileName>IButton.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PinButton" Collapsed="true">
+    <Position X="1.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEACQAAECAgAAAACEAIAAAAAgACAAEAAAAAAIAAAAAE=</HashCode>
+      <FileName>PinButton.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Order">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAACAACAAAAAAQAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Order.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manager" Collapsed="true">
+    <Position X="3" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABgAgABAgCABEAAAAAAAAAAAAAQAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Manager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StoreOrder">
+    <Position X="6.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAACAAAAAAAAAABAAAAgAAAAAAAQ=</HashCode>
+      <FileName>StoreOrder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Trucks" Collapsed="true">
+    <Position X="3.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAIEEAAAQAAAAIAIAAAAAAAAkAAAI=</HashCode>
+      <FileName>Trucks.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WarehouseOrder">
+    <Position X="10.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>WarehouseOrder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="wholesalePackaging" Collapsed="true">
+    <Position X="13.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIEQAAAAAAAIAAAAAQAABAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>wholesalePackaging.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Warehouse" Collapsed="true">
+    <Position X="0.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAACQEAACAAAAAAAAAQAAAAAAAAABAAAA=</HashCode>
+      <FileName>Warehouse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shelf" Collapsed="true">
+    <Position X="2.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAEQAAAAAAEAAKAEAAAAAAAAAAABAAAIAABAAA=</HashCode>
+      <FileName>Shelf.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Item" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAIAEAACAAAAAQQAAABAAEAAgAAABAEAEEAAAAAAA=</HashCode>
+      <FileName>Item.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Control" Collapsed="true">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAJAAAAAAAAACAAAAAAABCAAAAAAAAA=</HashCode>
+      <FileName>Control.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="date" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAgAAAAAAA=</HashCode>
+      <FileName>Item.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

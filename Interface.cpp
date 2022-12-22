@@ -221,7 +221,6 @@ void Interface::update(float time)
         + std::to_string(current_time / 60 % 60) + ":" +
         ((current_time % 60 < 10) ? "0" : "") +
         std::to_string(current_time % 60));
-
 }
 
 void Interface::draw()
