@@ -1,5 +1,7 @@
 #include "Interface.h"
 #include <time.h>
+#include <fstream>
+#include "Warehouse.h"
 
 //ÏÅÐÅÏÈÑÀÒÜ ÍÀ ÐÓ×ÍÎÉ ÂÂÎÄ ÈÇ ÎÊÍÀ
 int count_of_products = 9;
@@ -15,9 +17,12 @@ Interface::Interface()
     _window.create(sf::VideoMode(resolution.x, resolution.y), "Wholesale warehouse management system", sf::Style::Default);
     _font.loadFromFile("Anonymous_Pro.ttf");
     _font_size = 40;
-    status = "start";
+    _status = "start";
 
     startSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Select the products you need to sell");
+    startSetObject(sf::Vector2f(250, 50), sf::Vector2f(50, 50), "Name");
+    startSetObject(sf::Vector2f(300, 50), sf::Vector2f(280, 55), "Storage date");
+    startSetObject(sf::Vector2f(200, 50), sf::Vector2f(620, 60), "Cost (Rub)");
     startSetObject(sf::Vector2f(800, 50), sf::Vector2f(800, 0), "Enter store names");
     int j = 130, k = 50;
     _pin_buttons.push_back(new PinButton(
@@ -74,6 +79,21 @@ Interface::Interface()
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
         "Cheese", "28:12:2022", "10 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Strawberry", "29:12:2022", "2800 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Strawberry", "29:12:2022", "2800 RUB", _font, _font_size));
+    j += k;
+    _pin_buttons.push_back(new PinButton(
+        sf::Vector2f(800, 50),
+        sf::Vector2f(0, j),
+        "Strawberry", "29:12:2022", "2800 RUB", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
@@ -174,41 +194,140 @@ void Interface::input()
     {
         sf::Vector2i position = sf::Mouse::getPosition(_window);
         if (event.type == sf::Event::Closed) _window.close();
-        for (auto i : _pin_buttons)
+        if (_status == "enter name")
         {
-            if (status == "start" && i->isInPointArea(position)) {
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode == '\b') {
+                    if (_current_entered_button->getStringNameRef().size()) _current_entered_button->getStringNameRef().pop_back();
+                }
+                else if (event.text.unicode == '\r') {
+                    if (_current_entered_button->getStringNameRef().size())
+                        _status = "start";
+                    else incorrectTextInput();
+                }
+                else if (_current_entered_button->getStringNameRef().size() < 10)
+                    _current_entered_button->getStringNameRef() += event.text.unicode;
+                _current_entered_button->updateTextName();
+            }
+        }
+        if (_status == "enter date")
+        {
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode == '\b') { if (_current_entered_button->getStringDateRef().size()) _current_entered_button->getStringDateRef().pop_back(); }
+                else if (event.text.unicode == '\r')
+                {
+                    int st = 0; bool ok = true;
+                    std::string string = _current_entered_button->getStringDateRef();
+                    std::string buf = "";
+                    for (int i = 0; i < string.length(); i++)
+                    {
+                        if (st == 0 && string[i] >= '0' && string[i] <= '9') {
+                            ;
+                        }
+                        else if (st == 0 && string[i] == ' ') {
+                            st = 1;
+                        }
+                        else if (st == 1 && (string[i] >= 'a' && string[i] <= 'z') || (string[i] >= 'A' && string[i] <= 'Z')) {
+                            buf += string[i];
+                        }
+                        else
+                        {
+                            ok = false;
+                        }
+                    }
+                    std::transform(buf.begin(), buf.end(), buf.begin(), tolower);
+                    if ((buf == "d" || buf == "m" || buf == "w" ||
+                        buf == "day" || buf == "days" || buf == "week" || buf == "weeks" ||
+                        buf == "month" || buf == "months")
+                        && st && ok && _current_entered_button->getStringDateRef().size()) _status = "start";
+                    else incorrectTextInput();
+                }
+                else { if (_current_entered_button->getStringDateRef().size() < 10) _current_entered_button->getStringDateRef() += event.text.unicode; }
+                _current_entered_button->updateTextDate();
+            }
+        }
+        if (_status == "enter cost")
+        {
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode == '\b') { if (_current_entered_button->getStringCostRef().size() > 4) _current_entered_button->getStringCostRef().erase(_current_entered_button->getStringCostRef().end() - 5); }
+                else if (event.text.unicode == '\r') { if (_current_entered_button->getStringCostRef().size() > 4) _status = "start"; else incorrectTextInput(); }
+                else { if (_current_entered_button->getStringCostRef().size() < 10) _current_entered_button->getStringCostRef().insert(_current_entered_button->getStringCostRef().end() - 4, event.text.unicode); }
+                _current_entered_button->updateTextCost();
+            }
+        }
+        if (_status == "start") {
+            for (auto i : _pin_buttons)
+            {
+                if (i->isInPointArea(position) == "none") continue;
                 if (event.type == sf::Event::MouseButtonReleased &&
                     event.mouseButton.button == sf::Mouse::Left)
                 {
-                    i->setStatus();
+                    if (i->isInPointArea(position) == "pin") {
+                        i->changePin();
+                    }
+                    else if (i->isInPointArea(position) == "name") {
+                        _status = "enter name";
+                        _current_entered_button = i;
+                    }
+                    else if (i->isInPointArea(position) == "date") {
+                        _status = "enter date";
+                        _current_entered_button = i;
+                    }
+                    else if (i->isInPointArea(position) == "cost") {
+                        _status = "enter cost";
+                        _current_entered_button = i;
+                    }
                 }
             }
+        }
+        if (_status == "warehouse") {
+
         }
         for (auto i : _buttons)
         {
             if (!i->getLifeStatus()) continue;
             if (i->isInPointArea(position)) {
-                i->setStatus(1);
+                i->setRectColor(1);
                 if (event.type == sf::Event::MouseButtonReleased &&
                     event.mouseButton.button == sf::Mouse::Left)
                 {
-                    i->setStatus(2);
+                    i->setRectColor(2);
                     _current_pressed_button = i;
                     if (i->getId() == "start") {
-                        status = "main";
+                        std::ofstream out;
+                        out.open("list_of_products.txt");
+                        for (auto i : _pin_buttons)
+                        {
+                            std::string date = i->getStringDate();
+                            int days = 0;
+                            for (int i = 0; i < date.size(); i++)
+                            {
+                                if (date[i] >= '0' && date[i] <= '9') days = days * 10 + date[i] - '0';
+                                else {
+                                    if (date[i + 1] == 'm' || date[i + 1] == 'M') days *= 30;
+                                    if (date[i + 1] == 'w' || date[i + 1] == 'W') days *= 7;
+                                }
+                            }
+                            for (int j = 0; j < 4; j++) i->getStringCostRef().pop_back();
+                            if (i->getStatus()) out << i->getStringName() << ' ' << days << ' ' << i->getStringCost() << '\n';
+                        }
+                        _status = "main";
                         for (auto i : _buttons) i->changeLifeStatus();
                     }
                     else if (i->getId() == "warehouse") {
-                        status = "warehouse";
+                        _status = "warehouse";
                     }
                 }
             }
             else
             {
-                i->setStatus(0);
+                i->setRectColor(0);
             }
         }
-        if (_current_pressed_button) _current_pressed_button->setStatus(2);
+        if (_current_pressed_button) _current_pressed_button->setRectColor(2);
     }
 }
 
@@ -232,21 +351,31 @@ void Interface::draw()
         if (!i->getLifeStatus()) continue;
         i->draw();
     }
-    if (status == "start") for (auto i : _pin_buttons)
+    if (_status == "start" || _status == "enter name" || _status == "enter date" || _status == "enter cost")
     {
-        i->draw(_window);
+        for (auto i : _pin_buttons)
+        {
+            i->draw(_window);
+        }
+        for (auto i : _start_texts)
+        {
+            _window.draw(*i);
+        }
+        for (auto i : _start_lines)
+        {
+            _window.draw(*i);
+        }
     }
-    if (status != "start") for (auto i : _lines)
+    if (_status == "main" || _status == "warehouse")
     {
-        _window.draw(*i);
-    }
-    if (status != "start") for (auto i : _texts)
-    {
-        _window.draw(*i);
-    }
-    if (status == "start") for (auto i : _start_texts)
-    {
-        _window.draw(*i);
+        for (auto i : _lines)
+        {
+            _window.draw(*i);
+        }
+        for (auto i : _texts)
+        {
+            _window.draw(*i);
+        }
     }
     _window.display();
 }
@@ -273,4 +402,29 @@ void Interface::startSetObject(sf::Vector2f size, sf::Vector2f position, std::st
     _start_texts[_start_texts.size() - 1]->setPosition({ position.x + size.x / 2 - _start_texts[_start_texts.size() - 1]->getGlobalBounds().width / 2,
         position.y + size.y / 2 - _start_texts[_start_texts.size() - 1]->getGlobalBounds().height / 2 });
     _start_texts[_start_texts.size() - 1]->setFillColor(sf::Color::Black);
+}
+
+void Interface::startSetObject(sf::Vector2f size, sf::Vector2f position)
+{
+    _start_lines.push_back(new sf::RectangleShape(size));
+    _start_lines[_start_lines.size() - 1]->setPosition(position);
+    _start_lines[_start_lines.size() - 1]->setOutlineColor(sf::Color::Black);
+    _start_lines[_start_lines.size() - 1]->setOutlineThickness(1);
+}
+
+void Interface::incorrectTextInput()
+{
+    sf::RenderWindow err_window(sf::VideoMode(600, 100), "", sf::Style::None);
+    sf::Text txt = sf::Text("Incorrect text input\npress any key to continue", _font, _font_size);
+    txt.setPosition(30, 0);
+    err_window.draw(txt);
+    err_window.display();
+    while (err_window.isOpen())
+    {
+        sf::Event err_event;
+        while (err_window.pollEvent(err_event))
+        {
+            if (err_event.type == sf::Event::TextEntered) err_window.close();
+        }
+    }
 }

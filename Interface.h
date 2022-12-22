@@ -21,18 +21,22 @@ private:
     std::vector<IButton*> _buttons;
     std::vector<PinButton*> _pin_buttons;
     std::vector<sf::RectangleShape*> _lines;
+    std::vector<sf::RectangleShape*> _start_lines;
     std::vector<sf::Text*> _texts;
     std::vector<sf::Text*> _start_texts;
     sf::Text* text_current_date;
     sf::Text* text_current_time;
     int current_date;
     int current_time;
-    std::string status;
+    std::string _status;
     IButton* _current_pressed_button;
+    PinButton* _current_entered_button;
     void input();
     void update(float time); //здесь апдейт окна происходит
     void draw();
     void setObject(sf::Vector2f size, sf::Vector2f position);
     void setObject(sf::Vector2f size, sf::Vector2f position, std::string string);
     void startSetObject(sf::Vector2f size, sf::Vector2f position, std::string string);
+    void startSetObject(sf::Vector2f size, sf::Vector2f position);
+    void incorrectTextInput();
 };

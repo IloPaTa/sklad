@@ -47,7 +47,7 @@ bool IButton::isInPointArea(sf::Vector2i position)
     return _rect_pin.getGlobalBounds().contains(sf::Vector2f(position));
 }
 
-void IButton::setStatus(int status)
+void IButton::setRectColor(int status)
 {
     if (status == 0) _rect_pin.setFillColor(sf::Color::White);
     else if (status == 1) _rect_pin.setFillColor(sf::Color(204, 255, 255));

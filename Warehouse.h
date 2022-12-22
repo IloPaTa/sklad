@@ -50,6 +50,9 @@ public:
     Shelf* getShelph(int val) {
         return _shelfs[val];
     }
+    std::vector<Shelf*> getShelfs() {
+        return _shelfs;
+    }
     int getWareHouseSize() {
         return _shelfs.size();
     }
