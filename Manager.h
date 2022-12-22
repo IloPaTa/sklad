@@ -7,6 +7,7 @@
 #include "Trucks.h"
 class Manager {
 public:
+    Manager() {}
     int getMood() {
         return _mood;
     }
@@ -40,6 +41,10 @@ public:
 
     void setNewOrder(std::vector<StoreOrder*> ord) {
         order = ord;
+    }
+
+    std::vector<Shelf*> getShelf() {
+        return control.getShelf();
     }
 private:
     int _mood;

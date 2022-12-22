@@ -28,6 +28,9 @@ public:
             }
         }
     }
+    std::vector<Shelf*> getShelf() {
+        return _whouse.getShelf();
+    }
 private:
     Warehouse _whouse;
     std::vector<Trucks*> trucks;

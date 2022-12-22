@@ -4,6 +4,7 @@
 #include "PinButton.h"
 #include <vector>
 #include <string>
+#include "Manager.h"
 
 class Interface
 {
@@ -15,6 +16,7 @@ public:
         return current_time;
     }
 private:
+    Manager _manager;
     sf::RenderWindow _window;
     sf::Font _font;
     unsigned int _font_size;

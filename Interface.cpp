@@ -1,7 +1,6 @@
 #include "Interface.h"
 #include <time.h>
 #include <fstream>
-#include "Warehouse.h"
 
 //œ≈–≈œ»—¿“‹ Õ¿ –”◊ÕŒ… ¬¬Œƒ »« Œ Õ¿
 int count_of_products = 9;
@@ -18,6 +17,8 @@ Interface::Interface()
     _font.loadFromFile("Anonymous_Pro.ttf");
     _font_size = 40;
     _status = "start";
+
+    _manager = Manager();
 
     startSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Select the products you need to sell");
     startSetObject(sf::Vector2f(250, 50), sf::Vector2f(50, 50), "Name");
@@ -284,7 +285,10 @@ void Interface::input()
             }
         }
         if (_status == "warehouse") {
-
+            std::vector<Shelf*> shelfs = _manager.getShelf();
+            for (auto i : shelfs) {
+                std::vector<std::pair<wholesalePackaging*, int>> ws_packaging = i->getWSPackaging();
+            }
         }
         for (auto i : _buttons)
         {
