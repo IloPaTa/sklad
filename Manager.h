@@ -71,10 +71,6 @@ public:
     void setNewOrder(std::vector<StoreOrder*> ord) {
         order = ord;
     }
-
-    std::vector<Shelf*> getShelf() {
-        return control.getShelf();
-    }
 private:
     int _mood;
     int _shift_time;

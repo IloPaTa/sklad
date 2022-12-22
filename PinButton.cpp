@@ -2,8 +2,8 @@
 #include <iostream>
 
 PinButton::PinButton(sf::Vector2f size, sf::Vector2f position,
-    std::string string_name, std::string string_date, std::string string_cost, sf::Font font, unsigned int font_size):
-    _font(font), _font_size(font_size), _string_name(string_name), _string_date(string_date), _string_cost(string_cost)
+    std::string string_name, std::string string_date, std::string string_cost, std::string string_quantity, sf::Font font, unsigned int font_size):
+    _font(font), _font_size(font_size), _string_name(string_name), _string_date(string_date), _string_cost(string_cost), _string_quantity(string_quantity)
 {
     _rect_pin.setSize(sf::Vector2f(30, 30));
     _rect_pin.setPosition(sf::Vector2f(position.x + 10, position.y + 10));
@@ -35,6 +35,14 @@ PinButton::PinButton(sf::Vector2f size, sf::Vector2f position,
     _rect_cost.setPosition(position.x + 50 + 250 + 300, position.y);
     _rect_cost.setFillColor(sf::Color::Transparent);
 
+    _text_quantity = sf::Text(string_quantity, _font, _font_size);
+    _text_quantity.setPosition(position.x + 50 + 250 + 300 + 200 + 100 / 2 - _text_quantity.getGlobalBounds().width / 2,
+        position.y + size.y / 2 - _text_cost.getGlobalBounds().height / 2 - 13);
+    _text_quantity.setFillColor(sf::Color::Black);
+    _rect_quantity.setSize(sf::Vector2f(100, 50));
+    _rect_quantity.setPosition(position.x + 50 + 250 + 300 + 200, position.y);
+    _rect_quantity.setFillColor(sf::Color::Transparent);
+
     _status = 0;
 }
 
@@ -44,9 +52,11 @@ void PinButton::draw(sf::RenderWindow& window)
     window.draw(_rect_name);
     window.draw(_rect_date);
     window.draw(_rect_cost);
+    window.draw(_rect_quantity);
     window.draw(_text_name);
     window.draw(_text_date);
     window.draw(_text_cost);
+    window.draw(_text_quantity);
 }
 
 void PinButton::changePin()
@@ -73,6 +83,7 @@ std::string PinButton::isInPointArea(sf::Vector2i position)
         _rect_name.setFillColor(sf::Color(204, 255, 255));
         _rect_date.setFillColor(sf::Color::Transparent);
         _rect_cost.setFillColor(sf::Color::Transparent);
+        _rect_quantity.setFillColor(sf::Color::Transparent);
         return "name";
     }
     else if (_rect_date.getGlobalBounds().contains(sf::Vector2f(position))) {
@@ -85,12 +96,21 @@ std::string PinButton::isInPointArea(sf::Vector2i position)
         _rect_name.setFillColor(sf::Color::Transparent);
         _rect_date.setFillColor(sf::Color::Transparent);
         _rect_cost.setFillColor(sf::Color(204, 255, 255));
+        _rect_quantity.setFillColor(sf::Color::Transparent);
         return "cost";
+    }
+    else if (_rect_quantity.getGlobalBounds().contains(sf::Vector2f(position))) {
+        _rect_name.setFillColor(sf::Color::Transparent);
+        _rect_date.setFillColor(sf::Color::Transparent);
+        _rect_cost.setFillColor(sf::Color::Transparent);
+        _rect_quantity.setFillColor(sf::Color(204, 255, 255));
+        return "quantity";
     }
     else {
         _rect_name.setFillColor(sf::Color::Transparent);
         _rect_date.setFillColor(sf::Color::Transparent);
         _rect_cost.setFillColor(sf::Color::Transparent);
+        _rect_quantity.setFillColor(sf::Color::Transparent);
         return "none";
     }
 }
@@ -110,6 +130,11 @@ std::string& PinButton::getStringCostRef()
     return _string_cost;
 }
 
+std::string& PinButton::getStringQuantityRef()
+{
+    return _string_quantity;
+}
+
 void PinButton::updateTextName()
 {
     _text_name.setString(_string_name);
@@ -126,4 +151,10 @@ void PinButton::updateTextCost()
 {
     _text_cost.setString(_string_cost);
     _text_cost.setPosition(sf::Vector2f(50 + 250 + 300 + 200 / 2 - _text_cost.getGlobalBounds().width / 2, _text_cost.getPosition().y));
+}
+
+void PinButton::updateTextQuantity()
+{
+    _text_quantity.setString(_string_quantity);
+    _text_quantity.setPosition(sf::Vector2f(50 + 250 + 300 + 200 + 100 / 2 - _text_quantity.getGlobalBounds().width / 2, _text_quantity.getPosition().y));
 }

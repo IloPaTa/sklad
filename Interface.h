@@ -21,7 +21,7 @@ public:
 private:
     Warehouse* _whouse;
     std::vector<Trucks*> trucks;
-    Manager manager;
+    Manager _manager;
     sf::RenderWindow _window;
     sf::Font _font;
     unsigned int _font_size;

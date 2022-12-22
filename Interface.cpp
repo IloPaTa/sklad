@@ -24,83 +24,84 @@ Interface::Interface()
     startSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Select the products you need to sell");
     startSetObject(sf::Vector2f(250, 50), sf::Vector2f(50, 50), "Name");
     startSetObject(sf::Vector2f(300, 50), sf::Vector2f(280, 55), "Storage date");
-    startSetObject(sf::Vector2f(200, 50), sf::Vector2f(620, 60), "Cost (Rub)");
+    startSetObject(sf::Vector2f(200, 50), sf::Vector2f(550, 60), "Cost");
+    startSetObject(sf::Vector2f(200, 50), sf::Vector2f(850, 60), "Quantity\nin whpackaging");
     startSetObject(sf::Vector2f(800, 50), sf::Vector2f(800, 0), "Enter store names");
     int j = 130, k = 50;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Milk", "2 days", "200 RUB", _font, _font_size));
+        "Milk", "2 days", "200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Burger", "5 weeks", "20 RUB", _font, _font_size));
+        "Burger", "5 weeks", "20 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Bread", "1 week", "100 RUB", _font, _font_size));
+        "Bread", "1 week", "100 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Salt", "2 months", "10 RUB", _font, _font_size));
+        "Salt", "2 months", "10 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Paper", "24:12:2022", "2000 RUB", _font, _font_size));
+        "Paper", "24:12:2022", "2000 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Apple", "25:12:2022", "5200 RUB", _font, _font_size));
+        "Apple", "25:12:2022", "5200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Pineapple", "25:12:2022", "7200 RUB", _font, _font_size));
+        "Pineapple", "25:12:2022", "7200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Cucumber", "26:12:2022", "5200 RUB", _font, _font_size));
+        "Cucumber", "26:12:2022", "5200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Tomato", "26:12:2022", "1200 RUB", _font, _font_size));
+        "Tomato", "26:12:2022", "1200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Potato", "26:12:2022", "2200 RUB", _font, _font_size));
+        "Potato", "26:12:2022", "2200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Cheese", "28:12:2022", "10 RUB", _font, _font_size));
+        "Cheese", "28:12:2022", "10 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Strawberry", "29:12:2022", "2800 RUB", _font, _font_size));
+        "Strawberry", "29:12:2022", "2800 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Strawberry", "29:12:2022", "2800 RUB", _font, _font_size));
+        "Strawberry", "29:12:2022", "2800 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Strawberry", "29:12:2022", "2800 RUB", _font, _font_size));
+        "Strawberry", "29:12:2022", "2800 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Strawberry", "29:12:2022", "2800 RUB", _font, _font_size));
+        "Strawberry", "29:12:2022", "2800 RUB", "1", _font, _font_size));
 
     _buttons.push_back(new IButton(_window, "start",
         sf::Vector2f(400, 50),
@@ -260,6 +261,22 @@ void Interface::input()
                 _current_entered_button->updateTextCost();
             }
         }
+        if (_status == "enter quantity") {
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode == '\b') {
+                    if (_current_entered_button->getStringQuantityRef().size()) _current_entered_button->getStringQuantityRef().pop_back();
+                }
+                else if (event.text.unicode == '\r') {
+                    if (_current_entered_button->getStringQuantityRef().size())
+                        _status = "start";
+                    else incorrectTextInput();
+                }
+                else if (_current_entered_button->getStringQuantityRef().size() < 3)
+                    _current_entered_button->getStringQuantityRef() += event.text.unicode;
+                _current_entered_button->updateTextQuantity();
+            }
+        }
         if (_status == "start") {
             for (auto i : _pin_buttons)
             {
@@ -282,13 +299,20 @@ void Interface::input()
                         _status = "enter cost";
                         _current_entered_button = i;
                     }
+                    else if (i->isInPointArea(position) == "quantity") {
+                        _status = "enter quantity";
+                        _current_entered_button = i;
+                    }
                 }
             }
         }
         if (_status == "warehouse") {
-            std::vector<Shelf*> shelfs = _manager.getShelf();
+            std::vector<Shelf*> shelfs = _whouse->getShelfs();
             for (auto i : shelfs) {
                 std::vector<std::pair<wholesalePackaging*, int>> ws_packaging = i->getWSPackaging();
+            }
+            if (_status == "shortage") {
+                
             }
         }
         for (auto i : _buttons)
@@ -317,16 +341,24 @@ void Interface::input()
                                 }
                             }
                             for (int j = 0; j < 4; j++) i->getStringCostRef().pop_back();
-                            if (i->getStatus()) out << i->getStringName() << ' ' << days << ' ' << i->getStringCost() << '\n';
+                            if (i->getStatus()) out << i->getStringName() << ' ' << days << ' ' << i->getStringCost() << ' ' << i->getStringQuantity() << '\n';
                         }
                         _status = "main";
                         for (auto i : _buttons) i->changeLifeStatus();
                     }
                     else if (i->getId() == "warehouse") {
-                        _status = "warehouse";
+                        /*std::vector<Shelf*> shelfs = _whouse->getShelfs();
+                        for (auto j : shelfs) {
+                            std::vector<std::pair<wholesalePackaging*, int>> wspackaging = j->getWSPackaging();
+                            for (auto k : wspackaging) {
+                                for (int m = 0; m < k.second; ++m) {
+                                    k.first;
+                                }
+                            }
+                        }*/
                     }
                     else if (i->getId() == "next day") {
-                        
+                        _status = "shortage";
                     }
                 }
             }
@@ -358,7 +390,7 @@ void Interface::draw()
         if (!i->getLifeStatus()) continue;
         i->draw();
     }
-    if (_status == "start" || _status == "enter name" || _status == "enter date" || _status == "enter cost")
+    if (_status == "start" || _status == "enter name" || _status == "enter date" || _status == "enter cost" || _status == "enter quantity")
     {
         for (auto i : _pin_buttons)
         {

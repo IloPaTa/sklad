@@ -37,10 +37,10 @@ public:
             cnt += i->getItem(item);
         }
     }
-    Shelf* getShelph(int val) {
+    Shelf* getShelf(int val) {
         return _shelfs[val];
     }
-    std::vector<Shelf*> getShelf() {
+    std::vector<Shelf*> getShelfs() {
         return _shelfs;
     }
     int getWareHouseSize() {

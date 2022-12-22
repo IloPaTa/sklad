@@ -5,7 +5,7 @@ class PinButton
 {
 public:
     PinButton(sf::Vector2f size, sf::Vector2f position,
-        std::string string, std::string string_date, std::string string_cost, sf::Font font, unsigned int font_size);
+        std::string string, std::string string_date, std::string string_cost, std::string string_quantity, sf::Font font, unsigned int font_size);
     void draw(sf::RenderWindow& window);
     void changePin();
     std::string isInPointArea(sf::Vector2i position);
@@ -15,6 +15,8 @@ public:
     void updateTextDate();
     std::string& getStringCostRef();
     void updateTextCost();
+    std::string& getStringQuantityRef();
+    void updateTextQuantity();
     std::string getStringName() {
         return _string_name;
     }
@@ -23,6 +25,9 @@ public:
     }
     std::string getStringCost() {
         return _string_cost;
+    }
+    std::string getStringQuantity() {
+        return _string_quantity;
     }
     int getStatus() { return _status; }
 
@@ -34,10 +39,13 @@ private:
     sf::RectangleShape _rect_name;
     sf::RectangleShape _rect_date;
     sf::RectangleShape _rect_cost;
+    sf::RectangleShape _rect_quantity;
     sf::Text _text_name;
     sf::Text _text_date;
     sf::Text _text_cost;
+    sf::Text _text_quantity;
     std::string _string_name;
     std::string _string_date;
     std::string _string_cost;
+    std::string _string_quantity;
 };
