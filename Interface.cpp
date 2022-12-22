@@ -13,6 +13,7 @@ Interface::Interface()
     sf::Vector2f resolution;
     resolution.x = 1600;
     resolution.y = 900;
+    current_date = 0;
 
     _window.create(sf::VideoMode(resolution.x, resolution.y), "Wholesale warehouse management system", sf::Style::Default);
     _font.loadFromFile("Anonymous_Pro.ttf");
@@ -319,6 +320,9 @@ void Interface::input()
                     }
                     else if (i->getId() == "warehouse") {
                         _status = "warehouse";
+                    }
+                    else if (i->getId() == "next day") {
+                        
                     }
                 }
             }

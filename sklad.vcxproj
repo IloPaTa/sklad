@@ -153,7 +153,6 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
-    <ClCompile Include="Control.cpp" />
     <ClCompile Include="IButton.cpp" />
     <ClCompile Include="Interactor.cpp" />
     <ClCompile Include="Interface.cpp" />
@@ -173,7 +172,6 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
-    <ClInclude Include="Control.h" />
     <ClInclude Include="IButton.h" />
     <ClInclude Include="Interactor.h" />
     <ClInclude Include="Interface.h" />

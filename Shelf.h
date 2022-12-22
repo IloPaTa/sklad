@@ -23,19 +23,6 @@ public:
         return _ws_packagings;
     }
 
-    int addItem(Item* item, int val) {
-        int cnt = 0;
-        for (auto& i : _ws_packagings) {
-            cnt += i.second;
-        }
-        for (auto& i : _ws_packagings) {
-            if (i.first->getItem() == item) {
-                i.second += std::min(val, int(_shelf_size - cnt));
-            }
-        }
-        return std::min(val, int(_shelf_size - cnt));
-    }
-
     int removeItem(Item* item, int val) {
         for (auto& i : _ws_packagings) {
             if (i.first->getItem() == item) {
