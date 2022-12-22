@@ -49,13 +49,21 @@ public:
         return std::min(val, int(_shelf_size - cnt));
     }
 
-    int getItem(Item* item) {
+    int getColItem(Item* item) {
         for (auto& i : _ws_packagings) {
             if (i.first->getItem() == item) {
                 return i.second;
             }
         }
         return 0;
+    }
+
+    std::vector<Item*> getItem() {
+        std::vector<Item*> items;
+        for (auto& i : _ws_packagings) {
+            items.push_back(i.first->getItem());
+        }
+        return items;
     }
     std::vector<std::pair<wholesalePackaging*, int>> getWSPackaging() {
         return _ws_packagings;

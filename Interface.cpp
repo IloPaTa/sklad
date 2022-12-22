@@ -358,6 +358,8 @@ void Interface::input()
                         }*/
                     }
                     else if (i->getId() == "next day") {
+                        _whouse->updateItems();
+                        
                         _status = "shortage";
                     }
                 }

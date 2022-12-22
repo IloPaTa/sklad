@@ -8,6 +8,7 @@ public:
     Warehouse(int shelf_size) {
         _shelfs.resize(shelf_size);
     }
+
     void addItem(Item* item, int val) {
         for (auto i : _shelfs) {
             if (val > 0) {
@@ -16,10 +17,19 @@ public:
         }
     }
 
+    void updateItems() {
+        for (auto &i : _shelfs) {
+            std::vector<Item*> items = i->getItem();
+            for (auto &j : items) {
+                j->setShelfLife(j->getShelfLife() - 1);
+            }
+        }
+    }
+
     void removeItem(Item* item, int val) {
         bool cover = false;
         for (auto i : _shelfs) {
-            if (i->getItem(item) > 0) {
+            if (i->getColItem(item) > 0) {
                 cover = true;
             }
         }
@@ -31,18 +41,36 @@ public:
             }
         }
     }
-    Item* getItem(Item* item) {
-        int cnt = 0;
+
+    std::vector<Item*> getDelayItem(int val = 5) {
+        std::vector<Item*> items;
         for (auto i : _shelfs) {
-            cnt += i->getItem(item);
+            for (auto j : i->getItem()) {
+                if(j->getShelfLife() < val)
+                   items.push_back(j);
+            }
         }
+        return items;
+    }
+
+    int getColItem(std::wstring name, int val = 0) {
+       int cnt = 0;
+       for (auto i : _shelfs) {
+           for (auto j : i->getItem()) {
+               if (j->getShelfLife() > 0)
+                   ++cnt;
+           }
+       }
+       return cnt;
     }
     Shelf* getShelf(int val) {
         return _shelfs[val];
     }
+
     std::vector<Shelf*> getShelfs() {
         return _shelfs;
     }
+
     int getWareHouseSize() {
         return _shelfs.size();
     }
