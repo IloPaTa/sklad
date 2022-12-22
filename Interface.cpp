@@ -322,6 +322,7 @@ void Interface::input()
                         _status = "warehouse";
                     }
                     else if (i->getId() == "next day") {
+                        _whouse->updateItems();
                         
                     }
                 }

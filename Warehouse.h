@@ -16,10 +16,18 @@ public:
         }
     }
 
+    void updateItems() {
+        for (auto &i : _shelfs) {
+            std::vector<Item*> items = i->getItem();
+            for (auto &j : items) {
+                j->setShelfLife(j->getShelfLife() - 1);
+            }
+        }
+    }
     void removeItem(Item* item, int val) {
         bool cover = false;
         for (auto i : _shelfs) {
-            if (i->getItem(item) > 0) {
+            if (i->getColItem(item) > 0) {
                 cover = true;
             }
         }
@@ -31,11 +39,15 @@ public:
             }
         }
     }
-    Item* getItem(Item* item) {
-        int cnt = 0;
+    std::vector<Item*> getDelayItem() {
+        std::vector<Item*> items;
         for (auto i : _shelfs) {
-            cnt += i->getItem(item);
+            for (auto j : i->getItem()) {
+                if(j->getShelfLife() < 5)
+                   items.push_back(j);
+            }
         }
+        return items;
     }
     Shelf* getShelph(int val) {
         return _shelfs[val];
