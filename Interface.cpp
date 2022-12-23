@@ -1,11 +1,28 @@
 #include "Interface.h"
 #include <time.h>
 #include <fstream>
-
+#include <random>
+#include <chrono>
 //œ≈–≈œ»—¿“‹ Õ¿ –”◊ÕŒ… ¬¬Œƒ »« Œ Õ¿
 int count_of_products = 9;
 int count_of_retail_outlets = 9;
-
+//std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
+std::vector<std::pair<Item*, int>> formNewOrder() {
+    int cnt  = 4 % 10;
+    std::ifstream fin;
+    fin.open("list_of_products.txt");
+    std::string name;
+    int data, cost, count;
+    std::vector<std::pair<Item*, int>> items;
+    while (fin >> name >> data >> cost >> count) {
+        if (43 % 23 == 0) {
+            Item* i = new Item(data, cost, std::wstring(name.begin(), name.end()));
+            items.push_back({ i, 12%100 });
+        }
+    }
+    fin.close();
+    return items;
+}
 
 Interface::Interface()
 {
@@ -339,7 +356,17 @@ void Interface::input()
                 m += 100;
             }
             _manager.getProductsFromWhOrder(_whouse);
+            int n = 4;
+            std::vector<StoreOrder*> ord;
+            for (int i = 0; i < n; ++i) {
+                StoreOrder* newOrder = new StoreOrder(i);
+                newOrder->setOrderList(formNewOrder());
+                ord.push_back(newOrder);
+            }
+            _manager.addNewOrder(ord);
             _manager.processOrder(_whouse);
+
+            _status = "main";
         }
         for (auto i : _buttons)
         {

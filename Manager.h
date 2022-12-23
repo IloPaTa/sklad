@@ -116,8 +116,10 @@ public:
         }
         return new Item(col, cost,std::wstring(name.begin(), name.end()));
     }
-    void setNewOrder(std::vector<StoreOrder*> ord) {
-        order = ord;
+    void addNewOrder(std::vector<StoreOrder*> ord) {
+        for (auto i : ord) {
+            order.push_back(i);
+        }
     }
 private:
     int _mood;
