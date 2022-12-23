@@ -5,6 +5,7 @@
 #include "Shelf.h"
 class Warehouse {
 public:
+    Warehouse() {}
     Warehouse(int shelf_size) {
         _shelfs.resize(shelf_size);
     }

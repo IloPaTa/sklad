@@ -12,7 +12,7 @@ public:
         return _mood;
     }
 
-    std::map<std::wstring, std::pair<int, int>> funcForSemen(Warehouse* _whouse) {
+    std::map<std::wstring, std::pair<int, int>> funcShortage(Warehouse* _whouse) {
         std::map<std::wstring, std::pair<int, int>> result;
         for (auto i : order) {
             for (auto j : i->getOrderList()) {

@@ -20,7 +20,6 @@ Interface::Interface()
     _status = "start";
 
     _manager = Manager();
-
     startSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Select the products you need to sell");
     startSetObject(sf::Vector2f(250, 50), sf::Vector2f(50, 50), "Name");
     startSetObject(sf::Vector2f(300, 50), sf::Vector2f(280, 55), "Storage date");
@@ -307,12 +306,19 @@ void Interface::input()
             }
         }
         if (_status == "warehouse") {
+            _warehouse_texts.resize(0);
             std::vector<Shelf*> shelfs = _whouse->getShelfs();
-            for (auto i : shelfs) {
-                std::vector<std::pair<wholesalePackaging*, int>> ws_packaging = i->getWSPackaging();
-            }
-            if (_status == "shortage") {
-                
+            for (int i = 0; i < shelfs.size(); ++i) {
+                auto j = shelfs[i];
+                if (!j) continue;
+                warehouseSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Shell " + std::to_string(i + 1));
+                std::vector<Item*> items = j->getItem();
+                for (auto k : items) {
+                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(100, i * 100), std::string(k->getName().begin(), k->getName().end()));
+                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(200, i * 100), std::to_string(k->getDateOfCreating().d) + ":" + std::to_string(k->getDateOfCreating().m) + ":" + std::to_string(k->getDateOfCreating().y));
+                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(300, i * 100), std::to_string(k->getShelfLife()));
+                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(400, i * 100), std::to_string(k->getCost()));
+                }
             }
         }
         for (auto i : _buttons)
@@ -347,19 +353,15 @@ void Interface::input()
                         for (auto i : _buttons) i->changeLifeStatus();
                     }
                     else if (i->getId() == "warehouse") {
-                        /*std::vector<Shelf*> shelfs = _whouse->getShelfs();
-                        for (auto j : shelfs) {
-                            std::vector<std::pair<wholesalePackaging*, int>> wspackaging = j->getWSPackaging();
-                            for (auto k : wspackaging) {
-                                for (int m = 0; m < k.second; ++m) {
-                                    k.first;
-                                }
-                            }
-                        }*/
+                        _status = "warehouse";
                     }
                     else if (i->getId() == "next day") {
                         _whouse->updateItems();
-                        
+                        std::map<std::wstring, std::pair<int, int>> map = _manager.funcShortage(_whouse);
+                        std::map<std::wstring, std::pair<int, int>>::iterator it = map.begin();
+                        for (int i = 0; it != map.end(); it++, i++) {
+                            std::cout << std::string(it->first.begin(), it->first.end()) << ' ' << it->second.first << it->second.second << '\n';
+                        }
                         _status = "shortage";
                     }
                 }
@@ -418,6 +420,13 @@ void Interface::draw()
             _window.draw(*i);
         }
     }
+    if (_status == "warehouse")
+    {
+        for (auto i : _warehouse_texts)
+        {
+            _window.draw(*i);
+        }
+    }
     _window.display();
 }
 
@@ -468,4 +477,12 @@ void Interface::incorrectTextInput()
             if (err_event.type == sf::Event::TextEntered) err_window.close();
         }
     }
+}
+
+void Interface::warehouseSetObject(sf::Vector2f size, sf::Vector2f position, std::string string)
+{
+    _warehouse_texts.push_back(new sf::Text(string, _font, _font_size));
+    _warehouse_texts[_warehouse_texts.size() - 1]->setPosition({ position.x + size.x / 2 - _warehouse_texts[_warehouse_texts.size() - 1]->getGlobalBounds().width / 2,
+        position.y + size.y / 2 - _warehouse_texts[_warehouse_texts.size() - 1]->getGlobalBounds().height / 2 });
+    _warehouse_texts[_warehouse_texts.size() - 1]->setFillColor(sf::Color::Black);
 }

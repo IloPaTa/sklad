@@ -31,6 +31,7 @@ private:
     std::vector<sf::RectangleShape*> _start_lines;
     std::vector<sf::Text*> _texts;
     std::vector<sf::Text*> _start_texts;
+    std::vector<sf::Text*> _warehouse_texts;
     sf::Text* text_current_date;
     sf::Text* text_current_time;
     int current_date;
@@ -45,5 +46,6 @@ private:
     void setObject(sf::Vector2f size, sf::Vector2f position, std::string string);
     void startSetObject(sf::Vector2f size, sf::Vector2f position, std::string string);
     void startSetObject(sf::Vector2f size, sf::Vector2f position);
+    void warehouseSetObject(sf::Vector2f size, sf::Vector2f position, std::string string);
     void incorrectTextInput();
 };
