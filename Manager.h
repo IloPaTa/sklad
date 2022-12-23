@@ -5,6 +5,8 @@
 #include "Order.h"
 #include "StoreOrder.h"
 #include "WarehouseOrder.h"
+#include "Trucks.h"
+
 
 //std::mt19937 gen(42);
 //std::uniform_int_distribution<> dis;

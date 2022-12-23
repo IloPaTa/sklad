@@ -312,17 +312,17 @@ void Interface::input()
             int m = 0;
             for (int i = 0; i < shelfs.size(); ++i) {
                 auto j = shelfs[i];
-                warehouseSetObject(sf::Vector2f(150, 20), sf::Vector2f(0, m), "Shell " + std::to_string(i + 1));
+                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(10, m), "Shell " + std::to_string(i + 1));
                 std::vector<Item*> items = j->getItem();
                 for (auto k : items) {
                     std::wstring a = k->getName();
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(0, 30 + m), std::string(a.begin(), a.end()));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(150, 30 + m), std::to_string(k->getDateOfCreating().d) + ":" + std::to_string(k->getDateOfCreating().m) + ":" + std::to_string(k->getDateOfCreating().y));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(300, 30 + m), std::to_string(k->getShelfLife()));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(450, 30 + m), std::to_string(k->getCost()));
-                    m += 80;
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(0, 50 + m), std::string(a.begin(), a.end()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(150, 50 + m), std::to_string(j->getColItem(k)));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(300, 50 + m), std::to_string(k->getShelfLife()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(450, 50 + m), std::to_string(k->getCost()));
+                    m += 50;
                 }
-                m += 100;
+                m += 50;
             }
         }
         if (_status == "shortage") {
