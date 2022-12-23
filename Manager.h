@@ -37,7 +37,7 @@ public:
         return result;
     }
 
-    int processOrder( Warehouse* _whouse) {
+   void processOrder( Warehouse* _whouse) {
         std::map<std::wstring, std::pair<int, int>> mp = funcShortage(_whouse);
 
         for (auto &i : order) {
