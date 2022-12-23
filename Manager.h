@@ -5,6 +5,12 @@
 #include "StoreOrder.h"
 #include "WarehouseOrder.h"
 #include "Trucks.h"
+#include <random>
+
+
+std::mt19937 gen(42);
+std::uniform_int_distribution<> dis;
+
 class Manager {
 public:
     Manager() {}
@@ -31,22 +37,33 @@ public:
         return result;
     }
 
-    int processOrder(std::vector<Trucks*> trucks, Warehouse* _whouse) {
-        for (auto i : order) {
+    int processOrder( Warehouse* _whouse) {
+        std::map<std::wstring, std::pair<int, int>> mp = funcShortage(_whouse);
+
+        for (auto &i : order) {
            
             bool flag = true;
+            std::vector< std::pair<Item*, int> > realOrder;
             for (auto j : i->getOrderList()) {
-                if (statusOfItem(_whouse, j.first) < j.second)
-                    flag = false;
+                if (mp[j.first->getName()].first > mp[j.first->getName()].second) {
+                    realOrder.push_back(j);
+                }
+                else {
+                    realOrder.push_back({ j.first, dis(gen) });
+                }
+                    
             }
-            int time;
-            Trucks* truck = getEmptyTruck(trucks, time);
-            if (truck != nullptr && flag) {
-                removeProducts(_whouse, i->getOrderList());
-            }
+            removeProducts(_whouse, i->getOrderList());
+            i->clearOrder();
         }
     }
     
+    void getProductsFromWhOrder(Warehouse* _whouse) {
+        for (auto i : _wh_order->getOrderList()) {
+            _whouse->addItem(i.first, i.second);
+         }
+        _wh_order->clearOrder();
+    }
     void addProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products) {
         for (auto i : products) {
             _whouse->addItem(i.first, i.second);
@@ -79,12 +96,11 @@ public:
     void formOrder(Warehouse* _whouse) {
         for (auto i : order) {
             for (auto j : i->getOrderList()) {
-                if (statusOfItem(_whouse, j.first) < j.second)
+                if (statusOfItem(_whouse, j.first) < _mood * 5)
                 {
-                    _wh_order->addItem(j.first, j.second - statusOfItem(_whouse, j.first));
+                    _wh_order->addItem(j.first, _mood * 5 * 1.5 - statusOfItem(_whouse, j.first));
                 }
             }
-            int time;
         }
     }
 
