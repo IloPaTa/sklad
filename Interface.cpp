@@ -368,6 +368,7 @@ void Interface::input()
                             Item* i = new Item(data, cost, std::wstring(name.begin(), name.end()));
                             items.push_back({ i, count });
                         }
+                        fin.close();
                         _manager.addProducts(_whouse, items);
                         _status = "main";
                         for (auto i : _buttons) i->changeLifeStatus();

@@ -5,10 +5,14 @@
 #include "Order.h"
 #include "StoreOrder.h"
 #include "WarehouseOrder.h"
+<<<<<<< HEAD
 #include "Trucks.h"
 
 
 
+=======
+
+>>>>>>> 6bd87d5a3431ddfc9a5b6d41974b30bf02b4886e
 //std::mt19937 gen(42);
 //std::uniform_int_distribution<> dis;
 
@@ -37,7 +41,11 @@ public:
         return result;
     }
 
+<<<<<<< HEAD
     void processOrder( Warehouse* _whouse) {
+=======
+   void processOrder( Warehouse* _whouse) {
+>>>>>>> 6bd87d5a3431ddfc9a5b6d41974b30bf02b4886e
         std::map<std::wstring, std::pair<int, int>> mp = funcShortage(_whouse);
 
         for (auto &i : order) {
@@ -49,7 +57,11 @@ public:
                     realOrder.push_back(j);
                 }
                 else {
+<<<<<<< HEAD
                     realOrder.push_back({ j.first, 6 });
+=======
+                    realOrder.push_back({ j.first, 3});
+>>>>>>> 6bd87d5a3431ddfc9a5b6d41974b30bf02b4886e
                 }
                     
             }
@@ -84,15 +96,6 @@ public:
         return _whouse->getColItem(item->getName());
     };
 
-    Trucks* getEmptyTruck(std::vector<Trucks*> trucks, int  time) {
-        for (auto i : trucks) {
-            if (!i->isBusy(time)) {
-                i->addTime(time);
-                return i;
-            }
-        }
-    }
-
     void formOrder(Warehouse* _whouse) {
         for (auto i : order) {
             for (auto j : i->getOrderList()) {
@@ -104,11 +107,19 @@ public:
         }
     }
 
+    Item* findItemfromFile(std::wstring a) {
+        std::string b = std::string(a.begin(), a.end());
+        std::ifstream fin;
+        fin.open("list_of_products.txt");
+        std::string name;
+
+    }
     void setNewOrder(std::vector<StoreOrder*> ord) {
         order = ord;
     }
 private:
     int _mood;
+    int money;
     int _shift_time;
     std::vector<int> _not_fav_id;
     std::vector<StoreOrder*> order;
