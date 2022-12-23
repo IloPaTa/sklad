@@ -309,18 +309,20 @@ void Interface::input()
         if (_status == "warehouse") {
             _warehouse_texts.resize(0);
             std::vector<Shelf*> shelfs = _whouse->getShelfs();
+            int m = 0;
             for (int i = 0; i < shelfs.size(); ++i) {
                 auto j = shelfs[i];
-                if (!j) continue;
-                warehouseSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Shell " + std::to_string(i + 1));
+                warehouseSetObject(sf::Vector2f(150, 20), sf::Vector2f(0, m), "Shell " + std::to_string(i + 1));
                 std::vector<Item*> items = j->getItem();
                 for (auto k : items) {
                     std::wstring a = k->getName();
-                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(100, i * 100), std::string(a.begin(), a.end()));
-                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(200, i * 100), std::to_string(k->getDateOfCreating().d) + ":" + std::to_string(k->getDateOfCreating().m) + ":" + std::to_string(k->getDateOfCreating().y));
-                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(300, i * 100), std::to_string(k->getShelfLife()));
-                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(400, i * 100), std::to_string(k->getCost()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(0, 30 + m), std::string(a.begin(), a.end()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(150, 30 + m), std::to_string(k->getDateOfCreating().d) + ":" + std::to_string(k->getDateOfCreating().m) + ":" + std::to_string(k->getDateOfCreating().y));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(300, 30 + m), std::to_string(k->getShelfLife()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(450, 30 + m), std::to_string(k->getCost()));
+                    m += 80;
                 }
+                m += 100;
             }
         }
         if (_status == "shortage") {
@@ -348,6 +350,7 @@ void Interface::input()
                             {
                                 if (date[i] >= '0' && date[i] <= '9') days = days * 10 + date[i] - '0';
                                 else {
+                                    if (date[i + 1] == 'd' || date[i + 1] == 'D') days *= 1;
                                     if (date[i + 1] == 'm' || date[i + 1] == 'M') days *= 30;
                                     if (date[i + 1] == 'w' || date[i + 1] == 'W') days *= 7;
                                 }
