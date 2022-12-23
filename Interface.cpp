@@ -15,9 +15,9 @@ std::vector<std::pair<Item*, int>> formNewOrder() {
     int data, cost, count;
     std::vector<std::pair<Item*, int>> items;
     while (fin >> name >> data >> cost >> count) {
-        if (43 % 23 == 0) {
+        if (23 % 23 == 0) {
             Item* i = new Item(data, cost, std::wstring(name.begin(), name.end()));
-            items.push_back({ i, 12%100 });
+            items.push_back({ i, 233 });
         }
     }
     fin.close();
@@ -353,7 +353,7 @@ void Interface::input()
                 ord.push_back(newOrder);
             }
             _manager.addNewOrder(ord);
-            _manager.processOrder(_whouse);
+           // _manager.processOrder(_whouse);
 
             _status = "main";
         }

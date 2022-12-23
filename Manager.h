@@ -50,7 +50,7 @@ public:
             bool flag = true;
             std::vector< std::pair<Item*, int> > realOrder;
             for (auto j : i->getOrderList()) {
-                if (mp[j.first->getName()].first > mp[j.first->getName()].second) {
+                if (mp[j.first->getName()].first >= mp[j.first->getName()].second) {
                     realOrder.push_back(j);
                     money += j.first->getCost();
                 }
