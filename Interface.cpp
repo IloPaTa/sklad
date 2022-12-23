@@ -365,16 +365,6 @@ void Interface::input()
                         for (auto i : _buttons) i->changeLifeStatus();
                     }
                     else if (i->getId() == "warehouse") {
-                        std::vector<Shelf*> shelfs = _whouse->getShelfs();
-                        for (auto j : shelfs) {
-                            std::vector<std::pair<wholesalePackaging*, int>> wspackaging = j->getWSPackaging();
-                            for (auto k : wspackaging) {
-                                for (int m = 0; m < k.second; ++m) {
-                                    k.first;
-                                }
-                            }
-                        }
-                    }
                         _status = "warehouse";
                     }
                     else if (i->getId() == "next day") {
