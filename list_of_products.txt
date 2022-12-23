@@ -1,2 +1,2 @@
 Burger 35 20 1
-Bread 7 100 1
+Salt 60 10 1
