@@ -48,6 +48,8 @@ public:
                 break;
         }
         fin.close();
+        if (_shelf_size == cnt)
+            return 0;
         _ws_packagings.push_back({new wholesalePackaging(*item, col), std::min(val, int(_shelf_size - cnt)) });
         return std::min(val, int(_shelf_size - cnt));
     }

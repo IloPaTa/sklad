@@ -1,15 +1,13 @@
 #pragma once
 #include <vector>
+#include <random>
 #include "Warehouse.h"
 #include "Order.h"
 #include "StoreOrder.h"
 #include "WarehouseOrder.h"
-#include "Trucks.h"
-#include <random>
 
-
-std::mt19937 gen(42);
-std::uniform_int_distribution<> dis;
+//std::mt19937 gen(42);
+//std::uniform_int_distribution<> dis;
 
 class Manager {
 public:
@@ -49,7 +47,7 @@ public:
                     realOrder.push_back(j);
                 }
                 else {
-                    realOrder.push_back({ j.first, dis(gen) });
+                    realOrder.push_back({ j.first, 3});
                 }
                     
             }
@@ -83,15 +81,6 @@ public:
     int statusOfItem(Warehouse* _whouse, Item* item) {
         return _whouse->getColItem(item->getName());
     };
-
-    Trucks* getEmptyTruck(std::vector<Trucks*> trucks, int  time) {
-        for (auto i : trucks) {
-            if (!i->isBusy(time)) {
-                i->addTime(time);
-                return i;
-            }
-        }
-    }
 
     void formOrder(Warehouse* _whouse) {
         for (auto i : order) {
