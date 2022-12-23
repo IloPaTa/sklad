@@ -9,7 +9,7 @@
 
 class Shelf {
 public:
-    Shelf(int shelfSize = 132) {
+    Shelf(int shelfSize = 1) {
         _shelf_size = shelfSize;
     }
     void setShelfSize(size_t shelf_size) {
