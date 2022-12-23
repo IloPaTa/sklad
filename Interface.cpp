@@ -315,7 +315,8 @@ void Interface::input()
                 warehouseSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Shell " + std::to_string(i + 1));
                 std::vector<Item*> items = j->getItem();
                 for (auto k : items) {
-                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(100, i * 100), std::string(k->getName().begin(), k->getName().end()));
+                    std::wstring a = k->getName();
+                    warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(100, i * 100), std::string(a.begin(), a.end()));
                     warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(200, i * 100), std::to_string(k->getDateOfCreating().d) + ":" + std::to_string(k->getDateOfCreating().m) + ":" + std::to_string(k->getDateOfCreating().y));
                     warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(300, i * 100), std::to_string(k->getShelfLife()));
                     warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(400, i * 100), std::to_string(k->getCost()));

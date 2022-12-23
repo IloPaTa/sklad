@@ -11,7 +11,6 @@ class Shelf {
 public:
     Shelf(int shelfSize = 132) {
         _shelf_size = shelfSize;
-        _ws_packagings.resize(shelfSize);
     }
     void setShelfSize(size_t shelf_size) {
         _shelf_size = shelf_size;
