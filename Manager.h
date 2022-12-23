@@ -11,7 +11,10 @@
 
 class Manager {
 public:
-    Manager() {}
+    Manager() {
+        int _mood = 2;
+        WarehouseOrder* _wh_order = new WarehouseOrder();
+    }
     int getMood() {
         return _mood;
     }
@@ -34,7 +37,9 @@ public:
             result.erase(*i);
         return result;
     }
-
+    int getMoney() {
+        return money;
+    }
    void processOrder( Warehouse* _whouse) {
         std::map<std::wstring, std::pair<int, int>> mp = funcShortage(_whouse);
 
@@ -45,9 +50,11 @@ public:
             for (auto j : i->getOrderList()) {
                 if (mp[j.first->getName()].first > mp[j.first->getName()].second) {
                     realOrder.push_back(j);
+                    money += j.first->getCost();
                 }
                 else {
                     realOrder.push_back({ j.first, 3});
+                    money += j.first->getCost() * 3;
                 }
                     
             }
@@ -88,6 +95,7 @@ public:
                 if (statusOfItem(_whouse, j.first) < _mood * 5)
                 {
                     _wh_order->addItem(j.first, _mood * 5 * 1.5 - statusOfItem(_whouse, j.first));
+                    money -= (_mood * 5 * 1.5 - statusOfItem(_whouse, j.first))* j.first->getCost();
                 }
             }
         }
@@ -98,7 +106,13 @@ public:
         std::ifstream fin;
         fin.open("list_of_products.txt");
         std::string name;
-
+        int date, cost, col;
+        while (fin >> name >> date >> cost >> col) {
+            if (name == b) {
+                break;
+            }
+        }
+        return new Item(col, cost,std::wstring(name.begin(), name.end()));
     }
     void setNewOrder(std::vector<StoreOrder*> ord) {
         order = ord;
