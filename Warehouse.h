@@ -5,10 +5,17 @@
 #include "Shelf.h"
 class Warehouse {
 public:
-    Warehouse(int shelf_size) {
-        _shelfs.resize(shelf_size);
+    Warehouse(int shelf_size = 10) {
+        for (int i = 0; i < shelf_size; ++i) {
+            _shelfs.push_back(new Shelf(23));
+        }
     }
 
+    void setShelfSize(int val) {
+        for (int i = 0; i < val; ++i) {
+            _shelfs.push_back(new Shelf(23));
+        }
+    }
     void addItem(Item* item, int val) {
         for (auto i : _shelfs) {
             if (val > 0) {

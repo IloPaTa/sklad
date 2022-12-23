@@ -1,1 +1,2 @@
-Milk 2 200 1
+Burger 35 20 1
+Bread 7 100 1

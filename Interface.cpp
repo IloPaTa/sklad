@@ -20,7 +20,7 @@ Interface::Interface()
     _status = "start";
 
     _manager = Manager();
-
+    _whouse = new Warehouse(5);
     startSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Select the products you need to sell");
     startSetObject(sf::Vector2f(250, 50), sf::Vector2f(50, 50), "Name");
     startSetObject(sf::Vector2f(300, 50), sf::Vector2f(280, 55), "Storage date");
@@ -343,11 +343,22 @@ void Interface::input()
                             for (int j = 0; j < 4; j++) i->getStringCostRef().pop_back();
                             if (i->getStatus()) out << i->getStringName() << ' ' << days << ' ' << i->getStringCost() << ' ' << i->getStringQuantity() << '\n';
                         }
+                        out.close();
+                        std::ifstream fin;
+                        fin.open("list_of_products.txt");
+                        std::string name;
+                        int data, cost, count;
+                        std::vector<std::pair<Item*, int>> items;
+                        while (fin >> name >> data >> cost >> count) {
+                            Item* i = new Item(data, cost, std::wstring(name.begin(), name.end()));
+                            items.push_back({ i, count });
+                        }
+                        _manager.addProducts(_whouse, items);
                         _status = "main";
                         for (auto i : _buttons) i->changeLifeStatus();
                     }
                     else if (i->getId() == "warehouse") {
-                        /*std::vector<Shelf*> shelfs = _whouse->getShelfs();
+                        std::vector<Shelf*> shelfs = _whouse->getShelfs();
                         for (auto j : shelfs) {
                             std::vector<std::pair<wholesalePackaging*, int>> wspackaging = j->getWSPackaging();
                             for (auto k : wspackaging) {
@@ -355,7 +366,7 @@ void Interface::input()
                                     k.first;
                                 }
                             }
-                        }*/
+                        }
                     }
                     else if (i->getId() == "next day") {
                         _whouse->updateItems();

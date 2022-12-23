@@ -9,6 +9,10 @@
 
 class Shelf {
 public:
+    Shelf(int shelfSize = 132) {
+        _shelf_size = shelfSize;
+        _ws_packagings.resize(shelfSize);
+    }
     void setShelfSize(size_t shelf_size) {
         _shelf_size = shelf_size;
     }
@@ -37,7 +41,7 @@ public:
         for (auto& i : _ws_packagings) {
             cnt += i.second;
         }
-        std::ifstream fin("ListOfProducts.txt");
+        std::ifstream fin("list_of_products.txt");
         std::string name;
         int date, cost, col;
         while (fin >> name >> date >> cost >> col) {
