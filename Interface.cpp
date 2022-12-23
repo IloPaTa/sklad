@@ -51,57 +51,57 @@ Interface::Interface()
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Paper", "24:12:2022", "2000 RUB", "1", _font, _font_size));
+        "Paper", "1 week", "2000 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Apple", "25:12:2022", "5200 RUB", "1", _font, _font_size));
+        "Apple", "1 week", "5200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Pineapple", "25:12:2022", "7200 RUB", "1", _font, _font_size));
+        "Pineapple", "1 week", "7200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Cucumber", "26:12:2022", "5200 RUB", "1", _font, _font_size));
+        "Cucumber", "1 week", "5200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Tomato", "26:12:2022", "1200 RUB", "1", _font, _font_size));
+        "Tomato", "1 week", "1200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Potato", "26:12:2022", "2200 RUB", "1", _font, _font_size));
+        "Potato", "1 week", "2200 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Cheese", "28:12:2022", "10 RUB", "1", _font, _font_size));
+        "Cheese", "1 week", "10 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Strawberry", "29:12:2022", "2800 RUB", "1", _font, _font_size));
+        "Strawberry", "1 week", "2800 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Strawberry", "29:12:2022", "2800 RUB", "1", _font, _font_size));
+        "Strawberry", "1 week", "2800 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Strawberry", "29:12:2022", "2800 RUB", "1", _font, _font_size));
+        "Strawberry", "1 week", "2800 RUB", "1", _font, _font_size));
     j += k;
     _pin_buttons.push_back(new PinButton(
         sf::Vector2f(800, 50),
         sf::Vector2f(0, j),
-        "Strawberry", "29:12:2022", "2800 RUB", "1", _font, _font_size));
+        "Strawberry", "1 week", "2800 RUB", "1", _font, _font_size));
 
     _buttons.push_back(new IButton(_window, "start",
         sf::Vector2f(400, 50),
@@ -307,25 +307,37 @@ void Interface::input()
             }
         }
         if (_status == "warehouse") {
+            if (event.type == sf::Event::MouseWheelScrolled)
+            {
+                _delta_y += event.mouseWheelScroll.delta* 10;
+                if (_delta_y > 0) _delta_y = 0;
+            }
             _warehouse_texts.resize(0);
             std::vector<Shelf*> shelfs = _whouse->getShelfs();
             int m = 0;
             for (int i = 0; i < shelfs.size(); ++i) {
                 auto j = shelfs[i];
-                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(10, m), "Shell " + std::to_string(i + 1));
+                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(10, m + _delta_y), "Shell " + std::to_string(i + 1));
                 std::vector<Item*> items = j->getItem();
                 for (auto k : items) {
                     std::wstring a = k->getName();
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(0, 50 + m), std::string(a.begin(), a.end()));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(150, 50 + m), std::to_string(j->getColItem(k)));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(300, 50 + m), std::to_string(k->getShelfLife()));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(450, 50 + m), std::to_string(k->getCost()));
+                    warehouseSetObject(sf::Vector2f(220, 50), sf::Vector2f(0, 50 + m + _delta_y), std::string(a.begin(), a.end()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200, 50 + m + _delta_y), std::to_string(j->getColItem(k)));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(350, 50 + m + _delta_y), std::to_string(k->getShelfLife()) + " days left");
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(500, 50 + m + _delta_y), std::to_string(k->getCost()) + " rub");
                     m += 50;
                 }
                 m += 50;
             }
         }
         if (_status == "shortage") {
+            std::map<std::wstring, std::pair<int, int>> map = _manager.funcShortage(_whouse);
+            std::map<std::wstring, std::pair<int, int>>::iterator it = map.begin();
+            int m = 0;
+            for (; it != map.end(); it++) {
+                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(0, 50 + m), std::string(it->first.begin(), it->first.end()));
+                m += 100;
+            }
             _manager.getProductsFromWhOrder(_whouse);
             _manager.processOrder(_whouse);
         }
@@ -374,15 +386,11 @@ void Interface::input()
                         for (auto i : _buttons) i->changeLifeStatus();
                     }
                     else if (i->getId() == "warehouse") {
+                        _delta_y = 0;
                         _status = "warehouse";
                     }
                     else if (i->getId() == "next day") {
                         _whouse->updateItems();
-                        std::map<std::wstring, std::pair<int, int>> map = _manager.funcShortage(_whouse);
-                        std::map<std::wstring, std::pair<int, int>>::iterator it = map.begin();
-                        for (int i = 0; it != map.end(); it++, i++) {
-                            std::cout << std::string(it->first.begin(), it->first.end()) << ' ' << it->second.first << it->second.second << '\n';
-                        }
                         _status = "shortage";
                     }
                 }
@@ -430,7 +438,7 @@ void Interface::draw()
             _window.draw(*i);
         }
     }
-    if (_status == "main" || _status == "warehouse")
+    if (_status == "main" || _status == "warehouse" || _status == "shortage")
     {
         for (auto i : _lines)
         {

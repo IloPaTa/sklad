@@ -36,6 +36,7 @@ private:
     sf::Text* text_current_time;
     int current_date;
     int current_time;
+    int _delta_y;
     std::string _status;
     IButton* _current_pressed_button;
     PinButton* _current_entered_button;
