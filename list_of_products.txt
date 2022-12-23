@@ -1,8 +1,4 @@
 Milk 2 200 1
 Burger 35 20 1
 Bread 7 100 1
-<<<<<<< HEAD
-Salt 60 10 2
-=======
 Salt 60 10 1
->>>>>>> 6bd87d5a3431ddfc9a5b6d41974b30bf02b4886e

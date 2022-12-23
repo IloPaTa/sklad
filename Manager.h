@@ -5,14 +5,9 @@
 #include "Order.h"
 #include "StoreOrder.h"
 #include "WarehouseOrder.h"
-<<<<<<< HEAD
 #include "Trucks.h"
 
 
-
-=======
-
->>>>>>> 6bd87d5a3431ddfc9a5b6d41974b30bf02b4886e
 //std::mt19937 gen(42);
 //std::uniform_int_distribution<> dis;
 
@@ -41,11 +36,7 @@ public:
         return result;
     }
 
-<<<<<<< HEAD
-    void processOrder( Warehouse* _whouse) {
-=======
    void processOrder( Warehouse* _whouse) {
->>>>>>> 6bd87d5a3431ddfc9a5b6d41974b30bf02b4886e
         std::map<std::wstring, std::pair<int, int>> mp = funcShortage(_whouse);
 
         for (auto &i : order) {
@@ -57,11 +48,7 @@ public:
                     realOrder.push_back(j);
                 }
                 else {
-<<<<<<< HEAD
-                    realOrder.push_back({ j.first, 6 });
-=======
                     realOrder.push_back({ j.first, 3});
->>>>>>> 6bd87d5a3431ddfc9a5b6d41974b30bf02b4886e
                 }
                     
             }
