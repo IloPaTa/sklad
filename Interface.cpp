@@ -323,6 +323,10 @@ void Interface::input()
                 }
             }
         }
+        if (_status == "shortage") {
+            _manager.getProductsFromWhOrder(_whouse);
+            _manager.processOrder(_whouse);
+        }
         for (auto i : _buttons)
         {
             if (!i->getLifeStatus()) continue;
