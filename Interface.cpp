@@ -317,7 +317,7 @@ void Interface::input()
                 for (auto k : items) {
                     std::wstring a = k->getName();
                     warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(0, 30 + m), std::string(a.begin(), a.end()));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(150, 30 + m), std::to_string(k->getDateOfCreating().d) + ":" + std::to_string(k->getDateOfCreating().m) + ":" + std::to_string(k->getDateOfCreating().y));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(150, 30 + m), std::to_string(j->getColItem(k)));
                     warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(300, 30 + m), std::to_string(k->getShelfLife()));
                     warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(450, 30 + m), std::to_string(k->getCost()));
                     m += 80;

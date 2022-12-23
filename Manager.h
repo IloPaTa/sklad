@@ -1,19 +1,19 @@
 #pragma once
 #include <vector>
+#include <random>
 #include "Warehouse.h"
 #include "Order.h"
 #include "StoreOrder.h"
 #include "WarehouseOrder.h"
 #include "Trucks.h"
-#include <random>
 
 
-std::mt19937 gen(42);
-std::uniform_int_distribution<> dis;
+
+//std::mt19937 gen(42);
+//std::uniform_int_distribution<> dis;
 
 class Manager {
 public:
-    Manager() {}
     int getMood() {
         return _mood;
     }
@@ -37,7 +37,7 @@ public:
         return result;
     }
 
-    int processOrder( Warehouse* _whouse) {
+    void processOrder( Warehouse* _whouse) {
         std::map<std::wstring, std::pair<int, int>> mp = funcShortage(_whouse);
 
         for (auto &i : order) {
@@ -49,7 +49,7 @@ public:
                     realOrder.push_back(j);
                 }
                 else {
-                    realOrder.push_back({ j.first, dis(gen) });
+                    realOrder.push_back({ j.first, 6 });
                 }
                     
             }
