@@ -14,8 +14,8 @@
 class Manager {
 public:
     Manager() {
-        int _mood = 2;
-        WarehouseOrder* _wh_order = new WarehouseOrder();
+        _mood = 2;
+        _wh_order = new WarehouseOrder();
     }
     int getMood() {
         return _mood;
@@ -116,8 +116,10 @@ public:
         }
         return new Item(col, cost,std::wstring(name.begin(), name.end()));
     }
-    void setNewOrder(std::vector<StoreOrder*> ord) {
-        order = ord;
+    void addNewOrder(std::vector<StoreOrder*> ord) {
+        for (auto i : ord) {
+            order.push_back(i);
+        }
     }
 private:
     int _mood;

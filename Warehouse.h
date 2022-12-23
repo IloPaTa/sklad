@@ -7,7 +7,7 @@ class Warehouse {
 public:
     Warehouse(int shelf_size = 10) {
         for (int i = 0; i < shelf_size; ++i) {
-            _shelfs.push_back(new Shelf(3));
+            _shelfs.push_back(new Shelf());
         }
     }
 

@@ -9,6 +9,11 @@ public:
         _store_id = store_id;
         _urgency = urgency;
     }
+    StoreOrder(int id) {
+        _order_list.resize(1);
+        _urgency = 1;
+        _store_id = id;
+    }
     int getId() {
         return _store_id;
     }
