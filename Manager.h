@@ -104,11 +104,19 @@ public:
         }
     }
 
+    Item* findItemfromFile(std::wstring a) {
+        std::string b = std::string(a.begin(), a.end());
+        std::ifstream fin;
+        fin.open("list_of_products.txt");
+        std::string name;
+
+    }
     void setNewOrder(std::vector<StoreOrder*> ord) {
         order = ord;
     }
 private:
     int _mood;
+    int money;
     int _shift_time;
     std::vector<int> _not_fav_id;
     std::vector<StoreOrder*> order;
