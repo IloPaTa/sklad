@@ -1,21 +1,21 @@
 #include "Interface.h"
+#include <random>
 #include <time.h>
 #include <fstream>
-#include <random>
-#include <chrono>
 //ÏÅĞÅÏÈÑÀÒÜ ÍÀ ĞÓ×ÍÎÉ ÂÂÎÄ ÈÇ ÎÊÍÀ
+std::mt19937 g(23);
+std::uniform_int_distribution<> d;
 int count_of_products = 9;
 int count_of_retail_outlets = 9;
-//std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
 std::vector<std::pair<Item*, int>> formNewOrder() {
-    int cnt  = 4 % 10;
+    int cnt  = d(g) % 10;
     std::ifstream fin;
     fin.open("list_of_products.txt");
     std::string name;
     int data, cost, count;
     std::vector<std::pair<Item*, int>> items;
     while (fin >> name >> data >> cost >> count) {
-        if (23 % 23 == 0) {
+        if (d(g) % 23 == 0) {
             Item* i = new Item(data, cost, std::wstring(name.begin(), name.end()));
             items.push_back({ i, 233 });
         }
