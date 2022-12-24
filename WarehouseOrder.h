@@ -7,6 +7,6 @@ public:
     WarehouseOrder(std::vector<std::pair<Item*, int>> store_order) {
         _order_list = store_order;
     }
-    WarehouseOrder() {};
+    WarehouseOrder() { _order_list.resize(0); }
 
 };
