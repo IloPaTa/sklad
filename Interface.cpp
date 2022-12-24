@@ -161,10 +161,10 @@ Interface::Interface()
         "WAREHOUSE", _font, _font_size));
     //_buttons[_buttons.size() - 1]->changeLifeStatus();
     
-    setObject(sf::Vector2f(200, 150), sf::Vector2f(1075, 675));
+    /*setObject(sf::Vector2f(200, 150), sf::Vector2f(1075, 675));
     setObject(sf::Vector2f(200, 140), sf::Vector2f(1075, 625), "Count of");
     setObject(sf::Vector2f(200, 130), sf::Vector2f(1075, 675), "free cars");
-    setObject(sf::Vector2f(200, 170), sf::Vector2f(1075, 700), "10");
+    setObject(sf::Vector2f(200, 170), sf::Vector2f(1075, 700), "10");*/
 
     _buttons.push_back(new IButton(_window, "next day",
         sf::Vector2f(225, 150),
@@ -331,17 +331,22 @@ void Interface::input()
             }
             _warehouse_texts.resize(0);
             std::vector<Shelf*> shelfs = _whouse->getShelfs();
-            int m = 0;
+            warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(30, 10), "Name");
+            warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(180, 10), "quantity\nin pack");
+            warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200 + 150, 10), "days\nleft");
+            warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200 + 300, 10), "cost");
+            int m = 0, m1 = 100;
             for (int i = 0; i < shelfs.size(); ++i) {
                 auto j = shelfs[i];
-                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(10, m + _delta_y), "Shell " + std::to_string(i + 1));
+                if (50 + m + _delta_y >= 0) warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(10, m1 + m + _delta_y), "Shell " + std::to_string(i + 1));
                 std::vector<Item*> items = j->getItem();
                 for (auto k : items) {
                     std::wstring a = k->getName();
-                    warehouseSetObject(sf::Vector2f(220, 50), sf::Vector2f(0, 50 + m + _delta_y), std::string(a.begin(), a.end()));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200, 50 + m + _delta_y), std::to_string(j->getColItem(k)));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(350, 50 + m + _delta_y), std::to_string(k->getShelfLife()) + " days left");
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(500, 50 + m + _delta_y), std::to_string(k->getCost()) + " rub");
+                    if (100 + m + _delta_y < 0) { m += 50; continue; }
+                    warehouseSetObject(sf::Vector2f(220, 50), sf::Vector2f(0, 50 + m1 + m + _delta_y), std::string(a.begin(), a.end()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200, 50 + m1 + m + _delta_y), std::to_string(j->getColItem(k)));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(350, 50 + m1 + m + _delta_y), std::to_string(k->getShelfLife()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(500, 50 + m1 + m + _delta_y), std::to_string(k->getCost()));
                     m += 50;
                 }
                 m += 50;
@@ -367,6 +372,9 @@ void Interface::input()
            // _manager.processOrder(_whouse);
 
             _status = "main";
+        }
+        if (_status == "button") {
+            //_manager.getor
         }
         for (auto i : _buttons)
         {
