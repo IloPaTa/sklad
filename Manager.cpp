@@ -11,6 +11,10 @@ int Manager::getMood() {
     return _mood;
 }
 
+std::vector<StoreOrder*> Manager::getStoreOrders() {
+    return order;
+}
+
 std::map<std::wstring, std::pair<int, int>> Manager::funcShortage(Warehouse* _whouse) {
     std::map<std::wstring, std::pair<int, int>> result;
     for (auto i : order) {
