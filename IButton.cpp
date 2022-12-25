@@ -13,7 +13,6 @@ IButton::IButton(sf::RenderWindow& window, std::string id, sf::Vector2f size, sf
     _text.setPosition({ position.x + size.x / 2 - _text.getGlobalBounds().width / 2,
         position.y + size.y / 2 - _text.getGlobalBounds().height / 2 - 13});
     _text.setFillColor(sf::Color::Black);
-    _isAlive = false;
 }
 
 IButton::IButton(sf::RenderWindow& window, std::string id, sf::Vector2f size, sf::Vector2f position,
@@ -27,7 +26,6 @@ IButton::IButton(sf::RenderWindow& window, std::string id, sf::Vector2f size, sf
     _text.setPosition({ position.x + (int)size.x / 2 - _text.getGlobalBounds().width / 2,
         position.y + (int)size.y / 2 - _text.getGlobalBounds().height / 2 });
     _text.setFillColor(sf::Color::Black);
-    _isAlive = false;
 }
 
 void IButton::draw()
@@ -54,12 +52,10 @@ void IButton::setRectColor(int status)
     else _rect_pin.setFillColor(sf::Color(89, 107, 255));
 }
 
-void IButton::changeLifeStatus()
+void IButton::setPosition(sf::Vector2f position)
 {
-    _isAlive = !_isAlive;
-}
+    _rect_pin.setPosition(position);
 
-bool IButton::getLifeStatus()
-{
-    return _isAlive;
+    _text.setPosition({ position.x + _rect_pin.getGlobalBounds().width / 2 - _text.getGlobalBounds().width / 2,
+        position.y + _rect_pin.getGlobalBounds().height / 2 - _text.getGlobalBounds().height / 2 - 13 });
 }

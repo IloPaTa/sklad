@@ -12,10 +12,8 @@ public:
     void setRectColor(int status);
     bool isInPointArea(sf::Vector2i position);
     std::string getId();
-    void changeLifeStatus();
-    bool getLifeStatus();
+    void setPosition(sf::Vector2f position);
 protected:
-    bool _isAlive;
     std::string _id;
     sf::Font _font;
     unsigned int _font_size;

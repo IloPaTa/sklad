@@ -43,7 +43,7 @@ PinButton::PinButton(sf::Vector2f size, sf::Vector2f position,
     _rect_quantity.setPosition(position.x + 50 + 250 + 300 + 200, position.y);
     _rect_quantity.setFillColor(sf::Color::Transparent);
 
-    _status = 0;
+    _event = 0;
 }
 
 void PinButton::draw(sf::RenderWindow& window)
@@ -61,14 +61,14 @@ void PinButton::draw(sf::RenderWindow& window)
 
 void PinButton::changePin()
 {
-    if (_status == 0) {
+    if (_event == 0) {
         _rect_pin.setFillColor(sf::Color(0, 255, 55));
-        _status = 1;
+        _event = 1;
     }
     else
     {
         _rect_pin.setFillColor(sf::Color(255, 52, 59));
-        _status = 0;
+        _event = 0;
     }
     
 }

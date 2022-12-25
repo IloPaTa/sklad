@@ -29,12 +29,12 @@ public:
     std::string getStringQuantity() {
         return _string_quantity;
     }
-    int getStatus() { return _status; }
+    int getStatus() { return _event; }
 
 private:
     sf::Font _font;
     unsigned int _font_size;
-    int _status;
+    int _event;
     sf::RectangleShape _rect_pin;
     sf::RectangleShape _rect_name;
     sf::RectangleShape _rect_date;
