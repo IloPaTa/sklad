@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "IButton.h"
-#include "PinButton.h"
+#include "InputField.h"
 #include "Manager.h"
 #include "Trucks.h"
 #include "Warehouse.h"
@@ -24,7 +24,7 @@ private:
 
     //std::vector<sf::RectangleShape*> _start_lines;
     std::vector<sf::Text*> _start_texts;
-    std::vector<PinButton*> _pin_buttons;
+    std::vector<InputField*> _start_input_fields;
 
     std::vector<sf::RectangleShape*> _lines;
     std::vector<sf::Text*> _texts;
@@ -42,12 +42,10 @@ private:
     int _delta_y;
     std::string _event;
     IButton* _current_pressed_button;
-    PinButton* _current_entered_button;
+    InputField* _current_entered_button;
 
     std::map<std::wstring, std::pair<int, int>> map;
     std::map<std::wstring, std::pair<int, int>>::iterator it;
-
-
 
     void input();
     void update(); //здесь апдейт окна происходит
@@ -63,4 +61,9 @@ private:
     void incorrectTextInput();
     void createMainButtons();
     void createNextdayButtons();
+    bool checkName(char c, InputField* value, bool b = 0);
+    bool checkDate(char c, InputField* value, bool b = 0);
+    bool checkCost(char c, InputField* value, bool b = 0);
+    bool checkCnt(char c, InputField* value, bool b = 0);
+    bool checkInputField(InputField* value);
 };

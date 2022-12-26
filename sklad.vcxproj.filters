@@ -60,7 +60,7 @@
     <ClCompile Include="Shelf.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="PinButton.cpp">
+    <ClCompile Include="InputField.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Time.cpp">
@@ -110,7 +110,7 @@
     <ClInclude Include="Shelf.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="PinButton.h">
+    <ClInclude Include="InputField.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
