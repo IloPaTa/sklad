@@ -154,6 +154,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="IButton.cpp" />
+    <ClCompile Include="InputButton.cpp" />
     <ClCompile Include="Interactor.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="IButton.h" />
+    <ClInclude Include="InputButton.h" />
     <ClInclude Include="Interactor.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Item.h" />
