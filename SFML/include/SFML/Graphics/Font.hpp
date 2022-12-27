@@ -281,7 +281,7 @@ private:
     ////////////////////////////////////////////////////////////
     // Types
     ////////////////////////////////////////////////////////////
-    typedef std::map<Uint64, Glyph> GlyphTable; ///< Table mapping a codepoint to its glyph
+    typedef std::map_lack_products<Uint64, Glyph> GlyphTable; ///< Table mapping a codepoint to its glyph
 
     ////////////////////////////////////////////////////////////
     /// \brief Structure defining a page of glyphs
@@ -341,7 +341,7 @@ private:
     ////////////////////////////////////////////////////////////
     // Types
     ////////////////////////////////////////////////////////////
-    typedef std::map<unsigned int, Page> PageTable; ///< Table mapping a character size to its page (texture)
+    typedef std::map_lack_products<unsigned int, Page> PageTable; ///< Table mapping a character size to its page (texture)
 
     ////////////////////////////////////////////////////////////
     // Member data
