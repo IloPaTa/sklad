@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include "Manager.h"
+#include "InputButton.h"
 
 class Interface
 {
@@ -25,6 +26,7 @@ private:
     //std::vector<sf::RectangleShape*> _start_lines;
     std::vector<sf::Text*> _start_texts;
     std::vector<InputField*> _start_input_fields;
+    std::vector<InputButton*> _start_buttons;
 
     std::vector<sf::RectangleShape*> _lines;
     std::vector<sf::Text*> _texts;
@@ -37,6 +39,7 @@ private:
     
     std::vector<sf::Text*> _orders_text;
 
+
     sf::Vector2i _cursor_position;
     sf::Text* _text_current_date;
     int _current_date;
@@ -44,6 +47,15 @@ private:
     std::string _event;
     IButton* _current_pressed_button;
     InputField* _current_pressed_input_field;
+    InputButton* _current_pressed_input_button;
+
+
+    int _shelfs_limit;
+    int _cnt_Shelfs; //ok
+    int _start_capital;
+    int _cnt_of_shops;  //ok
+
+    
 
     std::map<std::wstring, std::pair<int, int>> map;
     std::map<std::wstring, std::pair<int, int>>::iterator it;

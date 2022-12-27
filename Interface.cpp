@@ -7,8 +7,6 @@
 std::mt19937 g(23);
 std::uniform_int_distribution<> d;
 
-int count_of_retail_outlets = 9;
-
 std::vector<std::pair<Item*, int>> formNewOrder() {
     int cnt  = d(g) % 10;
     std::ifstream fin;
@@ -38,8 +36,7 @@ Interface::Interface()
 
     _event = "start";
 
-    _manager = Manager();
-    _whouse = new Warehouse(5);
+    
 
     setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 0), "");
     _current_date = 1;
@@ -52,7 +49,7 @@ Interface::Interface()
         startSetObject(sf::Vector2f(300, 50), sf::Vector2f(280, 55), "Storage date");
         startSetObject(sf::Vector2f(200, 50), sf::Vector2f(550, 60), "Cost");
         startSetObject(sf::Vector2f(200, 50), sf::Vector2f(850, 60), "Quantity\nin whpackaging");*/
-        startSetObject(sf::Vector2f(800, 50), sf::Vector2f(800, 0), "Enter store names");
+        //startSetObject(sf::Vector2f(800, 50), sf::Vector2f(800, 0), "Enter store names");
     } 
     // товары на стартовой странице
     _start_input_fields.push_back(new InputField(
@@ -69,8 +66,31 @@ Interface::Interface()
         sf::Vector2f(50, 50),
         sf::Vector2f(50, 130),
         "+", _font, _font_size));
-    
 
+    _buttons.push_back(new IButton(_window, "load",
+        sf::Vector2f(400, 50),
+        sf::Vector2f(1000, 700),
+        "products from file", _font, _font_size));
+    
+    _start_buttons.push_back(new InputButton(
+        sf::Vector2f(130, 70),
+        sf::Vector2f(1200, 100),
+        "value", _font, _font_size, "Enter shelfs limit"));
+
+    _start_buttons.push_back(new InputButton(
+        sf::Vector2f(130, 70),
+        sf::Vector2f(1200, 250),
+        "value", _font, _font_size, "Enter count of shelfs"));
+
+    _start_buttons.push_back(new InputButton(
+        sf::Vector2f(130, 70),
+        sf::Vector2f(1200, 400),
+        "value", _font, _font_size, "Enter start capital"));
+
+    _start_buttons.push_back(new InputButton(
+        sf::Vector2f(130, 70),
+        sf::Vector2f(1200, 550),
+        "value", _font, _font_size, "Enter count of shops"));
     //nextdaySetObject(sf::Vector2f(1, 900), sf::Vector2f(800, 0));
 }
 
@@ -153,6 +173,41 @@ void Interface::input()
                         _current_pressed_input_field = i;
                     }
                 }
+            }
+            for (auto i : _start_buttons)
+            {
+                if (i->isInPointArea(_cursor_position) == "none") continue;
+                if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
+                {
+                    _event = "enter string";
+                    _current_pressed_input_button = i;
+                    _current_pressed_input_button->getRefString() = "";
+                    i->updateText();
+                }
+
+            }
+        }
+        if (_event == "enter string")
+        {
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode == '\b') {
+                    if (_current_pressed_input_button->getString().size()) _current_pressed_input_button->getRefString().pop_back();
+                }
+                else if (event.text.unicode == '\r' && _current_pressed_input_button->getString().size())
+                {
+                    _event = "start";
+                    for (auto i : _current_pressed_input_button->getString()) {
+                        if (i < '0' || i > '9') {
+                            _event = "enter string";
+                            incorrectTextInput();
+                            break;
+                        }
+                    }
+                }
+                else if (event.text.unicode >= '0' && event.text.unicode <= '9') _current_pressed_input_button->getRefString() += event.text.unicode;
+                else incorrectTextInput();
+                _current_pressed_input_button->updateText();
             }
         }
         if (_event == "enter name")
@@ -310,9 +365,20 @@ void Interface::input()
                                 break;
                             }
                         }
+                        for (auto i : _start_buttons)
+                        {
+                            if (i->getString() == "value") {
+                                _event = "start";
+                                _current_pressed_button = 0;
+                                incorrectTextInput();
+                                check = 0;
+                                break;
+                            }
+                        }
                         if (!check) break;
-                        std::fstream file;
-                        file.open("list_of_products.txt");
+
+                        std::ofstream out;
+                        out.open("list_of_products.txt");
                         for (auto i : _start_input_fields)
                         {
                             std::string date = i->getStringDate();
@@ -327,19 +393,22 @@ void Interface::input()
                                 }
                             }
                             for (int j = 0; j < 4; j++) i->getStringCostRef().pop_back();
-                            file << i->getStringName() << ' ' << days << ' ' << i->getStringCost() << ' ' << i->getStringQuantity() << '\n';
+                            out << i->getStringName() << ' ' << days << ' ' << i->getStringCost() << ' ' << i->getStringQuantity() << '\n';
                         }
+                        out.close();
+                        std::ifstream fin;
+                        fin.open("list_of_products.txt");
                         std::string name;
                         int data, cost, count;
                         std::vector<std::pair<Item*, int>> items;
-                        while (file >> name >> data >> cost >> count) {
+                        while (fin >> name >> data >> cost >> count) {
                             Item* i = new Item(data, cost, std::wstring(name.begin(), name.end()));
                             items.push_back({ i, count });
                         }
-                        file.close();
-                        _manager.addProducts(_whouse, items);
+                        fin.close();
+                        
 
-                        createMainButtons();
+                        
                         {
                             setObject(sf::Vector2f(1, 900), sf::Vector2f(800, 0));
                             setObject(sf::Vector2f(800, 1), sf::Vector2f(800, 600));
@@ -358,6 +427,34 @@ void Interface::input()
 
                         }
                         _event = "main";
+                        _shelfs_limit = 0;
+                        for (auto i : _start_buttons[0]->getString())
+                        {
+                            _shelfs_limit *= 10;
+                            _shelfs_limit += i - '0';
+                        }
+                        _cnt_Shelfs = 0;
+                        for (auto i : _start_buttons[1]->getString())
+                        {
+                            _cnt_Shelfs *= 10;
+                            _cnt_Shelfs += i - '0';
+                        }
+                        _start_capital = 0;
+                        for (auto i : _start_buttons[2]->getString())
+                        {
+                            _start_capital *= 10;
+                            _start_capital += i - '0';
+                        }
+                        _cnt_of_shops = 0;
+                        for (auto i : _start_buttons[3]->getString())
+                        {
+                            _cnt_of_shops *= 10;
+                            _cnt_of_shops += i - '0';
+                        }
+                        createMainButtons();
+                        _manager = Manager();
+                        _whouse = new Warehouse(_cnt_Shelfs);
+                        _manager.addProducts(_whouse, items);
                         break;
                     }
                     else if (i->getId() == "warehouse") {
@@ -474,7 +571,7 @@ void Interface::draw()
     {
         i->draw();
     }
-    if (_event == "start" || _event == "enter name" || _event == "enter date" || _event == "enter cost" || _event == "enter quantity")
+    if (_event == "start" || _event == "enter string" || _event == "enter name" || _event == "enter date" || _event == "enter cost" || _event == "enter quantity")
     {
         for (auto i : _start_input_fields)
         {
@@ -484,10 +581,10 @@ void Interface::draw()
         {
             _window.draw(*i);
         }
-        /*for (auto i : _start_lines)
+        for (auto i : _start_buttons)
         {
-            _window.draw(*i);
-        }*/
+            i->draw(_window);
+        }
     }
     if (_event == "main" || _event == "warehouse" || _event.substr(0, 6) == "button")
     {
@@ -602,7 +699,7 @@ void Interface::nextdaySetObject(sf::Vector2f size, sf::Vector2f position, std::
 void Interface::createMainButtons()
 {
     _buttons.resize(0);
-    for (int i = 0; i < count_of_retail_outlets; i++)
+    for (int i = 0; i < _cnt_of_shops; i++)
     {
         _buttons.push_back(new IButton(_window, "button" + std::to_string(i + 1),
             sf::Vector2f(100, 100),
