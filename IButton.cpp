@@ -45,10 +45,10 @@ bool IButton::isInPointArea(sf::Vector2i position)
     return _rect.getGlobalBounds().contains(sf::Vector2f(position));
 }
 
-void IButton::setRectColor(int status)
+void IButton::setRectColor(std::string status)
 {
-    if (status == 0) _rect.setFillColor(sf::Color::White);
-    else if (status == 1) _rect.setFillColor(sf::Color(204, 255, 255));
+    if (status == "none") _rect.setFillColor(sf::Color::White);
+    else if (status != "pressed") _rect.setFillColor(sf::Color(204, 255, 255));
     else _rect.setFillColor(sf::Color(89, 107, 255));
 }
 

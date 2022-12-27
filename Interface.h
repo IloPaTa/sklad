@@ -37,12 +37,13 @@ private:
     
     std::vector<sf::Text*> _orders_text;
 
+    sf::Vector2i _cursor_position;
     sf::Text* _text_current_date;
     int _current_date;
     int _delta_y;
     std::string _event;
     IButton* _current_pressed_button;
-    InputField* _current_entered_button;
+    InputField* _current_pressed_input_field;
 
     std::map<std::wstring, std::pair<int, int>> map;
     std::map<std::wstring, std::pair<int, int>>::iterator it;
