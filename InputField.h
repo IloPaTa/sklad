@@ -1,13 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class PinButton
+class InputField
 {
 public:
-    PinButton(sf::Vector2f size, sf::Vector2f position,
+    InputField(sf::Vector2f size, sf::Vector2f position,
         std::string string, std::string string_date, std::string string_cost, std::string string_quantity, sf::Font font, unsigned int font_size);
     void draw(sf::RenderWindow& window);
-    void changePin();
     std::string isInPointArea(sf::Vector2i position);
     std::string& getStringNameRef();
     void updateTextName();
@@ -29,13 +28,17 @@ public:
     std::string getStringQuantity() {
         return _string_quantity;
     }
-    int getStatus() { return _event; }
+    void setPosition(sf::Vector2f position);
+    sf::Vector2f getPosition() {
+        return _position;
+    }
+    sf::Vector2f getStartPosition() {
+        return _start_position;
+    }
 
 private:
     sf::Font _font;
     unsigned int _font_size;
-    int _event;
-    sf::RectangleShape _rect_pin;
     sf::RectangleShape _rect_name;
     sf::RectangleShape _rect_date;
     sf::RectangleShape _rect_cost;
@@ -48,4 +51,6 @@ private:
     std::string _string_date;
     std::string _string_cost;
     std::string _string_quantity;
+    sf::Vector2f _position;
+    sf::Vector2f _start_position;
 };
