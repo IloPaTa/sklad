@@ -37,7 +37,7 @@ Interface::Interface()
     _event = "start";
 
     
-
+    
     setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 0), "");
     _current_date = 1;
     _text_current_date = _texts[_texts.size() - 1];
@@ -92,6 +92,7 @@ Interface::Interface()
         sf::Vector2f(1200, 550),
         "value", _font, _font_size, "Enter count of shops"));
     //nextdaySetObject(sf::Vector2f(1, 900), sf::Vector2f(800, 0));
+    setObject({ 1, 900 }, { 990, 0 });
 }
 
 Interface::~Interface() {
@@ -159,18 +160,26 @@ void Interface::input()
                     if (i->isInPointArea(_cursor_position) == "name") {
                         _event = "enter name";
                         _current_pressed_input_field = i;
+                        i->getStringNameRef() = "";
+                        i->updateTextName();
                     }
                     else if (i->isInPointArea(_cursor_position) == "date") {
                         _event = "enter date";
                         _current_pressed_input_field = i;
+                        i->getStringDateRef() = "";
+                        i->updateTextDate();
                     }
                     else if (i->isInPointArea(_cursor_position) == "cost") {
                         _event = "enter cost";
                         _current_pressed_input_field = i;
+                        i->getStringCostRef() = " rub";
+                        i->updateTextCost();
                     }
                     else if (i->isInPointArea(_cursor_position) == "quantity") {
                         _event = "enter quantity";
                         _current_pressed_input_field = i;
+                        i->getStringQuantityRef() = "";
+                        i->updateTextQuantity();
                     }
                 }
             }
@@ -376,7 +385,7 @@ void Interface::input()
                             }
                         }
                         if (!check) break;
-
+                        _lines.pop_back();
                         std::ofstream out;
                         out.open("list_of_products.txt");
                         for (auto i : _start_input_fields)
@@ -585,6 +594,7 @@ void Interface::draw()
         {
             i->draw(_window);
         }
+        _window.draw(*_lines[0]);
     }
     if (_event == "main" || _event == "warehouse" || _event.substr(0, 6) == "button")
     {
