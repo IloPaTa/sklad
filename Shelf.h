@@ -63,10 +63,10 @@ public:
         return 0;
     }
 
-    std::vector<Item*> getItem() {
-        std::vector<Item*> items;
+    std::vector<std::pair<Item*, int>> getItem() {
+        std::vector<std::pair<Item*, int>> items;
         for (auto& i : _ws_packagings) {
-            items.push_back(i.first->getItem());
+            items.push_back({ i.first->getItem(), i.second });
         }
         return items;
     }

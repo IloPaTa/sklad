@@ -15,7 +15,6 @@ public:
     int getMood();
 
     std::vector<StoreOrder*> getStoreOrders();
-    std::vector<Item*> getProsrochka();
     std::map<std::wstring, std::pair<int, int>> funcShortage(Warehouse* _whouse);
 
     int getMoney();

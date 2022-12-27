@@ -49,11 +49,11 @@ public:
         }
     }
 
-    std::vector<Item*> getDelayItem(int val = 5) {
-        std::vector<Item*> items;
+    std::vector<std::pair<Item*, int>> getDelayItem(int val = 5) {
+        std::vector<std::pair<Item*, int>> items;
         for (auto i : _shelfs) {
             for (auto j : i->getItem()) {
-                if(j->getShelfLife() < val)
+                if(j.first->getShelfLife() < val)
                    items.push_back(j);
             }
         }

@@ -92,7 +92,7 @@ void Manager::formOrder(Warehouse* _whouse) {
             if (statusOfItem(_whouse, j.first) < _mood * 5)
             {
                 _wh_order->addItem(j.first, _mood * 5 * 1.5 - statusOfItem(_whouse, j.first));
-                money -= (_mood * 5 * 1.5 - statusOfItem(_whouse, j.first)) * j.first->getCost();
+                money -= abs(_mood * 5  - statusOfItem(_whouse, j.first)) * j.first->getCost();
             }
         }
     }
