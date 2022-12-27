@@ -10,16 +10,16 @@ std::uniform_int_distribution<> d;
 int count_of_retail_outlets = 9;
 
 std::vector<std::pair<Item*, int>> formNewOrder() {
-    int cnt  = d(g) % 10;
     std::ifstream fin;
     fin.open("list_of_products.txt");
     std::string name;
     int data, cost, count;
     std::vector<std::pair<Item*, int>> items;
     while (fin >> name >> data >> cost >> count) {
-        if (d(g) % 10 == 0) {
+        if (d(g) % 2 == 0) {
+            int cnt = d(g) % 10;
             Item* i = new Item(data, cost, std::wstring(name.begin(), name.end()));
-            items.push_back({ i, 233 });
+            items.push_back({ i, cnt });
         }
     }
     fin.close();
@@ -398,7 +398,7 @@ void Interface::input()
                         _event = "warehouse";
                     }
                     else if (i->getId() == "next day") {
-                        _manager.processOrder(_whouse);
+                      //  _manager.processOrder(_whouse);
                         _whouse->updateItems();
                         createNextdayButtons();
                         _event = "next day";
