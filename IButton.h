@@ -9,7 +9,7 @@ public:
     IButton(sf::RenderWindow& window, std::string id, sf::Vector2f size, sf::Vector2f position,
         std::string string, sf::Font font, unsigned int font_size, sf::Image image);
     void draw();
-    void setRectColor(int status);
+    void setRectColor(std::string status);
     bool isInPointArea(sf::Vector2i position);
     std::string getId();
     void setPosition(sf::Vector2f position);

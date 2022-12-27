@@ -47,18 +47,18 @@ Interface::Interface()
 
     // заголовки на стартовой странице 
     {
-        startSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Select the products you need to sell");
-        startSetObject(sf::Vector2f(250, 50), sf::Vector2f(50, 50), "Name");
+        startSetObject(sf::Vector2f(800, 50), sf::Vector2f(0, 0), "Add the products you need to sell");
+        /*startSetObject(sf::Vector2f(250, 50), sf::Vector2f(50, 50), "Name");
         startSetObject(sf::Vector2f(300, 50), sf::Vector2f(280, 55), "Storage date");
         startSetObject(sf::Vector2f(200, 50), sf::Vector2f(550, 60), "Cost");
-        startSetObject(sf::Vector2f(200, 50), sf::Vector2f(850, 60), "Quantity\nin whpackaging");
+        startSetObject(sf::Vector2f(200, 50), sf::Vector2f(850, 60), "Quantity\nin whpackaging");*/
         startSetObject(sf::Vector2f(800, 50), sf::Vector2f(800, 0), "Enter store names");
     } 
     // товары на стартовой странице
     _start_input_fields.push_back(new InputField(
         sf::Vector2f(800, 50),
-        sf::Vector2f(0, 130),
-        "Milk", "2 days", "200 RUB", "1", _font, _font_size));
+        sf::Vector2f(0, 80),
+        "Name", "storage date", "cost RUB", "cnt", _font, _font_size));
 
     _buttons.push_back(new IButton(_window, "start sim",
         sf::Vector2f(400, 50),
@@ -67,7 +67,7 @@ Interface::Interface()
 
     _buttons.push_back(new IButton(_window, "add new input field",
         sf::Vector2f(50, 50),
-        sf::Vector2f(50, 180),
+        sf::Vector2f(50, 130),
         "+", _font, _font_size));
     
 
@@ -114,42 +114,43 @@ void Interface::input()
     {
         _window.close();
     }
+
     sf::Event event;
     while (_window.pollEvent(event))
     {
+        if (event.type == sf::Event::Closed) _window.close();
+        _cursor_position = sf::Mouse::getPosition(_window);
         if (event.type == sf::Event::MouseWheelScrolled)
         {
             _delta_y += event.mouseWheelScroll.delta * 10;
             if (_delta_y > 0) _delta_y = 0;
         }
-        sf::Vector2i position = sf::Mouse::getPosition(_window);
-        if (event.type == sf::Event::Closed) _window.close();
         if (_event == "start") {
+            if (_start_input_fields[_start_input_fields.size() - 1]->getPosition().y < 80) _delta_y = 80 - _start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y;
             for (auto i : _start_input_fields) {
-                i->setPosition(sf::Vector2f(i->getPosition().x, i->getStartPosition().y + _delta_y));
+                i->setPosition({ i->getStartPosition().x, i->getStartPosition().y + _delta_y });
             }
-            _buttons[1]->setPosition({ _buttons[1]->getPosition().x, _buttons[1]->getStartPosition().y + _delta_y});
+            _buttons[1]->setPosition({ _buttons[1]->getStartPosition().x, _buttons[1]->getStartPosition().y + _delta_y});
             for (auto i : _start_input_fields)
             {
-                if (i->isInPointArea(position) == "none") continue;
-                if (event.type == sf::Event::MouseButtonReleased &&
-                    event.mouseButton.button == sf::Mouse::Left)
+                if (i->isInPointArea(_cursor_position) == "none") continue;
+                if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
                 {
-                    if (i->isInPointArea(position) == "name") {
+                    if (i->isInPointArea(_cursor_position) == "name") {
                         _event = "enter name";
-                        _current_entered_button = i;
+                        _current_pressed_input_field = i;
                     }
-                    else if (i->isInPointArea(position) == "date") {
+                    else if (i->isInPointArea(_cursor_position) == "date") {
                         _event = "enter date";
-                        _current_entered_button = i;
+                        _current_pressed_input_field = i;
                     }
-                    else if (i->isInPointArea(position) == "cost") {
+                    else if (i->isInPointArea(_cursor_position) == "cost") {
                         _event = "enter cost";
-                        _current_entered_button = i;
+                        _current_pressed_input_field = i;
                     }
-                    else if (i->isInPointArea(position) == "quantity") {
+                    else if (i->isInPointArea(_cursor_position) == "quantity") {
                         _event = "enter quantity";
-                        _current_entered_button = i;
+                        _current_pressed_input_field = i;
                     }
                 }
             }
@@ -158,7 +159,7 @@ void Interface::input()
         {
             if (event.type == sf::Event::TextEntered)
             {
-                if (checkName(event.text.unicode, _current_entered_button, 1)) {
+                if (checkName(event.text.unicode, _current_pressed_input_field, 1)) {
                     if (event.text.unicode == '\r') _event = "start";
                 }
                 else incorrectTextInput();
@@ -168,7 +169,7 @@ void Interface::input()
         {
             if (event.type == sf::Event::TextEntered)
             {
-                if (checkDate(event.text.unicode, _current_entered_button, 1)) {
+                if (checkDate(event.text.unicode, _current_pressed_input_field, 1)) {
                     if (event.text.unicode == '\r') _event = "start";
                 }
                 else incorrectTextInput();
@@ -178,7 +179,7 @@ void Interface::input()
         {
             if (event.type == sf::Event::TextEntered)
             {
-                if (checkCost(event.text.unicode, _current_entered_button, 1)) {
+                if (checkCost(event.text.unicode, _current_pressed_input_field, 1)) {
                     if (event.text.unicode == '\r') _event = "start";
                 }
                 else incorrectTextInput();
@@ -187,7 +188,7 @@ void Interface::input()
         if (_event == "enter quantity") {
             if (event.type == sf::Event::TextEntered)
             {
-                if (checkCnt(event.text.unicode, _current_entered_button, 1)) {
+                if (checkCnt(event.text.unicode, _current_pressed_input_field, 1)) {
                     if (event.text.unicode == '\r') _event = "start";
                 }
                 else incorrectTextInput();
@@ -279,47 +280,45 @@ void Interface::input()
             }
         }
 
-        int j = -1;
         for (auto i : _buttons)
         {
-            j++;
-            std::cout << j << '\n';
-            if (i->isInPointArea(position)) {
-                i->setRectColor(1);
-                if (event.type == sf::Event::MouseButtonReleased &&
-                    event.mouseButton.button == sf::Mouse::Left)
+            if (i->isInPointArea(_cursor_position)) 
+            {
+                i->setRectColor("highlight");
+                if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
                 {
-                    //i->setRectColor(2);
-                    _current_pressed_button = i;
-
                     _event = i->getId();
-                    _delta_y = 0;
-                    bool b = false;
+                    _current_pressed_button = i;
+                    
+                    bool check = 1;
                     if (i->getId() == "add new input field") {
                         _event = "start";
                         _current_pressed_button = 0;
+
                         _start_input_fields.push_back(new InputField(
                             sf::Vector2f(800, 50),
-                            sf::Vector2f(0, _start_input_fields[_start_input_fields.size() - 1]->getPosition().y + 50),
-                            "Name", "storage date", "cost Rub", "Cnt", _font, _font_size));
+                            sf::Vector2f(0, _start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50),
+                            "Name", "storage date", "cost RUB", "cnt", _font, _font_size));
+
+                        _start_input_fields[_start_input_fields.size() - 1]->setPosition({0, _start_input_fields[_start_input_fields.size() - 2]->getPosition().y + 50});
                         _buttons[1]->setStartPosition(sf::Vector2f(_buttons[1]->getStartPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50));
                         _buttons[1]->setPosition(sf::Vector2f(_buttons[1]->getPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getPosition().y + 50));
-                        i->setRectColor(0);
+                        i->setRectColor("none");
                     }
                     else if (i->getId() == "start sim") {
-                        std::ofstream out;
-                        out.open("list_of_products.txt");
                         for (auto i : _start_input_fields)
                         {
                             if (!checkInputField(i)) {
-                                _current_pressed_button = 0;
                                 _event = "start";
+                                _current_pressed_button = 0;
                                 incorrectTextInput();
-                                b = true;
+                                check = 0;
                                 break;
                             }
                         }
-                        if (b) break;
+                        if (!check) break;
+                        std::fstream file;
+                        file.open("list_of_products.txt");
                         for (auto i : _start_input_fields)
                         {
                             std::string date = i->getStringDate();
@@ -334,20 +333,16 @@ void Interface::input()
                                 }
                             }
                             for (int j = 0; j < 4; j++) i->getStringCostRef().pop_back();
-                            out << i->getStringName() << ' ' << days << ' ' << i->getStringCost() << ' ' << i->getStringQuantity() << '\n';
+                            file << i->getStringName() << ' ' << days << ' ' << i->getStringCost() << ' ' << i->getStringQuantity() << '\n';
                         }
-                        
-                        out.close();
-                        std::ifstream fin;
-                        fin.open("list_of_products.txt");
                         std::string name;
                         int data, cost, count;
                         std::vector<std::pair<Item*, int>> items;
-                        while (fin >> name >> data >> cost >> count) {
+                        while (file >> name >> data >> cost >> count) {
                             Item* i = new Item(data, cost, std::wstring(name.begin(), name.end()));
                             items.push_back({ i, count });
                         }
-                        fin.close();
+                        file.close();
                         _manager.addProducts(_whouse, items);
 
                         createMainButtons();
@@ -458,10 +453,10 @@ void Interface::input()
             }
             else
             {
-                i->setRectColor(0);
+                i->setRectColor("none");
             }
         }
-        if (_current_pressed_button) _current_pressed_button->setRectColor(2);
+        if (_current_pressed_button) _current_pressed_button->setRectColor("pressed");
     }
 }
 
@@ -490,7 +485,7 @@ void Interface::draw()
     {
         for (auto i : _start_input_fields)
         {
-            i->draw(_window);
+            if (i->getPosition().y >= 50) i->draw(_window);
         }
         for (auto i : _start_texts)
         {
@@ -667,6 +662,7 @@ bool Interface::checkName(char c, InputField* value, bool b)
     value->updateTextName();
     return true;
 }
+
 bool Interface::checkDate(char c, InputField* value, bool b)
 {
     if (c == '\b') { if (value->getStringDateRef().size()) value->getStringDateRef().pop_back(); }
