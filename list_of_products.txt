@@ -1,2 +1,1 @@
-milkk 3 3 50
-apple 14 5 12
+milk 3 50 32
