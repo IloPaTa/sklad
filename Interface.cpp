@@ -537,7 +537,19 @@ void Interface::input()
                         std::vector<std::pair<Item*, int>> expired_products = _whouse->getDelayItem(7);
                         for (auto i : expired_products)
                         {
-                            //i->getName(); i->getShelfLife()
+                            if (m + _delta_y < 0) continue;
+                            std::wstring s = i.first->getName();
+                            nextdaySetObject(sf::Vector2f(600, 50), sf::Vector2f(0, m + _delta_y), std::string(s.begin(), s.end()));
+                            nextdaySetObject(sf::Vector2f(550, 50), sf::Vector2f(150, m + _delta_y), std::to_string(i.second));
+                            _buttons.push_back(new IButton(_window, "auto" + std::string(s.begin(), s.end()),
+                                sf::Vector2f(150, 40),
+                                sf::Vector2f(830, m + _delta_y),
+                                "auto", _font, _font_size));
+                            _buttons.push_back(new IButton(_window, "manu" + std::string(s.begin(), s.end()),
+                                sf::Vector2f(150, 40),
+                                sf::Vector2f(1030, m + _delta_y),
+                                "manual", _font, _font_size));
+                            m += 50;
                         }
 
                         _manager.getProductsFromWhOrder(_whouse);
