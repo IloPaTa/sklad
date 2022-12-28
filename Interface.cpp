@@ -473,21 +473,18 @@ void Interface::input()
                             _cnt_Shelfs *= 10;
                             _cnt_Shelfs += i - '0';
                         }
-                        _whouse->setSize(_cnt_Shelfs);
                        
                         for (auto i : _start_buttons[0]->getString())
                         {
                             _shelfs_limit *= 10;
                             _shelfs_limit += i - '0';
                         }
-                        _whouse->setShelfSize(_shelfs_limit);
                         _start_capital = 0;
                         for (auto i : _start_buttons[2]->getString())
                         {
                             _start_capital *= 10;
                             _start_capital += i - '0';
                         }
-                        _manager.setMoney(_start_capital);
                         _cnt_of_shops = 0;
                         for (auto i : _start_buttons[3]->getString())
                         {
@@ -497,6 +494,8 @@ void Interface::input()
                         createMainButtons();
                         _manager = Manager();
                         _whouse = new Warehouse(_cnt_Shelfs);
+                        _whouse->setSize(_shelfs_limit);
+                        _manager.setMoney(_start_capital);
                         _manager.addProducts(_whouse, items);
                         break;
                     }
