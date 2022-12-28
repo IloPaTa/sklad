@@ -26,9 +26,9 @@ public:
 
     void updateItems() {
         for (auto &i : _shelfs) {
-            std::vector<Item*> items = i->getItem();
+            std::vector<std::pair<Item*, int>> items = i->getItem();
             for (auto &j : items) {
-                j->setShelfLife(j->getShelfLife() - 1);
+                j.first->setShelfLife(j.first->getShelfLife() - 1);
             }
         }
     }
@@ -60,11 +60,11 @@ public:
         return items;
     }
 
-    int getColItem(std::wstring name, int val = 0) {
+    int getColItem(std::wstring name){
        int cnt = 0;
        for (auto i : _shelfs) {
            for (auto j : i->getItem()) {
-               if (j->getShelfLife() > 0)
+               if (j.first->getShelfLife() > 0)
                    ++cnt;
            }
        }
