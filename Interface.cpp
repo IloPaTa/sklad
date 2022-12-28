@@ -273,14 +273,14 @@ void Interface::input()
             for (int i = 0; i < shelfs.size(); ++i) {
                 auto j = shelfs[i];
                 if (50 + m + _delta_y >= 0) warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(10, m1 + m + _delta_y), "Shell " + std::to_string(i + 1));
-                std::vector<Item*> items = j->getItem();
+                std::vector<std::pair<Item*, int>> items = j->getItem();
                 for (auto k : items) {
-                    std::wstring a = k->getName();
+                    std::wstring a = k.first->getName();
                     if (100 + m + _delta_y < 0) { m += 50; continue; }
                     warehouseSetObject(sf::Vector2f(220, 50), sf::Vector2f(0, 50 + m1 + m + _delta_y), std::string(a.begin(), a.end()));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200, 50 + m1 + m + _delta_y), std::to_string(j->getColItem(k)));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(350, 50 + m1 + m + _delta_y), std::to_string(k->getShelfLife()));
-                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(500, 50 + m1 + m + _delta_y), std::to_string(k->getCost()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200, 50 + m1 + m + _delta_y), std::to_string(k.second));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(350, 50 + m1 + m + _delta_y), std::to_string(k.first->getShelfLife()));
+                    warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(500, 50 + m1 + m + _delta_y), std::to_string(k.first->getCost()));
                     m += 50;
                 }
                 m += 50;
@@ -484,14 +484,14 @@ void Interface::input()
                         for (int i = 0; i < shelfs.size(); ++i) {
                             auto j = shelfs[i];
                             if (50 + m + _delta_y >= 0) warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(10, m1 + m + _delta_y), "Shell " + std::to_string(i + 1));
-                            std::vector<Item*> items = j->getItem();
+                            std::vector<std::pair<Item*, int>> items = j->getItem();
                             for (auto k : items) {
-                                std::wstring a = k->getName();
+                                std::wstring a = k.first->getName();
                                 if (100 + m + _delta_y < 0) { m += 50; continue; }
                                 warehouseSetObject(sf::Vector2f(220, 50), sf::Vector2f(0, 50 + m1 + m + _delta_y), std::string(a.begin(), a.end()));
-                                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200, 50 + m1 + m + _delta_y), std::to_string(j->getColItem(k)));
-                                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(350, 50 + m1 + m + _delta_y), std::to_string(k->getShelfLife()));
-                                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(500, 50 + m1 + m + _delta_y), std::to_string(k->getCost()));
+                                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200, 50 + m1 + m + _delta_y), std::to_string(k.second));
+                                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(350, 50 + m1 + m + _delta_y), std::to_string(k.first->getShelfLife()));
+                                warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(500, 50 + m1 + m + _delta_y), std::to_string(k.first->getCost()));
                                 m += 50;
                             }
                             m += 50;
@@ -534,7 +534,7 @@ void Interface::input()
                             m += 50;
                         }
 
-                        std::vector<Item*> expired_products = _whouse->getDelayItem(7);
+                        std::vector<std::pair<Item*, int>> expired_products = _whouse->getDelayItem(7);
                         for (auto i : expired_products)
                         {
                             //i->getName(); i->getShelfLife()
