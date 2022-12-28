@@ -38,8 +38,8 @@ Interface::Interface()
 
 
 
-    setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 0), "");
-    _current_date = 1;
+    setObject(sf::Vector2f(400, 75), sf::Vector2f(1100, 0), "");
+    _current_date = 0;
     _text_current_date = _texts[_texts.size() - 1];
 
     // заголовки на стартовой странице 
@@ -499,11 +499,12 @@ void Interface::input()
                         _event = "warehouse";
                     }
                     else if (i->getId() == "next day") {
+                    
                       //  _manager.processOrder(_whouse);
                         _whouse->updateItems();
                         createNextdayButtons();
                         _event = "next day";
-
+                        _current_date++;
                         _delta_y = 0;
                         map_lack_products = _manager.funcShortage(_whouse);
                         it = map_lack_products.begin();
