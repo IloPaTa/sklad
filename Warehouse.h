@@ -45,13 +45,6 @@ public:
     void removeItem(Item* item, int val) {
         bool cover = false;
         for (auto i : _shelfs) {
-            if (i->getColItem(item) > 0) {
-                cover = true;
-            }
-        }
-        if (!cover)
-            return;
-        for (auto i : _shelfs) {
             if (val > 0) {
                 val -= i->removeItem(item, val);
             }
@@ -74,7 +67,7 @@ public:
        for (auto i : _shelfs) {
            for (auto j : i->getItem()) {
                if (j.first->getShelfLife() > 0)
-                   ++cnt;
+                   cnt += j.second;
            }
        }
        return cnt;
