@@ -448,23 +448,7 @@ void Interface::input()
                         
 
                         
-                        {
-                            setObject(sf::Vector2f(1, 900), sf::Vector2f(800, 0));
-                            setObject(sf::Vector2f(800, 1), sf::Vector2f(800, 600));
-                            setObject(sf::Vector2f(1, 600), sf::Vector2f(1200, 0));
-                            setObject(sf::Vector2f(400, 1), sf::Vector2f(1200, 150));
-
-                            setObject(sf::Vector2f(400, 150), sf::Vector2f(800, 0), "SHOPS");
-
-                            /*setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 75), "00:00:00");
-                            text_current_time = _texts[_texts.size() - 1];*/
-
-                            setObject(sf::Vector2f(250, 250), sf::Vector2f(1275, 200));
-
-                            setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 450), "Manager");
-                            setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 500), "Natalia Petrovna");
-
-                        }
+                        
                         _event = "main";
                         _shelfs_limit = 0;
                         _cnt_Shelfs = 0;
@@ -490,6 +474,24 @@ void Interface::input()
                         {
                             _cnt_of_shops *= 10;
                             _cnt_of_shops += i - '0';
+                        }
+                        {
+                            setObject(sf::Vector2f(1, 900), sf::Vector2f(800, 0));
+                            setObject(sf::Vector2f(800, 1), sf::Vector2f(800, 600));
+                            setObject(sf::Vector2f(1, 600), sf::Vector2f(1200, 0));
+                            setObject(sf::Vector2f(400, 1), sf::Vector2f(1200, 150));
+
+                            setObject(sf::Vector2f(400, 100), sf::Vector2f(800, 0), "SHOPS");
+                            setObject(sf::Vector2f(400, 100), sf::Vector2f(730, 100), "Money: " + std::to_string(_start_capital));
+                            _money = _texts[_texts.size() - 1];
+                            /*setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 75), "00:00:00");
+                            text_current_time = _texts[_texts.size() - 1];*/
+
+                            setObject(sf::Vector2f(250, 250), sf::Vector2f(1275, 200));
+
+                            setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 450), "Manager");
+                            setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 500), "Natalia Petrovna");
+
                         }
                         createMainButtons();
                         _manager = Manager();
@@ -571,7 +573,9 @@ void Interface::input()
                             ord.push_back(newOrder);
                         }
                         _manager.addNewOrder(ord);
-                        
+                        _money->setString("Money: " + std::to_string(_manager.getMoney()));
+                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y});
+
                     }
                     else if (i->getId() == "done") {
                         _event = "main";

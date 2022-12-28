@@ -49,7 +49,7 @@ private:
     InputField* _current_pressed_input_field;
     InputButton* _current_pressed_input_button;
 
-
+    sf::Text* _money;
     int _shelfs_limit;
     int _cnt_Shelfs; //ok
     int _start_capital;
