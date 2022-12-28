@@ -728,7 +728,7 @@ void Interface::incorrectTextInput()
         sf::Event err_event;
         while (err_window.pollEvent(err_event))
         {
-            if (err_event.type == sf::Event::TextEntered || (err_event.type == sf::Event::MouseButtonReleased && err_event.mouseButton.button == sf::Mouse::Left)) err_window.close();
+            if (err_event.type == sf::Event::TextEntered || sf::Mouse::isButtonPressed(sf::Mouse::Left)) err_window.close();
         }
     }
 }
