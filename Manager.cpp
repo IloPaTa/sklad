@@ -19,8 +19,9 @@ std::map<std::wstring, std::pair<int, int>> Manager::funcShortage(Warehouse* _wh
     std::map<std::wstring, std::pair<int, int>> result;
     for (auto i : order) {
         for (auto j : i->getOrderList()) {
+            if (result.find(j.first->getName()) == result.end())
             result[j.first->getName()].first += statusOfItem(_whouse, j.first);
-            result[j.first->getName()].second += j.second;
+             result[j.first->getName()].second += j.second;
         }
     }
     std::vector<std::wstring> vs;

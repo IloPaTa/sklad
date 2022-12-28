@@ -42,7 +42,7 @@ public:
         }
     }
 
-    void removeItem(Item* item, int val) {
+    void removeItem(Item* item, int& val) {
         bool cover = false;
         for (auto i : _shelfs) {
             if (val > 0) {

@@ -28,9 +28,10 @@ public:
 
     int removeItem(Item* item, int val) {
         for (auto& i : _ws_packagings) {
-            if (i.first->getItem() == item) {
-                i.second -= std::min(i.second, val);
-                return std::min(i.second, val);
+            if (i.first->getItem()->getName() == item->getName()) {
+                int l = std::min(i.second, val);
+                i.second -= l;
+                return l;
             }
         }
     }
