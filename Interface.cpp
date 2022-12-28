@@ -369,6 +369,30 @@ void Interface::input()
                         _buttons[1]->setPosition(sf::Vector2f(_buttons[1]->getPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getPosition().y + 50));
                         i->setRectColor("none");
                     }
+                    else if (i->getId() == "load")
+                    {
+                        _event = "start";
+                        _current_pressed_button = 0;
+                        i->setRectColor("none");
+                        std::ifstream input;
+                        input.open("list_of_products.txt");
+                        std::string name;
+                        int data, cost, count;
+                        if (_start_input_fields.size() == 1) _start_input_fields.pop_back();
+                        while (input >> name >> data >> cost >> count) {
+                            _start_input_fields.push_back(new InputField(
+                                sf::Vector2f(800, 50),
+                                sf::Vector2f(0, (_start_input_fields.size() == 0)?80:_start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50),
+                                name, std::to_string(data) + " d", std::to_string(cost) + " rub", std::to_string(count), _font, _font_size));
+
+                            _start_input_fields[_start_input_fields.size() - 1]->setPosition({ 0, (_start_input_fields.size() == 1)?80:_start_input_fields[_start_input_fields.size() - 2]->getPosition().y + 50 });
+                            _buttons[1]->setStartPosition(sf::Vector2f(_buttons[1]->getStartPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50));
+                            _buttons[1]->setPosition(sf::Vector2f(_buttons[1]->getPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getPosition().y + 50));
+                        }
+                        
+
+                        input.close();
+                    }
                     else if (i->getId() == "start sim") {
                         for (auto i : _start_input_fields)
                         {
@@ -701,7 +725,7 @@ void Interface::incorrectTextInput()
         sf::Event err_event;
         while (err_window.pollEvent(err_event))
         {
-            if (err_event.type == sf::Event::TextEntered) err_window.close();
+            if (err_event.type == sf::Event::TextEntered || (err_event.type == sf::Event::MouseButtonReleased && err_event.mouseButton.button == sf::Mouse::Left)) err_window.close();
         }
     }
 }
