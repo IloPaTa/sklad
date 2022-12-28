@@ -527,7 +527,7 @@ void Interface::input()
                     }
                     else if (i->getId() == "next day") {
                     
-                        //_manager.processOrder(_whouse);
+                        _manager.processOrder(_whouse);
                         _whouse->updateItems();
                         createNextdayButtons();
                         _event = "next day";
