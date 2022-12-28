@@ -36,8 +36,8 @@ Interface::Interface()
 
     _event = "start";
 
-    
-    
+
+
     setObject(sf::Vector2f(400, 75), sf::Vector2f(1200, 0), "");
     _current_date = 1;
     _text_current_date = _texts[_texts.size() - 1];
@@ -50,7 +50,7 @@ Interface::Interface()
         startSetObject(sf::Vector2f(200, 50), sf::Vector2f(550, 60), "Cost");
         startSetObject(sf::Vector2f(200, 50), sf::Vector2f(850, 60), "Quantity\nin whpackaging");*/
         //startSetObject(sf::Vector2f(800, 50), sf::Vector2f(800, 0), "Enter store names");
-    } 
+    }
     // товары на стартовой странице
     _start_input_fields.push_back(new InputField(
         sf::Vector2f(800, 50),
@@ -71,7 +71,7 @@ Interface::Interface()
         sf::Vector2f(400, 50),
         sf::Vector2f(1000, 700),
         "products from file", _font, _font_size));
-    
+
     _start_buttons.push_back(new InputButton(
         sf::Vector2f(130, 70),
         sf::Vector2f(1200, 100),
@@ -93,6 +93,10 @@ Interface::Interface()
         "value", _font, _font_size, "Enter count of shops"));
     //nextdaySetObject(sf::Vector2f(1, 900), sf::Vector2f(800, 0));
     setObject({ 1, 900 }, { 990, 0 });
+
+    rect_nd.setSize({ 1, 900 });
+    rect_nd.setPosition({ 800, 0 });
+    rect_nd.setFillColor(sf::Color::Black);
 }
 
 Interface::~Interface() {
@@ -296,9 +300,8 @@ void Interface::input()
                     j += 1; 
                     continue;
                 }
-               // position.y + size.y / 2 - _nextday_texts[_nextday_texts.size() - 1]->getGlobalBounds().height / 2
                 i->setPosition(sf::Vector2f(i->getPosition().x, m + _delta_y));
-                if (j%3 == 2) m += 50;
+                if (j % 3 == 2) m += 50;
                 j += 1;
             }
             j = 0;
@@ -324,23 +327,20 @@ void Interface::input()
         if (_event.substr(0, 6) == "button") {
             _orders_text.resize(0);
             std::vector<StoreOrder*> store_orders = _manager.getStoreOrders();
-            int m = 0;
-            for (auto i : store_orders) {
-                
-                if (std::to_string(i->getId()) != _event.substr(6, 7)) continue;
+            std::vector<int> pos(10, 100);
+            for (auto i : store_orders) {                
                 std::vector<std::pair<Item*, int>> order_list = i->getOrderList();
-                
+                orderSetObject(sf::Vector2f(0 + 10, 10), "Desired products:");
+                if (std::to_string(i->getId()) != _event.substr(6, 7)) continue;
                 for (auto j : order_list) {
                     auto item = j.first;
                     int value = j.second;
                     std::wstring a = item->getName();
-                    orderSetObject(sf::Vector2f(200, 50), sf::Vector2f(100, m+100), std::string(a.begin(), a.end()));
-                    orderSetObject(sf::Vector2f(200, 50), sf::Vector2f(200, m+100), std::to_string(item->getDateOfCreating().d) + ":" + std::to_string(item->getDateOfCreating().m) + ":" + std::to_string(item->getDateOfCreating().y));
-                    orderSetObject(sf::Vector2f(200, 50), sf::Vector2f(300, m+100), std::to_string(item->getShelfLife()));
-                    orderSetObject(sf::Vector2f(200, 50), sf::Vector2f(400, m+100), std::to_string(item->getCost()));
-                    m += 100;
+                    orderSetObject(sf::Vector2f(0 + 10, pos[i->getId()] + 10), std::string(a.begin(), a.end()) +
+                        "    Requested quantity:" +
+                        std::to_string(value));
+                    pos[i->getId()] += 100;
                 }
-                m += 100;
             }
         }
 
@@ -505,8 +505,8 @@ void Interface::input()
                         _event = "next day";
 
                         _delta_y = 0;
-                        map = _manager.funcShortage(_whouse);
-                        it = map.begin();
+                        map_lack_products = _manager.funcShortage(_whouse);
+                        it = map_lack_products.begin();
                         //std::cout << map.size() << '\n';
                         int m = 0;
                         _nextday_texts.resize(0);
@@ -517,7 +517,7 @@ void Interface::input()
 
                         m += 100;
                         _buttons.resize(1);
-                        for (int i = 1; it != map.end(); it++, i++) {
+                        for (int i = 1; it != map_lack_products.end(); it++, i++) {
                             //std::cout << _delta_y << '\n';
                             if (m + _delta_y < 0) continue;
                             nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(0, m + _delta_y), std::string(it->first.begin(), it->first.end()));
@@ -534,8 +534,11 @@ void Interface::input()
                             m += 50;
                         }
 
-
-
+                        std::vector<Item*> expired_products = _whouse->getDelayItem(7);
+                        for (auto i : expired_products)
+                        {
+                            //i->getName(); i->getShelfLife()
+                        }
 
                         _manager.getProductsFromWhOrder(_whouse);
                         int n = 4;
@@ -631,6 +634,7 @@ void Interface::draw()
         {
             _window.draw(*i);
         }
+        _window.draw(rect_nd);
     }
     if (_event.substr(0, 6) == "button") {
         for (auto i : _orders_text) {
@@ -746,11 +750,10 @@ void Interface::createNextdayButtons()
         "Done", _font, _font_size));
 }
 
-void Interface::orderSetObject(sf::Vector2f size, sf::Vector2f position, std::string string)
+void Interface::orderSetObject(sf::Vector2f position, std::string string)
 {
     _orders_text.push_back(new sf::Text(string, _font, _font_size));
-    _orders_text[_orders_text.size() - 1]->setPosition({ position.x + size.x / 2 - _orders_text[_orders_text.size() - 1]->getGlobalBounds().width / 2,
-        position.y });
+    _orders_text[_orders_text.size() - 1]->setPosition({ position.x, position.y });
     _orders_text[_orders_text.size() - 1]->setFillColor(sf::Color::Black);
 }
 

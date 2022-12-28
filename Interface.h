@@ -55,9 +55,9 @@ private:
     int _start_capital;
     int _cnt_of_shops;  //ok
 
-    
+    sf::RectangleShape rect_nd;
 
-    std::map<std::wstring, std::pair<int, int>> map;
+    std::map<std::wstring, std::pair<int, int>> map_lack_products;
     std::map<std::wstring, std::pair<int, int>>::iterator it;
 
     void input();
@@ -70,7 +70,7 @@ private:
     void warehouseSetObject(sf::Vector2f size, sf::Vector2f position, std::string string);
     void nextdaySetObject(sf::Vector2f size, sf::Vector2f position);
     void nextdaySetObject(sf::Vector2f size, sf::Vector2f position, std::string string);
-    void orderSetObject(sf::Vector2f size, sf::Vector2f position, std::string string);
+    void orderSetObject(sf::Vector2f position, std::string string);
     void incorrectTextInput();
     void createMainButtons();
     void createNextdayButtons();
