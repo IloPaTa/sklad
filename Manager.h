@@ -19,6 +19,9 @@ public:
 
     int getMoney();
 
+    void setMoney(int _money) {
+        money = _money;
+    }
     void processOrder(Warehouse* _whouse);
     
     void getProductsFromWhOrder(Warehouse* _whouse);

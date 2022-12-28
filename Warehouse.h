@@ -6,14 +6,23 @@
 class Warehouse {
 public:
     Warehouse(int shelf_size = 10) {
+        _size = 0;
         for (int i = 0; i < shelf_size; ++i) {
-            _shelfs.push_back(new Shelf(15));
+            _shelfs.push_back(new Shelf(_size));
         }
     }
 
     void setShelfSize(int val) {
+        _size = 0;
+        _shelfs.clear();
         for (int i = 0; i < val; ++i) {
-            _shelfs.push_back(new Shelf(15));
+            _shelfs.push_back(new Shelf(_size));
+        }
+    }
+    void setSize(int val) {
+        _size = val;
+        for (int i = 0; i < _shelfs.size(); ++i) {
+            _shelfs[i]->setShelfSize(_size);
         }
     }
     void addItem(Item* item, int val) {
@@ -86,5 +95,6 @@ private:
 
     std::vector<std::wstring> _list_of_items;
     std::vector<Shelf*> _shelfs;
+    size_t _size;
 };
 

@@ -443,23 +443,27 @@ void Interface::input()
                         }
                         _event = "main";
                         _shelfs_limit = 0;
-                        for (auto i : _start_buttons[0]->getString())
-                        {
-                            _shelfs_limit *= 10;
-                            _shelfs_limit += i - '0';
-                        }
                         _cnt_Shelfs = 0;
                         for (auto i : _start_buttons[1]->getString())
                         {
                             _cnt_Shelfs *= 10;
                             _cnt_Shelfs += i - '0';
                         }
+                        _whouse->setSize(_cnt_Shelfs);
+                       
+                        for (auto i : _start_buttons[0]->getString())
+                        {
+                            _shelfs_limit *= 10;
+                            _shelfs_limit += i - '0';
+                        }
+                        _whouse->setShelfSize(_shelfs_limit);
                         _start_capital = 0;
                         for (auto i : _start_buttons[2]->getString())
                         {
                             _start_capital *= 10;
                             _start_capital += i - '0';
                         }
+                        _manager.setMoney(_start_capital);
                         _cnt_of_shops = 0;
                         for (auto i : _start_buttons[3]->getString())
                         {
@@ -500,7 +504,7 @@ void Interface::input()
                     }
                     else if (i->getId() == "next day") {
                     
-                      //  _manager.processOrder(_whouse);
+                        _manager.processOrder(_whouse);
                         _whouse->updateItems();
                         createNextdayButtons();
                         _event = "next day";
@@ -542,14 +546,14 @@ void Interface::input()
                             std::wstring s = i.first->getName();
                             nextdaySetObject(sf::Vector2f(600, 50), sf::Vector2f(0, m + _delta_y), std::string(s.begin(), s.end()));
                             nextdaySetObject(sf::Vector2f(550, 50), sf::Vector2f(150, m + _delta_y), std::to_string(i.second));
-                            _buttons.push_back(new IButton(_window, "auto" + std::string(s.begin(), s.end()),
+                            _buttons.push_back(new IButton(_window, "lolo" + std::string(s.begin(), s.end()),
                                 sf::Vector2f(150, 40),
                                 sf::Vector2f(830, m + _delta_y),
-                                "auto", _font, _font_size));
-                            _buttons.push_back(new IButton(_window, "manu" + std::string(s.begin(), s.end()),
+                                "2323", _font, _font_size));
+                            _buttons.push_back(new IButton(_window, "apap   " + std::string(s.begin(), s.end()),
                                 sf::Vector2f(150, 40),
                                 sf::Vector2f(1030, m + _delta_y),
-                                "manual", _font, _font_size));
+                                "2323", _font, _font_size));
                             m += 50;
                         }
 
