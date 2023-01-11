@@ -330,12 +330,12 @@ void Interface::input()
                     continue;
                 }
                 if (j % 2 == 0) {
-                    i->setPosition(sf::Vector2f(1030, m + _delta_y));
+                    i->setPosition(sf::Vector2f(1430, m + _delta_y));
                     m += 50;
                 }
                 else
                 {
-                    i->setPosition(sf::Vector2f(830, m + _delta_y));
+                    i->setPosition(sf::Vector2f(1230, m + _delta_y));
 
                 }
                 j += 1;
@@ -589,30 +589,25 @@ void Interface::input()
                             int d = map_delay_products[i].second;
                             std::wstring ws = it->getName();
                             if (m_ + _delta_y < 0) continue;
-                            nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(400, m_ + _delta_y), std::string(ws.begin(), ws.end()));
-                            nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(550, m_ + _delta_y), std::to_string(it->getShelfLife()));
-                            nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(650, m_ + _delta_y), std::to_string(d));
+                            nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(800, m_ + _delta_y), std::string(ws.begin(), ws.end()));
+                            nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(950, m_ + _delta_y), std::to_string(it->getShelfLife()));
+                            nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(1050, m_ + _delta_y), std::to_string(d));
                             _2buttons.push_back(new IButton(_window, "ostav" + std::to_string(i + 1),
                                 sf::Vector2f(150, 40),
-                                sf::Vector2f(830, m_ + _delta_y),
+                                sf::Vector2f(1230, m_ + _delta_y),
                                 "ostav", _font, _font_size));
                             _2buttons.push_back(new IButton(_window, "del" + std::to_string(i + 1),
                                 sf::Vector2f(150, 40),
-                                sf::Vector2f(1030, m_ + _delta_y),
+                                sf::Vector2f(1430, m_ + _delta_y),
                                 "del", _font, _font_size));
                             m += 50;
                         }
-                        _money->setString("Money: " + std::to_string(_manager.getMoney()));
-                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y});
-
-                    }
-                    else if (i->getId() == "done") {
-                        _event = "main";
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
+                        _whouse->getDeleteItem();
                         _whouse->updateItems();
                         _whouse->updateShelfs();
-                        int n =4;
+                        int n = 4;
                         std::vector<StoreOrder*> ord;
                         for (int i = 0; i < n; ++i) {
                             StoreOrder* newOrder = new StoreOrder(i);
@@ -620,6 +615,13 @@ void Interface::input()
                             ord.push_back(newOrder);
                         }
                         _manager.addNewOrder(ord);
+                        _money->setString("Money: " + std::to_string(_manager.getMoney()));
+                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y});
+
+                    }
+                    else if (i->getId() == "done") {
+                        _event = "main";
+                        
                         createMainButtons();
                     }
                     else if (i->getId().substr(0, 6) == "button") {
