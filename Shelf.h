@@ -71,9 +71,8 @@ public:
         }
         return items;
     }
-    std::vector<std::pair<wholesalePackaging*, int>> getWSPackaging() {
-        return _ws_packagings;
-    }
+
+
 private:
     std::vector<std::pair<wholesalePackaging*, int>> _ws_packagings;
     size_t _shelf_size;

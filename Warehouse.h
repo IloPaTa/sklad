@@ -42,6 +42,42 @@ public:
         }
     }
 
+    void updateShelfs() {
+        for (auto& i : _shelfs) {
+            std::vector<std::pair<Item*, int>> items = i->getItem();
+            for (auto& j : items) {
+                if (j.first->getShelfLife() == 0)
+                {
+                    j.second = 0;
+                }
+            }
+        }
+        std::vector<Shelf*> tmp;
+        for (auto& i : _shelfs) {
+            std::vector<std::pair<Item*, int>> items = i->getItem();
+            bool flag = true;
+            for (auto& j : items) {
+                if (j.second > 0)
+                {
+                    flag = false;
+                }
+            }
+            if (!flag) {
+                tmp.push_back(new Shelf(_size));
+                for (auto& j : items) {
+                    if (j.second > 0)
+                    {
+                        tmp[tmp.size() - 1]->addNewItem(j.first, j.second);
+                    }
+                }
+            }
+        }
+        while (tmp.size() != _shelfs.size()) {
+            tmp.push_back(new Shelf(_size));
+        }
+        _shelfs = tmp;
+    }
+
     void removeItem(Item* item, int& val) {
         bool cover = false;
         for (auto i : _shelfs) {
@@ -61,6 +97,17 @@ public:
         }
         return items;
     }
+
+    void getDeleteItem(int val = 5) {
+        std::vector<std::pair<Item*, int>> items;
+        for (auto i : _shelfs) {
+            for (auto j : i->getItem()) {
+                if (j.first->getShelfLife() < val)
+                    removeItem(j.first, j.second);
+            }
+        }
+    }
+
 
     int getColItem(std::wstring name){
        int cnt = 0;

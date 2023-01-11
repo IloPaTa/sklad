@@ -36,6 +36,8 @@ public:
 
     Item* findItemfromFile(std::wstring a);
 
+    std::map<std::wstring, int> listOfProducts(Warehouse* _whouse);
+
     void addNewOrder(std::vector<StoreOrder*> ord);
 private:
     int _mood;

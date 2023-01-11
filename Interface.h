@@ -31,7 +31,8 @@ private:
     std::vector<sf::RectangleShape*> _lines;
     std::vector<sf::Text*> _texts;
     std::vector<IButton*> _buttons;
-    
+    std::vector<IButton*> _2buttons;
+
     std::vector<sf::Text*> _warehouse_texts;
     
     std::vector<sf::RectangleShape*> _nextday_lines;

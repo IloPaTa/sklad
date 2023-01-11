@@ -323,6 +323,24 @@ void Interface::input()
                 j += 1;
                 
             }
+            m = 100;
+            for (auto i : _2buttons) {
+                if (j == 0) {
+                    j += 1;
+                    continue;
+                }
+                if (j % 2 == 0) {
+                    i->setPosition(sf::Vector2f(1030, m + _delta_y));
+                    m += 50;
+                }
+                else
+                {
+                    i->setPosition(sf::Vector2f(830, m + _delta_y));
+
+                }
+                j += 1;
+
+            }
         }
         if (_event.substr(0, 6) == "button") {
             _orders_text.resize(0);
@@ -529,13 +547,13 @@ void Interface::input()
                     }
                     else if (i->getId() == "next day") {
                     
-                        _manager.processOrder(_whouse);
-                        _whouse->updateItems();
+                       
                         createNextdayButtons();
                         _event = "next day";
                         _current_date++;
                         _delta_y = 0;
                         map_lack_products = _manager.funcShortage(_whouse);
+                        _manager.formOrder(_whouse);
                         it = map_lack_products.begin();
                         //std::cout << map.size() << '\n';
                         int m = 0;
@@ -563,9 +581,38 @@ void Interface::input()
                                 "manual", _font, _font_size));
                             m += 50;
                         }
+                        std::vector<std::pair<Item*, int>> map_delay_products = _whouse->getDelayItem();
+                        int m_ = 100;
+                        for (int i = 0; i < map_delay_products.size(); i++) {
+                            //std::cout << _delta_y << '\n';
+                            Item* it = map_delay_products[i].first;
+                            int d = map_delay_products[i].second;
+                            std::wstring ws = it->getName();
+                            if (m_ + _delta_y < 0) continue;
+                            nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(400, m_ + _delta_y), std::string(ws.begin(), ws.end()));
+                            nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(550, m_ + _delta_y), std::to_string(it->getShelfLife()));
+                            nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(650, m_ + _delta_y), std::to_string(d));
+                            _2buttons.push_back(new IButton(_window, "ostav" + std::to_string(i + 1),
+                                sf::Vector2f(150, 40),
+                                sf::Vector2f(830, m_ + _delta_y),
+                                "ostav", _font, _font_size));
+                            _2buttons.push_back(new IButton(_window, "del" + std::to_string(i + 1),
+                                sf::Vector2f(150, 40),
+                                sf::Vector2f(1030, m_ + _delta_y),
+                                "del", _font, _font_size));
+                            m += 50;
+                        }
+                        _money->setString("Money: " + std::to_string(_manager.getMoney()));
+                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y});
 
+                    }
+                    else if (i->getId() == "done") {
+                        _event = "main";
+                        _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
-                        int n = 4;
+                        _whouse->updateItems();
+                        _whouse->updateShelfs();
+                        int n =4;
                         std::vector<StoreOrder*> ord;
                         for (int i = 0; i < n; ++i) {
                             StoreOrder* newOrder = new StoreOrder(i);
@@ -573,12 +620,6 @@ void Interface::input()
                             ord.push_back(newOrder);
                         }
                         _manager.addNewOrder(ord);
-                        _money->setString("Money: " + std::to_string(_manager.getMoney()));
-                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y});
-
-                    }
-                    else if (i->getId() == "done") {
-                        _event = "main";
                         createMainButtons();
                     }
                     else if (i->getId().substr(0, 6) == "button") {

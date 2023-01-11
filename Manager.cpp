@@ -4,7 +4,7 @@ std::mt19937 gen(23);
 std::uniform_int_distribution<> dis;
 
 Manager::Manager() {
-    _mood = 2;
+    _mood = 4;
     _wh_order = new WarehouseOrder();
 }
 int Manager::getMood() {
@@ -34,6 +34,17 @@ std::map<std::wstring, std::pair<int, int>> Manager::funcShortage(Warehouse* _wh
         result.erase(*i);
     return result;
 }
+
+std::map<std::wstring,  int> Manager::listOfProducts(Warehouse* _whouse) {
+    std::map<std::wstring,  int> result;
+    for (auto i : _whouse->getShelfs()) {
+        for (auto j : i->getWsPacks()) {
+            result[j.first->getItem()->getName()] += j.second;
+        }
+    }
+    return result;
+}
+
 int Manager::getMoney() {
     return money;
 }
@@ -46,15 +57,19 @@ void Manager::processOrder(Warehouse* _whouse) {
         std::vector< std::pair<Item*, int> > realOrder;
         for (auto j : i->getOrderList()) {
             if (mp[j.first->getName()].first >= mp[j.first->getName()].second) {
-                realOrder.push_back(j);
-                money += j.first->getCost();
+                money += j.first->getCost() * j.second;
             }
             else {
-                int k = dis(gen);
-                realOrder.push_back({ j.first, k });
+                int k;
+                if (std::min(j.second, mp[j.first->getName()].first) == 0) {
+                    k = 0;
+                }
+                else {
+                    k = dis(gen) % std::min(j.second, mp[j.first->getName()].first);
+                }
+                mp[j.first->getName()].first -= k;
                 money += j.first->getCost() * k;
             }
-
         }
         removeProducts(_whouse, i->getOrderList());
         i->clearOrder();
@@ -63,6 +78,17 @@ void Manager::processOrder(Warehouse* _whouse) {
 
 void Manager::getProductsFromWhOrder(Warehouse* _whouse) {
     for (auto i : _wh_order->getOrderList()) {
+        std::ifstream fin;
+        fin.open("list_of_products.txt");
+        std::string name;
+        int data, cost, count;
+        std::vector<std::pair<Item*, int>> items;
+        while (fin >> name >> data >> cost >> count) {
+            if (std::wstring(name.begin(), name.end()) == i.first->getName())
+                break;
+        }
+        fin.close();
+        i.first->setShelfLife(data);
         _whouse->addItem(i.first, i.second);
     }
     _wh_order->clearOrder();
@@ -84,14 +110,20 @@ int Manager::statusOfItem(Warehouse* _whouse, Item* item) {
 };
 
 void Manager::formOrder(Warehouse* _whouse) {
-    for (auto i : order) {
-        for (auto j : i->getOrderList()) {
-            if (statusOfItem(_whouse, j.first) < _mood * 5)
-            {
-                _wh_order->addItem(j.first, _mood * 5 * 1.5 - statusOfItem(_whouse, j.first));
-                money -= abs(_mood * 5  - statusOfItem(_whouse, j.first)) * j.first->getCost();
-            }
+    std::map<std::wstring, std::pair<int, int>> list = funcShortage(_whouse);
+    for (auto i : list) {
+        std::ifstream fin;
+        fin.open("list_of_products.txt");
+        std::string name;
+        int data, cost, count;
+        std::vector<std::pair<Item*, int>> items;
+        while (fin >> name >> data >> cost >> count) {
+            if (std::wstring(name.begin(), name.end()) == i.first)
+                break;
         }
+        fin.close();
+         _wh_order->addItem(new Item(data, cost, i.first), i.second.second - i.second.first + _mood * 4);
+         money -= cost * i.second.second + _mood * 4 - i.second.first;
     }
 }
 
