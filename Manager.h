@@ -43,6 +43,8 @@ private:
     int _mood;
     int money;
     int _shift_time;
+    int start_money;
+    std::vector<StoreOrder*> all_orders;
     std::vector<int> _not_fav_id;
     std::vector<StoreOrder*> order;
     WarehouseOrder* _wh_order;
