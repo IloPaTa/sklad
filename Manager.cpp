@@ -93,12 +93,19 @@ void Manager::getProductsFromWhOrder(Warehouse* _whouse) {
     }
     _wh_order->clearOrder();
 }
+
 void Manager::addProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products) {
     for (auto i : products) {
         _whouse->addItem(i.first, i.second);
     }
 }
 
+void Manager::buyProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products) {
+    for (auto i : products) {
+        _whouse->addItem(i.first, i.second);
+
+    }
+}
 void Manager::removeProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products) {
     for (auto i : products) {
         _whouse->removeItem(i.first, i.second);

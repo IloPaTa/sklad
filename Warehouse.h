@@ -102,7 +102,7 @@ public:
         std::vector<std::pair<Item*, int>> items;
         for (auto i : _shelfs) {
             for (auto j : i->getItem()) {
-                if (j.first->getShelfLife() < val)
+                if (j.first->getShelfLife() <= 0)
                     removeItem(j.first, j.second);
             }
         }

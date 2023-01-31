@@ -330,12 +330,12 @@ void Interface::input()
                     continue;
                 }
                 if (j % 2 == 0) {
-                    i->setPosition(sf::Vector2f(1030, m + _delta_y));
+                    i->setPosition(sf::Vector2f(1430, m + _delta_y));
                     m += 50;
                 }
                 else
                 {
-                    i->setPosition(sf::Vector2f(830, m + _delta_y));
+                    i->setPosition(sf::Vector2f(1230, m + _delta_y));
 
                 }
                 j += 1;
@@ -646,6 +646,7 @@ void Interface::input()
                         _event = "main";
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
+                        _whouse->getDeleteItem();
                         _whouse->updateItems();
                         _whouse->updateShelfs();
                         int n = 4;
@@ -656,6 +657,13 @@ void Interface::input()
                             ord.push_back(newOrder);
                         }
                         _manager.addNewOrder(ord);
+                        _money->setString("Money: " + std::to_string(_manager.getMoney()));
+                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y});
+
+                    }
+                    else if (i->getId() == "done") {
+                        _event = "main";
+                        
                         createMainButtons();
                     }
                     else if (i->getId().substr(0, 6) == "button") {
