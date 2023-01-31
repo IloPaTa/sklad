@@ -27,12 +27,12 @@ private:
     std::vector<sf::Text*> _start_texts;
     std::vector<InputField*> _start_input_fields;
     std::vector<InputButton*> _start_buttons;
-
+    std::vector<InputButton*> _input_buttons;
     std::vector<sf::RectangleShape*> _lines;
     std::vector<sf::Text*> _texts;
     std::vector<IButton*> _buttons;
     std::vector<IButton*> _2buttons;
-    std::vector<std::pair<std::string, std::pair<int, int>>> _need_prod;
+    std::vector<std::pair<std::string, int>> _need_prod;
     std::vector<sf::Text*> _warehouse_texts;
     
     std::vector<sf::RectangleShape*> _nextday_lines;

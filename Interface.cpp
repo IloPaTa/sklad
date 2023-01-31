@@ -341,6 +341,8 @@ void Interface::input()
                 j += 1;
 
             }
+
+            
         }
         if (_event.substr(0, 6) == "button") {
             _orders_text.resize(0);
@@ -359,6 +361,48 @@ void Interface::input()
                         std::to_string(value));
                     pos[i->getId()] += 100;
                 }
+            }
+        }
+        if (_event == "manu") {
+
+            for (auto i : _input_buttons)
+            {
+                if (i->isInPointArea(_cursor_position) == "1")
+                {
+                    if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+                        _event = "manu enter";
+                        i->getRefString() = "";
+                        i->updateText();
+                        _current_pressed_input_button = i;
+                    }
+                }
+                
+            }
+        }
+        if (_event == "manu enter") {
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode == '\b') {
+                    if (_current_pressed_input_button->getRefString().size()) _current_pressed_input_button->getRefString().pop_back();
+                }
+                else if (event.text.unicode == '\r') {
+                    bool b = true;
+                    for (auto i : _current_pressed_input_button->getString()) {
+                        if (i < '0' || i > '9') {
+                            b = false;
+                            break;
+                        }
+                    }
+                    if (b && _current_pressed_input_button->getRefString().size())
+                        _event = "manu";
+                    else incorrectTextInput();
+                }
+                else {
+                    if (event.text.unicode >= '0' && event.text.unicode <= '9') {
+                        _current_pressed_input_button->getRefString() += event.text.unicode;
+                    }
+                }
+                _current_pressed_input_button->updateText();
             }
         }
 
@@ -569,7 +613,7 @@ void Interface::input()
                             nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(150, m + _delta_y), std::to_string(it->second.first));
                             nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(250, m + _delta_y), std::to_string(it->second.second));
 
-                            _need_prod.push_back({ std::string(it->first.begin(), it->first.end()), {it->second.first, it->second.second} });
+                            _need_prod.push_back({ std::string(it->first.begin(), it->first.end()), -1 });
                             /*_buttons.push_back(new IButton(_window, "auto " + std::string(it->first.begin(), it->first.end()),
                                 sf::Vector2f(150, 40),
                                 sf::Vector2f(430, m + _delta_y),
@@ -585,6 +629,19 @@ void Interface::input()
 
                     }
                     else if (i->getId() == "done") {
+                        for (int i = 0; i < _need_prod.size(); i++)
+                        {
+                            std::string str = _input_buttons[i]->getString();
+                            int num = 0; int q = 1;
+                            for (int i = str.size() - 1; i >= 0; i--) {
+                                num += (str[i] - '0') * q;
+                                q *= 10;
+                            }
+                            _need_prod[i].second = num;
+                        }
+
+                        //ÂÎÒ ÇÄÅÑÜ ÄËß MANUAL ÊÎÃÄÀ DONE íàæèìàåøü âûçûâàé,÷òî íóæíî, â need prod ëåæèò ÷òî íóæíî
+
                         _event = "main";
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
@@ -604,13 +661,32 @@ void Interface::input()
                         _event = i->getId();
                     }
                     else if (i->getId().substr(0, 4) == "auto") {
-                        _manager.formOrder(_whouse);
-                        _need_prod;
+                        _manager.formOrder(_whouse); //ÇÄÅÑÜ ÊÎÃÄÀ ÀÂÒÎ ÍÀÆÈÌÀÅØÜ ÂÛÏÎËÍßÉ ×ÒÎ ÍÓÆÍÎ
                         _event = "next day";
+                        _current_pressed_button = nullptr;
+
+                        _event = "main"; //DON`t TOUCH
+                        _manager.processOrder(_whouse);
+                        _manager.getProductsFromWhOrder(_whouse);
+                        _whouse->updateItems();
+                        _whouse->updateShelfs();
+                        int n = 4;
+                        std::vector<StoreOrder*> ord;
+                        for (int i = 0; i < n; ++i) {
+                            StoreOrder* newOrder = new StoreOrder(i);
+                            newOrder->setOrderList(formNewOrder());
+                            ord.push_back(newOrder);
+                        }
+                        _manager.addNewOrder(ord);
+                        createMainButtons();
                     }
                     else if (i->getId().substr(0, 4) == "manu") {
-                        ;
-                        _event = "next day";
+                        _input_buttons.resize(0);
+                        for (int i = 0; i < _need_prod.size(); ++i)
+                        {
+                            _input_buttons.push_back(new InputButton(sf::Vector2f(200, 50), sf::Vector2f(500, i * 50 + 100 + _delta_y), "0", _font, _font_size, ""));
+                        }
+                        _current_pressed_button = nullptr;
                     }
                 }
             }
@@ -678,7 +754,7 @@ void Interface::draw()
             _window.draw(*i);
         }
     }
-    if (_event == "next day")
+    if (_event == "next day" || _event == "manu" || _event == "manu enter")
     {
         for (auto i : _nextday_texts)
         {
@@ -689,6 +765,10 @@ void Interface::draw()
             _window.draw(*i);
         }
         _window.draw(rect_nd);
+        for (auto i : _input_buttons)
+        {
+            i->draw(_window);
+        }
     }
     if (_event.substr(0, 6) == "button") {
         for (auto i : _orders_text) {
