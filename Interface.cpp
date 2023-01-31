@@ -642,6 +642,7 @@ void Interface::input()
 
                         //¬ќ“ «ƒ≈—№ ƒЋя MANUAL  ќ√ƒј DONE нажимаешь вызывай,что нужно, в need prod лежит что нужно
 
+
                         _event = "main";
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
