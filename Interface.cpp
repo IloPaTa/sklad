@@ -602,6 +602,7 @@ void Interface::input()
                     }
                     else if (i->getId().substr(0, 4) == "auto") {
                         _manager.formOrder(_whouse);
+
                         _event = "next day";
                     }
                     else if (i->getId().substr(0, 4) == "manu") {
