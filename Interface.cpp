@@ -561,12 +561,15 @@ void Interface::input()
                         nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(250, 0), "req");
                         m += 100;
                         _buttons.resize(3);
+                        _need_prod.resize(0);
                         for (int i = 1; it != map_lack_products.end(); it++, i++) {
                             //std::cout << _delta_y << '\n';
                             if (m + _delta_y < 0) continue;
                             nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(0, m + _delta_y), std::string(it->first.begin(), it->first.end()));
                             nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(150, m + _delta_y), std::to_string(it->second.first));
                             nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(250, m + _delta_y), std::to_string(it->second.second));
+
+                            _need_prod.push_back({ std::string(it->first.begin(), it->first.end()), {it->second.first, it->second.second} });
                             /*_buttons.push_back(new IButton(_window, "auto " + std::string(it->first.begin(), it->first.end()),
                                 sf::Vector2f(150, 40),
                                 sf::Vector2f(430, m + _delta_y),
@@ -602,7 +605,7 @@ void Interface::input()
                     }
                     else if (i->getId().substr(0, 4) == "auto") {
                         _manager.formOrder(_whouse);
-
+                        _need_prod;
                         _event = "next day";
                     }
                     else if (i->getId().substr(0, 4) == "manu") {

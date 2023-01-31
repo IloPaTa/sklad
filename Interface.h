@@ -32,7 +32,7 @@ private:
     std::vector<sf::Text*> _texts;
     std::vector<IButton*> _buttons;
     std::vector<IButton*> _2buttons;
-
+    std::vector<std::pair<std::string, std::pair<int, int>>> _need_prod;
     std::vector<sf::Text*> _warehouse_texts;
     
     std::vector<sf::RectangleShape*> _nextday_lines;
