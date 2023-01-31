@@ -306,7 +306,7 @@ void Interface::input()
             }
             j = 0;
             m = 100;
-            for (auto i : _buttons) {
+            /*for (auto i : _buttons) {
                 if (j == 0) {
                     j += 1;
                     continue;
@@ -322,7 +322,7 @@ void Interface::input()
                 }
                 j += 1;
                 
-            }
+            }*/
             m = 100;
             for (auto i : _2buttons) {
                 if (j == 0) {
@@ -364,14 +364,14 @@ void Interface::input()
 
         for (auto i : _buttons)
         {
-            if (i->isInPointArea(_cursor_position)) 
+            if (i->isInPointArea(_cursor_position))
             {
                 i->setRectColor("highlight");
                 if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
                 {
                     _event = i->getId();
                     _current_pressed_button = i;
-                    
+
                     bool check = 1;
                     if (i->getId() == "add new input field") {
                         _event = "start";
@@ -382,7 +382,7 @@ void Interface::input()
                             sf::Vector2f(0, _start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50),
                             "Name", "storage date", "cost RUB", "cnt", _font, _font_size));
 
-                        _start_input_fields[_start_input_fields.size() - 1]->setPosition({0, _start_input_fields[_start_input_fields.size() - 2]->getPosition().y + 50});
+                        _start_input_fields[_start_input_fields.size() - 1]->setPosition({ 0, _start_input_fields[_start_input_fields.size() - 2]->getPosition().y + 50 });
                         _buttons[1]->setStartPosition(sf::Vector2f(_buttons[1]->getStartPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50));
                         _buttons[1]->setPosition(sf::Vector2f(_buttons[1]->getPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getPosition().y + 50));
                         i->setRectColor("none");
@@ -400,14 +400,14 @@ void Interface::input()
                         while (input >> name >> data >> cost >> count) {
                             _start_input_fields.push_back(new InputField(
                                 sf::Vector2f(800, 50),
-                                sf::Vector2f(0, (_start_input_fields.size() == 0)?80:_start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50),
+                                sf::Vector2f(0, (_start_input_fields.size() == 0) ? 80 : _start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50),
                                 name, std::to_string(data) + " d", std::to_string(cost) + " rub", std::to_string(count), _font, _font_size));
 
-                            _start_input_fields[_start_input_fields.size() - 1]->setPosition({ 0, (_start_input_fields.size() == 1)?80:_start_input_fields[_start_input_fields.size() - 2]->getPosition().y + 50 });
+                            _start_input_fields[_start_input_fields.size() - 1]->setPosition({ 0, (_start_input_fields.size() == 1) ? 80 : _start_input_fields[_start_input_fields.size() - 2]->getPosition().y + 50 });
                             _buttons[1]->setStartPosition(sf::Vector2f(_buttons[1]->getStartPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getStartPosition().y + 50));
                             _buttons[1]->setPosition(sf::Vector2f(_buttons[1]->getPosition().x, _start_input_fields[_start_input_fields.size() - 1]->getPosition().y + 50));
                         }
-                        
+
 
                         input.close();
                     }
@@ -463,10 +463,10 @@ void Interface::input()
                             items.push_back({ i, count });
                         }
                         fin.close();
-                        
 
-                        
-                        
+
+
+
                         _event = "main";
                         _shelfs_limit = 0;
                         _cnt_Shelfs = 0;
@@ -475,7 +475,7 @@ void Interface::input()
                             _cnt_Shelfs *= 10;
                             _cnt_Shelfs += i - '0';
                         }
-                       
+
                         for (auto i : _start_buttons[0]->getString())
                         {
                             _shelfs_limit *= 10;
@@ -546,8 +546,6 @@ void Interface::input()
                         _event = "warehouse";
                     }
                     else if (i->getId() == "next day") {
-                    
-                       
                         createNextdayButtons();
                         _event = "next day";
                         _current_date++;
@@ -561,49 +559,26 @@ void Interface::input()
                         nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(0, 0), "Name");
                         nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(150, 0), "avail");
                         nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(250, 0), "req");
-
-
                         m += 100;
-                        _buttons.resize(1);
+                        _buttons.resize(3);
                         for (int i = 1; it != map_lack_products.end(); it++, i++) {
                             //std::cout << _delta_y << '\n';
                             if (m + _delta_y < 0) continue;
                             nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(0, m + _delta_y), std::string(it->first.begin(), it->first.end()));
                             nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(150, m + _delta_y), std::to_string(it->second.first));
                             nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(250, m + _delta_y), std::to_string(it->second.second));
-                            _buttons.push_back(new IButton(_window, "auto" + std::to_string(i),
+                            /*_buttons.push_back(new IButton(_window, "auto " + std::string(it->first.begin(), it->first.end()),
                                 sf::Vector2f(150, 40),
                                 sf::Vector2f(430, m + _delta_y),
                                 "auto", _font, _font_size));
-                            _buttons.push_back(new IButton(_window, "manu" + std::to_string(i),
+                            _buttons.push_back(new IButton(_window, "manu " + std::string(it->first.begin(), it->first.end()),
                                 sf::Vector2f(150, 40),
                                 sf::Vector2f(630, m + _delta_y),
-                                "manual", _font, _font_size));
-                            m += 50;
-                        }
-                        std::vector<std::pair<Item*, int>> map_delay_products = _whouse->getDelayItem();
-                        int m_ = 100;
-                        for (int i = 0; i < map_delay_products.size(); i++) {
-                            //std::cout << _delta_y << '\n';
-                            Item* it = map_delay_products[i].first;
-                            int d = map_delay_products[i].second;
-                            std::wstring ws = it->getName();
-                            if (m_ + _delta_y < 0) continue;
-                            nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(400, m_ + _delta_y), std::string(ws.begin(), ws.end()));
-                            nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(550, m_ + _delta_y), std::to_string(it->getShelfLife()));
-                            nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(650, m_ + _delta_y), std::to_string(d));
-                            _2buttons.push_back(new IButton(_window, "ostav" + std::to_string(i + 1),
-                                sf::Vector2f(150, 40),
-                                sf::Vector2f(830, m_ + _delta_y),
-                                "ostav", _font, _font_size));
-                            _2buttons.push_back(new IButton(_window, "del" + std::to_string(i + 1),
-                                sf::Vector2f(150, 40),
-                                sf::Vector2f(1030, m_ + _delta_y),
-                                "del", _font, _font_size));
+                                "manual", _font, _font_size));*/
                             m += 50;
                         }
                         _money->setString("Money: " + std::to_string(_manager.getMoney()));
-                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y});
+                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y });
 
                     }
                     else if (i->getId() == "done") {
@@ -612,7 +587,7 @@ void Interface::input()
                         _manager.getProductsFromWhOrder(_whouse);
                         _whouse->updateItems();
                         _whouse->updateShelfs();
-                        int n =4;
+                        int n = 4;
                         std::vector<StoreOrder*> ord;
                         for (int i = 0; i < n; ++i) {
                             StoreOrder* newOrder = new StoreOrder(i);
@@ -624,6 +599,14 @@ void Interface::input()
                     }
                     else if (i->getId().substr(0, 6) == "button") {
                         _event = i->getId();
+                    }
+                    else if (i->getId().substr(0, 4) == "auto") {
+                        _manager.formOrder(_whouse);
+                        _event = "next day";
+                    }
+                    else if (i->getId().substr(0, 4) == "manu") {
+                        ;
+                        _event = "next day";
                     }
                 }
             }
@@ -815,6 +798,15 @@ void Interface::createNextdayButtons()
         sf::Vector2f(200, 150),
         sf::Vector2f(1000, 675),
         "Done", _font, _font_size));
+
+    _buttons.push_back(new IButton(_window, "auto",
+        sf::Vector2f(150, 40),
+        sf::Vector2f(1000, 200),
+        "auto", _font, _font_size));
+    _buttons.push_back(new IButton(_window, "manu",
+        sf::Vector2f(150, 40),
+        sf::Vector2f(1200, 200),
+        "manu", _font, _font_size));
 }
 
 void Interface::orderSetObject(sf::Vector2f position, std::string string)

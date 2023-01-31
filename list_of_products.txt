@@ -1,1 +1,3 @@
 Milk 12 123 44
+apple 60 20 10
+ananas 7 104 5
