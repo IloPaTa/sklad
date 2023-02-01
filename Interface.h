@@ -10,8 +10,7 @@
 #include "Manager.h"
 #include "InputButton.h"
 
-class Interface
-{
+class Interface {
 public:
     Interface();
     ~Interface();
@@ -32,12 +31,12 @@ private:
     std::vector<sf::Text*> _texts;
     std::vector<IButton*> _buttons;
     std::vector<IButton*> _2buttons;
-
+    std::vector<std::pair<std::string, std::pair<int, int>>> _need_prod;
     std::vector<sf::Text*> _warehouse_texts;
-    
+
     std::vector<sf::RectangleShape*> _nextday_lines;
     std::vector<sf::Text*> _nextday_texts;
-    
+
     std::vector<sf::Text*> _orders_text;
 
 

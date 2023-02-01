@@ -24,8 +24,7 @@ std::vector<std::pair<Item*, int>> formNewOrder() {
     return items;
 }
 
-Interface::Interface()
-{
+Interface::Interface() {
     sf::Vector2f resolution;
     resolution.x = 1600;
     resolution.y = 900;
@@ -123,8 +122,7 @@ Interface::~Interface() {
     }
 }
 
-void Interface::launch()
-{
+void Interface::launch() {
     while (_window.isOpen())
     {
         input();
@@ -133,8 +131,7 @@ void Interface::launch()
     }
 }
 
-void Interface::input()
-{
+void Interface::input() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
         _window.close();
@@ -155,7 +152,7 @@ void Interface::input()
             for (auto i : _start_input_fields) {
                 i->setPosition({ i->getStartPosition().x, i->getStartPosition().y + _delta_y });
             }
-            _buttons[1]->setPosition({ _buttons[1]->getStartPosition().x, _buttons[1]->getStartPosition().y + _delta_y});
+            _buttons[1]->setPosition({ _buttons[1]->getStartPosition().x, _buttons[1]->getStartPosition().y + _delta_y });
             for (auto i : _start_input_fields)
             {
                 if (i->isInPointArea(_cursor_position) == "none") continue;
@@ -287,7 +284,7 @@ void Interface::input()
             }
         }
         if (_event == "next day") {
-            
+
             if (event.type == sf::Event::MouseWheelScrolled)
             {
                 _delta_y += event.mouseWheelScroll.delta * 10;
@@ -297,7 +294,7 @@ void Interface::input()
             for (auto i : _nextday_texts)
             {
                 if (j < 3) {
-                    j += 1; 
+                    j += 1;
                     continue;
                 }
                 i->setPosition(sf::Vector2f(i->getPosition().x, m + _delta_y));
@@ -318,10 +315,10 @@ void Interface::input()
                 else
                 {
                     i->setPosition(sf::Vector2f(430, m + _delta_y));
-                    
+
                 }
                 j += 1;
-                
+
             }*/
             m = 100;
             for (auto i : _2buttons) {
@@ -330,12 +327,12 @@ void Interface::input()
                     continue;
                 }
                 if (j % 2 == 0) {
-                    i->setPosition(sf::Vector2f(1430, m + _delta_y));
+                    i->setPosition(sf::Vector2f(1030, m + _delta_y));
                     m += 50;
                 }
                 else
                 {
-                    i->setPosition(sf::Vector2f(1230, m + _delta_y));
+                    i->setPosition(sf::Vector2f(830, m + _delta_y));
 
                 }
                 j += 1;
@@ -346,7 +343,7 @@ void Interface::input()
             _orders_text.resize(0);
             std::vector<StoreOrder*> store_orders = _manager.getStoreOrders();
             std::vector<int> pos(10, 100);
-            for (auto i : store_orders) {                
+            for (auto i : store_orders) {
                 std::vector<std::pair<Item*, int>> order_list = i->getOrderList();
                 orderSetObject(sf::Vector2f(0 + 10, 10), "Desired products:");
                 if (std::to_string(i->getId()) != _event.substr(6, 7)) continue;
@@ -561,12 +558,15 @@ void Interface::input()
                         nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(250, 0), "req");
                         m += 100;
                         _buttons.resize(3);
+                        _need_prod.resize(0);
                         for (int i = 1; it != map_lack_products.end(); it++, i++) {
                             //std::cout << _delta_y << '\n';
                             if (m + _delta_y < 0) continue;
                             nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(0, m + _delta_y), std::string(it->first.begin(), it->first.end()));
                             nextdaySetObject(sf::Vector2f(150, 50), sf::Vector2f(150, m + _delta_y), std::to_string(it->second.first));
                             nextdaySetObject(sf::Vector2f(200, 50), sf::Vector2f(250, m + _delta_y), std::to_string(it->second.second));
+
+                            _need_prod.push_back({ std::string(it->first.begin(), it->first.end()), {it->second.first, it->second.second} });
                             /*_buttons.push_back(new IButton(_window, "auto " + std::string(it->first.begin(), it->first.end()),
                                 sf::Vector2f(150, 40),
                                 sf::Vector2f(430, m + _delta_y),
@@ -585,7 +585,6 @@ void Interface::input()
                         _event = "main";
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
-                        _whouse->getDeleteItem();
                         _whouse->updateItems();
                         _whouse->updateShelfs();
                         int n = 4;
@@ -596,13 +595,6 @@ void Interface::input()
                             ord.push_back(newOrder);
                         }
                         _manager.addNewOrder(ord);
-                        _money->setString("Money: " + std::to_string(_manager.getMoney()));
-                        _money->setPosition({ _money->getPosition().x, _money->getPosition().y});
-
-                    }
-                    else if (i->getId() == "done") {
-                        _event = "main";
-                        
                         createMainButtons();
                     }
                     else if (i->getId().substr(0, 6) == "button") {
@@ -610,6 +602,7 @@ void Interface::input()
                     }
                     else if (i->getId().substr(0, 4) == "auto") {
                         _manager.formOrder(_whouse);
+                        _need_prod;
                         _event = "next day";
                     }
                     else if (i->getId().substr(0, 4) == "manu") {
@@ -627,9 +620,8 @@ void Interface::input()
     }
 }
 
-void Interface::update() 
-{
-    
+void Interface::update() {
+
     _text_current_date->setString("The " + std::to_string(_current_date) + " day");
     //current_time += 1;
     /*text_current_time->setString(((current_time / 3600 % 24 < 10)?"0":"") +
@@ -641,8 +633,7 @@ void Interface::update()
 
 }
 
-void Interface::draw()
-{
+void Interface::draw() {
     _window.clear(sf::Color(255, 235, 228));
     for (auto i : _buttons)
     {
@@ -702,24 +693,21 @@ void Interface::draw()
     _window.display();
 }
 
-void Interface::setObject(sf::Vector2f size, sf::Vector2f position)
-{
+void Interface::setObject(sf::Vector2f size, sf::Vector2f position) {
     _lines.push_back(new sf::RectangleShape(size));
     _lines[_lines.size() - 1]->setPosition(position);
     _lines[_lines.size() - 1]->setOutlineColor(sf::Color::Black);
     _lines[_lines.size() - 1]->setOutlineThickness(1);
 }
 
-void Interface::setObject(sf::Vector2f size, sf::Vector2f position, std::string string)
-{
+void Interface::setObject(sf::Vector2f size, sf::Vector2f position, std::string string) {
     _texts.push_back(new sf::Text(string, _font, _font_size));
     _texts[_texts.size() - 1]->setPosition({ position.x + size.x / 2 - _texts[_texts.size() - 1]->getGlobalBounds().width / 2,
-        position.y + size.y / 2 - _texts[_texts.size() - 1]->getGlobalBounds().height / 2});
+        position.y + size.y / 2 - _texts[_texts.size() - 1]->getGlobalBounds().height / 2 });
     _texts[_texts.size() - 1]->setFillColor(sf::Color::Black);
 }
 
-void Interface::startSetObject(sf::Vector2f size, sf::Vector2f position, std::string string)
-{
+void Interface::startSetObject(sf::Vector2f size, sf::Vector2f position, std::string string) {
     _start_texts.push_back(new sf::Text(string, _font, _font_size));
     _start_texts[_start_texts.size() - 1]->setPosition({ position.x + size.x / 2 - _start_texts[_start_texts.size() - 1]->getGlobalBounds().width / 2,
         position.y + size.y / 2 - _start_texts[_start_texts.size() - 1]->getGlobalBounds().height / 2 });
@@ -734,8 +722,7 @@ void Interface::startSetObject(sf::Vector2f size, sf::Vector2f position, std::st
 //    _start_lines[_start_lines.size() - 1]->setOutlineThickness(1);
 //}
 
-void Interface::incorrectTextInput()
-{
+void Interface::incorrectTextInput() {
     sf::RenderWindow err_window(sf::VideoMode(600, 100), "", sf::Style::None);
     sf::Text txt = sf::Text("Incorrect text input\npress any key to continue", _font, _font_size);
     txt.setPosition(30, 0);
@@ -751,32 +738,28 @@ void Interface::incorrectTextInput()
     }
 }
 
-void Interface::warehouseSetObject(sf::Vector2f size, sf::Vector2f position, std::string string)
-{
+void Interface::warehouseSetObject(sf::Vector2f size, sf::Vector2f position, std::string string) {
     _warehouse_texts.push_back(new sf::Text(string, _font, _font_size));
     _warehouse_texts[_warehouse_texts.size() - 1]->setPosition({ position.x + size.x / 2 - _warehouse_texts[_warehouse_texts.size() - 1]->getGlobalBounds().width / 2,
         position.y + size.y / 2 - _warehouse_texts[_warehouse_texts.size() - 1]->getGlobalBounds().height / 2 });
     _warehouse_texts[_warehouse_texts.size() - 1]->setFillColor(sf::Color::Black);
 }
 
-void Interface::nextdaySetObject(sf::Vector2f size, sf::Vector2f position)
-{
+void Interface::nextdaySetObject(sf::Vector2f size, sf::Vector2f position) {
     _nextday_lines.push_back(new sf::RectangleShape(size));
     _nextday_lines[_nextday_lines.size() - 1]->setPosition(position);
     _nextday_lines[_nextday_lines.size() - 1]->setOutlineColor(sf::Color::Black);
     _nextday_lines[_nextday_lines.size() - 1]->setOutlineThickness(1);
 }
 
-void Interface::nextdaySetObject(sf::Vector2f size, sf::Vector2f position, std::string string)
-{
+void Interface::nextdaySetObject(sf::Vector2f size, sf::Vector2f position, std::string string) {
     _nextday_texts.push_back(new sf::Text(string, _font, _font_size));
     _nextday_texts[_nextday_texts.size() - 1]->setPosition({ position.x + size.x / 2 - _nextday_texts[_nextday_texts.size() - 1]->getGlobalBounds().width / 2,
-        position.y});
+        position.y });
     _nextday_texts[_nextday_texts.size() - 1]->setFillColor(sf::Color::Black);
 }
 
-void Interface::createMainButtons()
-{
+void Interface::createMainButtons() {
     _buttons.resize(0);
     for (int i = 0; i < _cnt_of_shops; i++)
     {
@@ -798,8 +781,7 @@ void Interface::createMainButtons()
         "next day", _font, _font_size));
 }
 
-void Interface::createNextdayButtons()
-{
+void Interface::createNextdayButtons() {
     _buttons.resize(0);
 
     _buttons.push_back(new IButton(_window, "done",
@@ -817,15 +799,13 @@ void Interface::createNextdayButtons()
         "manu", _font, _font_size));
 }
 
-void Interface::orderSetObject(sf::Vector2f position, std::string string)
-{
+void Interface::orderSetObject(sf::Vector2f position, std::string string) {
     _orders_text.push_back(new sf::Text(string, _font, _font_size));
     _orders_text[_orders_text.size() - 1]->setPosition({ position.x, position.y });
     _orders_text[_orders_text.size() - 1]->setFillColor(sf::Color::Black);
 }
 
-bool Interface::checkName(char c, InputField* value, bool b)
-{
+bool Interface::checkName(char c, InputField* value, bool b) {
     if (c == '\b') {
         if (value->getStringNameRef().size()) value->getStringNameRef().pop_back();
     }
@@ -840,8 +820,7 @@ bool Interface::checkName(char c, InputField* value, bool b)
     return true;
 }
 
-bool Interface::checkDate(char c, InputField* value, bool b)
-{
+bool Interface::checkDate(char c, InputField* value, bool b) {
     if (c == '\b') { if (value->getStringDateRef().size()) value->getStringDateRef().pop_back(); }
     else if (c == '\r')
     {
@@ -879,8 +858,7 @@ bool Interface::checkDate(char c, InputField* value, bool b)
     return true;
 }
 
-bool Interface::checkCost(char c, InputField* value, bool b)
-{
+bool Interface::checkCost(char c, InputField* value, bool b) {
     if (c == '\b') { if (value->getStringCostRef().size() > 4) value->getStringCostRef().erase(value->getStringCostRef().end() - 5); }
     else if (c == '\r') {
         if (value->getStringCostRef().size() > 4) {
@@ -904,8 +882,7 @@ bool Interface::checkCost(char c, InputField* value, bool b)
     return true;
 }
 
-bool Interface::checkCnt(char c, InputField* value, bool b)
-{
+bool Interface::checkCnt(char c, InputField* value, bool b) {
     if (c == '\b') {
         if (value->getStringQuantityRef().size()) value->getStringQuantityRef().pop_back();
     }
@@ -930,8 +907,7 @@ bool Interface::checkCnt(char c, InputField* value, bool b)
     return true;
 }
 
-bool Interface::checkInputField(InputField* value)
-{
+bool Interface::checkInputField(InputField* value) {
     for (auto i : value->getStringName()) {
         if (!checkName(i, value)) {
             return false;
