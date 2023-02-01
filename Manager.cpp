@@ -100,12 +100,20 @@ void Manager::addProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>
     }
 }
 
-//void Manager::buyProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products) {
-//    for (auto i : products) {
-//        _whouse->addItem(i.first, i.second);
-//
-//    }
-//}
+void Manager::buyProducts(Warehouse* _whouse, std::string str, int col) {
+    std::ifstream fin;
+    fin.open("list_of_products.txt");
+    std::string name;
+    int data, cost, count;
+    std::vector<std::pair<Item*, int>> items;
+    while (fin >> name >> data >> cost >> count) {
+        if (name == str)
+            break;
+    }
+    fin.close();
+    _whouse->addItem(new Item(data, cost, str), col);
+    money -= cost * col;
+}
 void Manager::removeProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products) {
     for (auto i : products) {
         _whouse->removeItem(i.first, i.second);

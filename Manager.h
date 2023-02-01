@@ -26,6 +26,7 @@ public:
     
     void getProductsFromWhOrder(Warehouse* _whouse);
 
+    void buyProducts(Warehouse* _whouse, std::string str, int col);
     void addProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products);
 
     void removeProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products);

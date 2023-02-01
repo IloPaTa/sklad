@@ -636,9 +636,10 @@ void Interface::input() {
                             }
                             _need_prod[i].second = num;
                         }
-
-                        //ВОТ ЗДЕСЬ ДЛЯ MANUAL КОГДА DONE нажимаешь вызывай,что нужно, в need prod лежит что нужно
-
+                        for (auto i : _need_prod) {
+                            _manager.buyProducts(_whouse, i.first, i.second);
+                        }
+                        
                         _event = "main";
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
@@ -683,6 +684,7 @@ void Interface::input() {
                         {
                             _input_buttons.push_back(new InputButton(sf::Vector2f(200, 50), sf::Vector2f(500, i * 50 + 100 + _delta_y), "0", _font, _font_size, ""));
                         }
+
                         _current_pressed_button = nullptr;
                     }
                     else if (i->getId() == "finish") {
