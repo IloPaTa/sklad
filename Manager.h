@@ -27,6 +27,21 @@ public:
     void getProductsFromWhOrder(Warehouse* _whouse);
 
     void buyProducts(Warehouse* _whouse, std::string str, int col);
+
+    void updateData() {
+        for (auto i : all_orders->getOrderList()) {
+            for (auto j : order) {
+                for(auto k: j->getOrderList())
+                    if (k.first->getName() == i.first->getName()) {
+                        i.second += k.second;
+                    }
+            }
+        }
+    }
+
+    std::pair<StoreOrder*, int> getStat() {
+        return { all_orders, money - start_money };
+    }
     void addProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products);
 
     void removeProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products);
@@ -45,7 +60,7 @@ private:
     int money;
     int _shift_time;
     int start_money;
-    std::vector<StoreOrder*> all_orders;
+    StoreOrder* all_orders;
     std::vector<int> _not_fav_id;
     std::vector<StoreOrder*> order;
     WarehouseOrder* _wh_order;
