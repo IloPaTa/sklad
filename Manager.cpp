@@ -111,7 +111,7 @@ void Manager::buyProducts(Warehouse* _whouse, std::string str, int col) {
             break;
     }
     fin.close();
-    _whouse->addItem(new Item(data, cost, str), col);
+    _whouse->addItem(new Item(data,cost, std::wstring(name.begin(), name.end())), col);
     money -= cost * col;
 }
 void Manager::removeProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products) {
