@@ -29,18 +29,27 @@ public:
     void buyProducts(Warehouse* _whouse, std::string str, int col);
 
     void updateData() {
-        for (auto i : all_orders->getOrderList()) {
+        for (auto &i : all_orders->getOrderList()) {
             for (auto j : order) {
-                for(auto k: j->getOrderList())
-                    if (k.first->getName() == i.first->getName()) {
-                        i.second += k.second;
-                    }
+                if (j != nullptr) {
+                    for (auto k : j->getOrderList())
+                        if (i.first != nullptr && k.first->getName() == i.first->getName()) {
+                            i.second += k.second;
+                        }
+                }
+                else {
+                    for (auto k : j->getOrderList())
+                        all_orders->addItem(new Item(0, 0, k.first->getName()), k.second);
+                }
             }
         }
     }
 
     std::pair<StoreOrder*, std::pair<int,int>> getStat() {
-        return { all_orders,{ money, start_money} };
+        if (all_orders->getOrderList().size() != 0)
+            return { all_orders,{ money, start_money} };
+        else
+            return { 0, {money, start_money} };
     }
     void addProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products);
 

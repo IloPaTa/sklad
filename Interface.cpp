@@ -693,7 +693,7 @@ void Interface::input() {
                         _current_pressed_button = nullptr;
                     }
                     else if (i->getId() == "finish") {
-                        
+                        _manager.updateData();
                         _start_texts.resize(0);
                         StoreOrder* order = _manager.getStat().first;
                         int money = _manager.getStat().second.first;

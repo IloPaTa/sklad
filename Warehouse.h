@@ -113,7 +113,7 @@ public:
        int cnt = 0;
        for (auto i : _shelfs) {
            for (auto j : i->getItem()) {
-               if (j.first->getShelfLife() > 0)
+               if (j.first->getShelfLife() > 0 && name == j.first->getName())
                    cnt += j.second;
            }
        }
