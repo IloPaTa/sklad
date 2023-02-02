@@ -587,6 +587,7 @@ void Interface::input() {
                         _event = "warehouse";
                     }
                     else if (i->getId() == "next day") {
+                        _manager.updateData();
                         createNextdayButtons();
                         _event = "next day";
                         _current_date++;
