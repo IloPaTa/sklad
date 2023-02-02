@@ -644,6 +644,7 @@ void Interface::input() {
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
                         _whouse->updateItems();
+                        _whouse->getDeleteItem();
                         _whouse->updateShelfs();
                         int n = 4;
                         std::vector<StoreOrder*> ord;
@@ -667,6 +668,7 @@ void Interface::input() {
                         _manager.getProductsFromWhOrder(_whouse);
                         _whouse->updateItems();
                         _whouse->updateShelfs();
+                        _whouse->getDeleteItem();
                         int n = 4;
                         std::vector<StoreOrder*> ord;
                         for (int i = 0; i < n; ++i) {
@@ -680,6 +682,8 @@ void Interface::input() {
                     }
                     else if (i->getId().substr(0, 4) == "manu") {
                         _input_buttons.resize(0);
+                        _whouse->updateItems();
+                        _whouse->updateShelfs();
                         for (int i = 0; i < _need_prod.size(); ++i)
                         {
                             _input_buttons.push_back(new InputButton(sf::Vector2f(200, 50), sf::Vector2f(500, i * 50 + 100 + _delta_y), "0", _font, _font_size, ""));

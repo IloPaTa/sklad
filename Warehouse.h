@@ -46,7 +46,7 @@ public:
         for (auto& i : _shelfs) {
             std::vector<std::pair<Item*, int>> items = i->getItem();
             for (auto& j : items) {
-                if (j.first->getShelfLife() == 0)
+                if (j.first->getShelfLife() <= 0)
                 {
                     j.second = 0;
                 }
