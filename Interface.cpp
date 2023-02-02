@@ -263,9 +263,9 @@ void Interface::input() {
             _warehouse_texts.resize(0);
             std::vector<Shelf*> shelfs = _whouse->getShelfs();
             warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(30, 10), "Name");
-            warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(180, 10), "quantity\nin pack");
-            warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200 + 150, 10), "days\nleft");
-            warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200 + 300, 10), "cost");
+            warehouseSetObject(sf::Vector2f(200, 50), sf::Vector2f(180, 10), "Quantity\nin pack");
+            warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200 + 150, 10), "Days\nleft");
+            warehouseSetObject(sf::Vector2f(150, 50), sf::Vector2f(200 + 300, 10), "Cost");
             int m = 0, m1 = 100;
             for (int i = 0; i < shelfs.size(); ++i) {
                 auto j = shelfs[i];
@@ -321,7 +321,7 @@ void Interface::input() {
 
             }*/
             m = 100;
-            for (auto i : _2buttons) {
+            /*for (auto i : _2buttons) {
                 if (j == 0) {
                     j += 1;
                     continue;
@@ -337,7 +337,7 @@ void Interface::input() {
                 }
                 j += 1;
 
-            }
+            }*/
 
 
         }
@@ -688,7 +688,32 @@ void Interface::input() {
                         _current_pressed_button = nullptr;
                     }
                     else if (i->getId() == "finish") {
-                        //что-то
+                        
+                        _start_texts.resize(0);
+                        StoreOrder* order = _manager.getStat().first;
+                        int money = _manager.getStat().second.first;
+                        int start_money = _manager.getStat().second.second;
+
+                        startSetObject({ 200, 200 }, { 800, 200 }, "Start-up capital");
+                        startSetObject({ 200, 200 }, { 800, 400 }, "Final capital");
+                        startSetObject({ 200, 200 }, { 800, 600 }, "Profit");
+                        startSetObject({ 200, 200 }, { 1200, 200 }, std::to_string(start_money));
+                        startSetObject({ 200, 200 }, { 1200, 400 }, std::to_string(money));
+                        startSetObject({ 200, 200 }, { 1200, 600 }, std::to_string(money - start_money));
+
+
+                        std::vector<std::pair<Item*, int> > vect = order->getOrderList();
+                        int m = 200;
+                        for (auto i : vect)
+                        {
+                            std::wstring a = i.first->getName();
+                            std::string str = std::string(a.begin(), a.end());
+                            int num = i.second;
+                            
+                            startSetObject({ 200, 200 }, sf::Vector2f( 200, m ), str);
+                            startSetObject({ 200, 200 }, sf::Vector2f (400, m ), std::to_string(num));
+                            m += 200;
+                        }
                     }
                 }
             }
@@ -773,6 +798,12 @@ void Interface::draw() {
     }
     if (_event.substr(0, 6) == "button") {
         for (auto i : _orders_text) {
+            _window.draw(*i);
+        }
+    }
+    if (_event == "final") {
+        for (auto i : _start_texts)
+        {
             _window.draw(*i);
         }
     }
