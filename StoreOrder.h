@@ -9,7 +9,7 @@ public:
         _store_id = store_id;
         _urgency = urgency;
     }
-    StoreOrder(int id) {
+    StoreOrder(int id = 0) {
         _order_list.resize(1);
         _urgency = 1;
         _store_id = id;

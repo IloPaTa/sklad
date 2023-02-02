@@ -6,6 +6,7 @@ std::uniform_int_distribution<> dis;
 Manager::Manager() {
     _mood = 4;
     _wh_order = new WarehouseOrder();
+    all_orders = new StoreOrder();
 }
 int Manager::getMood() {
     return _mood;
