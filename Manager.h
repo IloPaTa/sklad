@@ -39,8 +39,8 @@ public:
         }
     }
 
-    std::pair<StoreOrder*, int> getStat() {
-        return { all_orders, money - start_money };
+    std::pair<StoreOrder*, std::pair<int,int>> getStat() {
+        return { all_orders,{ money, start_money} };
     }
     void addProducts(Warehouse* _whouse, std::vector< std::pair<Item*, int>> products);
 

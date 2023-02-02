@@ -36,7 +36,6 @@ private:
 
     std::vector<sf::RectangleShape*> _nextday_lines;
     std::vector<sf::Text*> _nextday_texts;
-
     std::vector<sf::Text*> _orders_text;
 
 
