@@ -90,7 +90,7 @@ void Manager::getProductsFromWhOrder(Warehouse* _whouse) {
                 break;
         }
         fin.close();
-        i.first->setShelfLife(data);
+        i.first->setShelfLife(data + 1);
         _whouse->addItem(i.first, i.second);
     }
     _wh_order->clearOrder();

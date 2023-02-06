@@ -646,7 +646,7 @@ void Interface::input() {
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
                         _whouse->updateItems();
-                        _whouse->getDeleteItem();
+                        //_whouse->getDeleteItem();
                         _whouse->updateShelfs();
 
                         int n = 4;

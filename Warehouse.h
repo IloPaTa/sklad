@@ -48,7 +48,7 @@ public:
             for (auto& j : items) {
                 if (j.first->getShelfLife() <= 0)
                 {
-                    j.second = 0;
+                    j.second = -1;
                 }
             }
         }
@@ -100,7 +100,7 @@ public:
 
     void getDeleteItem(int val = 5) {
         std::vector<std::pair<Item*, int>> items;
-        for (auto i : _shelfs) {
+        for (auto &i : _shelfs) {
             for (int j = 0; j < i->getItem().size(); ++j) {
                 if (i->getItem()[j].first->getShelfLife() <= 0) {
                     i->getItem()[j].second = 0;
