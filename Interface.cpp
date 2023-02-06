@@ -642,11 +642,13 @@ void Interface::input() {
                         }
                         
                         _event = "main";
+                        _manager.updateData();
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
                         _whouse->updateItems();
                         _whouse->getDeleteItem();
                         _whouse->updateShelfs();
+
                         int n = 4;
                         std::vector<StoreOrder*> ord;
                         for (int i = 0; i < n; ++i) {
@@ -665,6 +667,7 @@ void Interface::input() {
                         _current_pressed_button = nullptr;
 
                         _event = "main"; //DON`t TOUCH
+                        _manager.updateData();
                         _manager.processOrder(_whouse);
                         _manager.getProductsFromWhOrder(_whouse);
                         _whouse->updateItems();
@@ -682,6 +685,7 @@ void Interface::input() {
                         _input_buttons.resize(0);
                     }
                     else if (i->getId().substr(0, 4) == "manu") {
+                        _manager.updateData();
                         _input_buttons.resize(0);
                         _whouse->updateItems();
                         _whouse->updateShelfs();
@@ -711,6 +715,8 @@ void Interface::input() {
                         int m = 200;
                         for (auto i : vect)
                         {
+                            if (i.first == nullptr)
+                                continue;
                             std::wstring a = i.first->getName();
                             std::string str = std::string(a.begin(), a.end());
                             int num = i.second;

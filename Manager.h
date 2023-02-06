@@ -29,17 +29,19 @@ public:
     void buyProducts(Warehouse* _whouse, std::string str, int col);
 
     void updateData() {
-        for (auto &i : all_orders->getOrderList()) {
-            for (auto j : order) {
-                if (j != nullptr) {
-                    for (auto k : j->getOrderList())
+        for (auto j : order) {
+            if (j != nullptr) {
+                for (auto k : j->getOrderList()) {
+                    bool f = true;
+                    for (auto& i : all_orders->getOrderList()) {
                         if (i.first != nullptr && k.first->getName() == i.first->getName()) {
                             i.second += k.second;
+                            f = false;
                         }
-                }
-                else {
-                    for (auto k : j->getOrderList())
+                    }
+                    if (f) {
                         all_orders->addItem(new Item(0, 0, k.first->getName()), k.second);
+                    }
                 }
             }
         }
