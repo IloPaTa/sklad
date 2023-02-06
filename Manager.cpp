@@ -18,7 +18,7 @@ std::vector<StoreOrder*> Manager::getStoreOrders() {
 
 std::map<std::wstring, std::pair<int, int>> Manager::funcShortage(Warehouse* _whouse) {
     std::map<std::wstring, std::pair<int, int>> result;
-    int a
+    int a;
     for (auto i : order) {
         for (auto j : i->getOrderList()) {
             if (result.find(j.first->getName()) == result.end())
