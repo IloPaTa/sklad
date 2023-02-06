@@ -101,9 +101,10 @@ public:
     void getDeleteItem(int val = 5) {
         std::vector<std::pair<Item*, int>> items;
         for (auto i : _shelfs) {
-            for (auto j : i->getItem()) {
-                if (j.first->getShelfLife() <= 0)
-                    removeItem(j.first, j.second);
+            for (int j = 0; j < i->getItem().size(); ++j) {
+                if (i->getItem()[j].first->getShelfLife() <= 0) {
+                    i->getItem()[j].second = 0;
+                }
             }
         }
     }
