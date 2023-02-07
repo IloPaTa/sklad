@@ -24,6 +24,7 @@ private:
 
     //std::vector<sf::RectangleShape*> _start_lines;
     std::vector<sf::Text*> _start_texts;
+    std::vector<int> texts_y;
     std::vector<InputField*> _start_input_fields;
     std::vector<InputButton*> _start_buttons;
     std::vector<InputButton*> _input_buttons;

@@ -20,6 +20,7 @@ public:
     int getMoney();
 
     void setMoney(int _money) {
+        start_money = _money;
         money = _money;
     }
     void processOrder(Warehouse* _whouse);
